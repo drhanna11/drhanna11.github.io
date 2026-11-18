@@ -6,10 +6,231 @@
     "stateName": "Arizona",
     "metroName": "Phoenix metro (Valley of the Sun)",
     "status": "live",
-    "includes": ["Phoenix", "Mesa", "Chandler", "Scottsdale", "Gilbert", "Glendale", "Tempe", "Peoria", "Surprise", "Avondale", "Goodyear", "Queen Creek", "Fountain Hills", "Cave Creek", "Sun City", "Paradise Valley", "Ahwatukee"],
+    "includes": [
+      "Phoenix",
+      "Mesa",
+      "Chandler",
+      "Scottsdale",
+      "Gilbert",
+      "Glendale",
+      "Tempe",
+      "Peoria",
+      "Surprise",
+      "Avondale",
+      "Goodyear",
+      "Queen Creek",
+      "Fountain Hills",
+      "Cave Creek",
+      "Sun City",
+      "Paradise Valley",
+      "Ahwatukee"
+    ],
     "summary": "The Phoenix-Mesa-Chandler metro is our launch market: a large, year-round repair area where desert heat puts extra load on refrigerators, ice makers, and laundry equipment."
   },
-  {"slug": "tucson", "name": "Tucson", "state": "AZ", "stateName": "Arizona", "metroName": "Tucson", "status": "planned", "summary": "Next Arizona metro after Phoenix depth is further along."},
-  {"slug": "las-vegas", "name": "Las Vegas", "state": "NV", "stateName": "Nevada", "metroName": "Las Vegas", "status": "planned", "summary": "Planned Sun Belt expansion."},
-  {"slug": "dallas", "name": "Dallas–Fort Worth", "state": "TX", "stateName": "Texas", "metroName": "Dallas–Fort Worth", "status": "planned", "summary": "Planned expansion after Arizona and Las Vegas."}
+  {
+    "slug": "riverside-county",
+    "name": "Riverside County",
+    "state": "CA",
+    "stateName": "California",
+    "metroName": "Riverside County, California",
+    "status": "live",
+    "hubKind": "county",
+    "includes": [
+      "Riverside",
+      "Moreno Valley",
+      "Corona",
+      "Temecula",
+      "Murrieta",
+      "Hemet",
+      "San Jacinto",
+      "Menifee",
+      "Perris",
+      "Lake Elsinore",
+      "Palm Springs",
+      "Palm Desert",
+      "Indio",
+      "Cathedral City",
+      "Jurupa Valley",
+      "Norco",
+      "Eastvale",
+      "Wildomar",
+      "Canyon Lake",
+      "Beaumont",
+      "Banning",
+      "Rancho Mirage",
+      "La Quinta",
+      "Indian Wells",
+      "Coachella",
+      "Thousand Palms"
+    ],
+    "summary": "Our second market: a large Inland Empire and Coachella Valley county where summer heat is hard on refrigerators, ice makers, and laundry equipment, and where California requires appliance repair dealers to register with the Bureau of Household Goods and Services.",
+    "registrationNote": "In California, businesses that repair major home appliances for a fee must register with the Bureau of Household Goods and Services (BHGS) as service dealers. You can look a company up in the Department of Consumer Affairs license search. If a shop published a registration number on its own website, we record that as the shop's claim — we do not invent license numbers, and you should still confirm that a registration is current before you book.",
+    "registrationSearchUrl": "https://search.dca.ca.gov/",
+    "registrationGuideUrl": "https://www.bhgs.dca.ca.gov/consumers/ear.html",
+    "cities": [
+      {
+        "slug": "riverside",
+        "name": "Riverside",
+        "match": [
+          "Riverside"
+        ],
+        "blurb": "Riverside is the county seat and the largest city in the county, with a mix of older central neighborhoods and newer tracts out toward the 91 and 215 freeways. Many shops that cover the west Inland Empire list Riverside even when they also serve Corona, Jurupa Valley, or Moreno Valley — always confirm your ZIP when you call."
+      },
+      {
+        "slug": "moreno-valley",
+        "name": "Moreno Valley",
+        "match": [
+          "Moreno Valley"
+        ],
+        "blurb": "Moreno Valley sits east of Riverside in a hot inland valley. Refrigerators and air-related appliances work hard here in summer. This page lists shops whose own sites name Moreno Valley; coverage from a Riverside- or Perris-based truck can still change by day, so ask when you book."
+      },
+      {
+        "slug": "corona",
+        "name": "Corona",
+        "match": [
+          "Corona"
+        ],
+        "blurb": "Corona anchors the west end of the county along the 91 freeway, next to Norco, Eastvale, and Orange County. Several long-running, locally owned shops are based here, including parts-and-repair businesses with a storefront. If you live in Norco or Eastvale, check the service area on the profile — many Corona shops list those cities too."
+      },
+      {
+        "slug": "temecula",
+        "name": "Temecula",
+        "match": [
+          "Temecula",
+          "French Valley"
+        ],
+        "blurb": "Temecula and nearby French Valley sit in southwest Riverside County along the I-15 corridor. A cluster of owner-operated and family-owned shops is based in this valley and also covers Murrieta, Winchester, and Menifee. Wine-country and newer tract homes often have a mix of standard and higher-end kitchen appliances; confirm brand coverage when you call."
+      },
+      {
+        "slug": "murrieta",
+        "name": "Murrieta",
+        "match": [
+          "Murrieta"
+        ],
+        "blurb": "Murrieta sits just north of Temecula on the I-15. Most of the southwest-county independents that list Temecula also name Murrieta. This page only includes shops that published Murrieta (or an address there) on a source we opened."
+      },
+      {
+        "slug": "hemet",
+        "name": "Hemet",
+        "match": [
+          "Hemet"
+        ],
+        "blurb": "Hemet is in the San Jacinto Valley, inland and typically hotter than the I-15 cities. A few long-standing local shops are based here, and some Temecula- or Menifee-area technicians also list Hemet. Same-day availability can be tighter than in the larger west-county cities — ask when you call."
+      },
+      {
+        "slug": "san-jacinto",
+        "name": "San Jacinto",
+        "match": [
+          "San Jacinto"
+        ],
+        "blurb": "San Jacinto is Hemet's neighbor in the same valley. Fewer shops publish San Jacinto by name than list Hemet, even when they will drive both cities. If your city is missing from a nearby profile, still call and ask — and if a shop does list San Jacinto, that is the only reason it appears here."
+      },
+      {
+        "slug": "menifee",
+        "name": "Menifee",
+        "match": [
+          "Menifee",
+          "Sun City"
+        ],
+        "blurb": "Menifee is a fast-growing mid-south county city that includes the Sun City area. Shops based in Temecula, Murrieta, Hemet, and Menifee itself often list it. This page also includes shops that published Sun City as a service area, which is part of Menifee."
+      },
+      {
+        "slug": "perris",
+        "name": "Perris",
+        "match": [
+          "Perris"
+        ],
+        "blurb": "Perris sits on the I-215 between Moreno Valley and Menifee. It is in range for several west- and mid-county independents, but not every Temecula or Riverside shop publishes Perris by name. Only shops that did so appear here."
+      },
+      {
+        "slug": "lake-elsinore",
+        "name": "Lake Elsinore",
+        "match": [
+          "Lake Elsinore",
+          "Wildomar",
+          "Canyon Lake"
+        ],
+        "blurb": "Lake Elsinore, with nearby Wildomar and Canyon Lake, sits west of the I-15 in a warmer inland basin. Southwest-county and Corona-area shops often include these communities. This page lists a shop if its source named Lake Elsinore, Wildomar, or Canyon Lake."
+      },
+      {
+        "slug": "coachella-valley",
+        "name": "Coachella Valley",
+        "isRegion": true,
+        "match": [
+          "Palm Springs",
+          "Palm Desert",
+          "Indio",
+          "Cathedral City",
+          "Rancho Mirage",
+          "La Quinta",
+          "Indian Wells",
+          "Coachella",
+          "Thousand Palms",
+          "Bermuda Dunes",
+          "Desert Hot Springs",
+          "Thermal"
+        ],
+        "blurb": "The Coachella Valley is the desert side of Riverside County — Palm Springs through Indio and the cities in between. Summer heat puts unusual stress on refrigerators, freezers, and ice makers, and many homes have built-in or luxury appliances. Shops on this page published at least one Coachella Valley city on a source we opened."
+      },
+      {
+        "slug": "palm-springs",
+        "name": "Palm Springs",
+        "match": [
+          "Palm Springs"
+        ],
+        "blurb": "Palm Springs is the west-valley resort city, with very hot summers and a mix of mid-century homes and newer construction. Several valley shops are based here or list it first. If your neighborhood is in North Palm Springs or just over the line in Cathedral City, confirm the ZIP when you book."
+      },
+      {
+        "slug": "palm-desert",
+        "name": "Palm Desert",
+        "match": [
+          "Palm Desert"
+        ],
+        "blurb": "Palm Desert sits in the center of the Coachella Valley and is a common base for valley repair shops, including some that specialize in high-end and European brands. This page lists shops that published Palm Desert on their own site or another source we recorded."
+      },
+      {
+        "slug": "indio",
+        "name": "Indio",
+        "match": [
+          "Indio"
+        ],
+        "blurb": "Indio is toward the east end of the Coachella Valley and is typically among the hottest cities in the county. Not every Palm Springs or Palm Desert shop publishes Indio by name, even when they will drive it — only those that did appear here."
+      },
+      {
+        "slug": "cathedral-city",
+        "name": "Cathedral City",
+        "match": [
+          "Cathedral City"
+        ],
+        "blurb": "Cathedral City sits between Palm Springs and Rancho Mirage. Most valley-wide shops list it alongside the larger resort cities. This page includes only shops whose sources name Cathedral City."
+      }
+    ]
+  },
+  {
+    "slug": "tucson",
+    "name": "Tucson",
+    "state": "AZ",
+    "stateName": "Arizona",
+    "metroName": "Tucson",
+    "status": "planned",
+    "summary": "Next Arizona metro after Phoenix depth is further along."
+  },
+  {
+    "slug": "las-vegas",
+    "name": "Las Vegas",
+    "state": "NV",
+    "stateName": "Nevada",
+    "metroName": "Las Vegas",
+    "status": "planned",
+    "summary": "Planned Sun Belt expansion."
+  },
+  {
+    "slug": "dallas",
+    "name": "Dallas–Fort Worth",
+    "state": "TX",
+    "stateName": "Texas",
+    "metroName": "Dallas–Fort Worth",
+    "status": "planned",
+    "summary": "Planned expansion after Arizona and Las Vegas."
+  }
 ]

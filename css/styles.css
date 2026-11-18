@@ -313,3 +313,8 @@ th { font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 }
 .aff-link:hover { background: var(--paper-2); }
 .aff-box-foot { margin: 0; font-size: 0.88rem; }
+
+h3.metro-cats {
+  margin: 1.25rem 0 0.75rem;
+  font-size: 1.1rem;
+}

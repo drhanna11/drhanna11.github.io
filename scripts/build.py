@@ -64,8 +64,52 @@ def appliances_for(listing: dict) -> list[dict]:
     return [APPLIANCE_BY_SLUG[s] for s in listing.get("appliances", []) if s in APPLIANCE_BY_SLUG]
 
 
-def listings_for_appliance(slug: str) -> list[dict]:
-    return [l for l in LISTINGS if slug in l.get("appliances", [])]
+def live_metros() -> list[dict]:
+    return [c for c in cities if c.get("status") == "live"]
+
+
+def listings_for_metro(slug: str) -> list[dict]:
+    return [l for l in LISTINGS if l.get("citySlug") == slug]
+
+
+def listings_for_appliance(slug: str, metro_slug: str | None = None) -> list[dict]:
+    rows = [l for l in LISTINGS if slug in l.get("appliances", [])]
+    if metro_slug:
+        rows = [l for l in rows if l.get("citySlug") == metro_slug]
+    return rows
+
+
+def listing_serves(listing: dict, names: list[str]) -> bool:
+    names_l = {n.lower() for n in names}
+    areas = [s.lower() for s in (listing.get("serviceAreas") or [])]
+    addr = ((listing.get("address") or {}).get("city") or "").lower()
+    if addr and addr in names_l:
+        return True
+    return any(a in names_l for a in areas)
+
+
+def listings_for_subcity(metro_slug: str, subcity: dict) -> list[dict]:
+    names = subcity.get("match") or [subcity["name"]]
+    return [l for l in listings_for_metro(metro_slug) if listing_serves(l, names)]
+
+
+def metro_nav_label(metro: dict) -> str:
+    if metro["slug"] == "riverside-county":
+        return "Riverside County"
+    return metro["name"]
+
+
+def registration_html(page_file: str, metro: dict) -> str:
+    note = metro.get("registrationNote")
+    if not note:
+        return ""
+    search = metro.get("registrationSearchUrl") or "https://search.dca.ca.gov/"
+    guide = metro.get("registrationGuideUrl") or "https://www.bhgs.dca.ca.gov/consumers/ear.html"
+    return (
+        f'<p class="note"><strong>California registration.</strong> {e(note)} '
+        f'<a href="{e(search)}" rel="noopener noreferrer">Search BHGS registrations</a>. '
+        f'<a href="{e(guide)}" rel="noopener noreferrer">BHGS consumer guide</a>.</p>'
+    )
 
 
 def ld_json(obj: dict) -> str:
@@ -82,13 +126,14 @@ def logo_svg() -> str:
 
 
 def nav_html(page_file: str, current: str) -> str:
-    items = [
-        ("/", "Home", "home"),
-        ("/phoenix/", "Phoenix", "phoenix"),
+    items = [("/", "Home", "home")]
+    for metro in live_metros():
+        items.append((f"/{metro['slug']}/", metro_nav_label(metro), metro["slug"]))
+    items.extend([
         ("/guides/repair-vs-replace/", "Guides", "guides"),
         ("/compare/independent-vs-chains/", "Compare", "compare"),
         ("/get-listed/", "Get listed", "get-listed"),
-    ]
+    ])
     links = []
     for path, label, key in items:
         cur = ' aria-current="page"' if current == key else ""
@@ -120,6 +165,10 @@ def crumbs_html(page_file: str, crumbs: list[tuple[str, str]]) -> str:
 
 
 def footer_html(page_file: str) -> str:
+    metro_links = "".join(
+        '<li><a href="' + e(href(page_file, f"/{m['slug']}/")) + '">' + e(metro_nav_label(m)) + " directory</a></li>"
+        for m in live_metros()
+    )
     return f"""<footer class="site-footer">
   <div class="wrap footer-grid">
     <div>
@@ -129,7 +178,7 @@ def footer_html(page_file: str) -> str:
     <div>
       <h2>Explore</h2>
       <ul>
-        <li><a href="{e(href(page_file, "/phoenix/"))}">Phoenix directory</a></li>
+        {metro_links}
         <li><a href="{e(href(page_file, "/guides/repair-vs-replace/"))}">Repair vs. replace</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
         <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
@@ -294,7 +343,8 @@ def write_page(page_file: str, html: str) -> None:
 
 
 def listing_url(listing: dict) -> str:
-    return f"/phoenix/techs/{listing['slug']}/"
+    metro = listing.get("citySlug") or "phoenix"
+    return f"/{metro}/techs/{listing['slug']}/"
 
 
 def listing_card(page_file: str, listing: dict) -> str:
@@ -329,7 +379,7 @@ def local_business_schema(listing: dict) -> dict:
     a = listing.get("address") or {}
     addr = {
         "@type": "PostalAddress",
-        "addressRegion": a.get("state") or "AZ",
+        "addressRegion": a.get("state") or (CITY_BY_SLUG.get(listing.get("citySlug") or "", {}) or {}).get("state") or "US",
         "addressCountry": "US",
     }
     if a.get("city"):
@@ -345,7 +395,7 @@ def local_business_schema(listing: dict) -> dict:
         "telephone": f"+1{listing['phone']}",
         "url": listing.get("website"),
         "address": addr,
-        "areaServed": listing.get("serviceAreas") or ["Phoenix, AZ"],
+        "areaServed": listing.get("serviceAreas") or [CITY_BY_SLUG.get(listing.get("citySlug") or "", {}).get("metroName") or "United States"],
     }
     if listing.get("email"):
         data["email"] = listing["email"]
@@ -356,64 +406,118 @@ def local_business_schema(listing: dict) -> dict:
 # Pages
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Pages
+# ---------------------------------------------------------------------------
+
+PHOENIX_INTRO = {
+    "refrigerator": "In the Phoenix metro, a refrigerator that stops cooling is an emergency. Valley summers put a heavy load on compressors, and food can be lost quickly once the box warms up. The shops below are ones whose own sites mention refrigerator or freezer repair. Call early, keep the doors closed, and ask about same-day availability — we do not track live schedules.",
+    "washer": "Won't drain, spin, or fill, or water on the floor — a washer that stops can pile up laundry in a day. The shops below mention washer repair on a source we opened.",
+    "dryer": "No heat, long dry times, or a drum that will not turn. Leave gas and electrical dryer repairs to a trained technician. The shops below mention dryer repair on a source we opened.",
+    "dishwasher": "Leaks, standing water, and dishes that will not come clean are the usual reasons people look for dishwasher repair. This page lists Phoenix-metro shops that mention dishwashers on their own sites.",
+    "oven-range": "Won't heat, a burner that will not light, or a cooktop fault on a gas or electric range. The shops below mention oven, range, stove, or cooktop repair on a source we opened.",
+    "microwave": "No heat, a turntable that will not spin, or a built-in unit that has shut down. The shops below mention microwave repair on a source we opened.",
+    "ice-maker": "Standalone ice machines and in-fridge ice makers are a frequent request in the Phoenix heat. This page lists shops that specifically mentioned ice maker or ice machine repair. Confirm residential vs. commercial coverage when you call.",
+    "freezer": "Frost buildup, temperature swings, or a freezer that has stopped getting cold. The shops below mention freezer repair on a source we opened.",
+}
+
+RIVERSIDE_INTRO = {
+    "refrigerator": "Inland Empire and Coachella Valley summers are hard on refrigerators. A box that stops cooling can lose food quickly, especially in Palm Springs, Indio, or a hot mid-county city like Hemet. The shops below are ones whose own sites mention refrigerator repair. Call early, keep the doors closed, and ask about same-day availability — we do not track live schedules.",
+    "washer": "A washer that will not drain, spin, or fill can pile up laundry in a day. This page lists Riverside County shops that mention washer repair on a source we opened.",
+    "dryer": "No heat, long dry times, or a drum that will not turn. Leave gas and electrical dryer repairs to a trained technician. Several county shops also mention dryer vent cleaning; confirm that service when you call. The shops below mention dryer repair on a source we opened.",
+    "dishwasher": "Leaks, standing water, and dishes that will not come clean are the usual reasons people look for dishwasher repair. This page lists Riverside County shops that mention dishwashers on their own sites.",
+    "oven-range": "Won't heat, a burner that will not light, or a cooktop fault on a gas or electric range. The Coachella Valley in particular has many built-in and professional-style ranges; confirm brand coverage when you call. The shops below mention oven, range, stove, or cooktop repair on a source we opened.",
+    "microwave": "No heat, a turntable that will not spin, or a built-in unit that has shut down. The shops below mention microwave repair on a source we opened.",
+    "ice-maker": "Standalone ice machines and in-fridge ice makers are a frequent request in Coachella Valley and Inland Empire heat. This page lists shops that specifically mentioned ice maker or ice machine repair. Confirm residential vs. commercial coverage when you call.",
+    "freezer": "Frost buildup, temperature swings, or a freezer that has stopped getting cold — another high-urgency job in a desert or inland summer. The shops below mention freezer repair on a source we opened.",
+}
+
+
+def appliance_intro(metro: dict, app: dict) -> str:
+    if metro["slug"] == "riverside-county":
+        return RIVERSIDE_INTRO.get(app["slug"] or "", app.get("blurb") or "")
+    if metro["slug"] == "phoenix":
+        return PHOENIX_INTRO.get(app["slug"] or "", app.get("blurb") or "")
+    return app.get("blurb") or ""
+
+
 def page_home() -> None:
     page = "index.html"
-    phoenix = href(page, "/phoenix/")
-    cats = []
-    for app in appliances:
-        n = len(listings_for_appliance(app["slug"]))
-        url = href(page, f"/phoenix/{app['pathSegment']}/")
-        cats.append(
-            f"""<a class="cat-card" href="{e(url)}">
-              <h3>{e(app["name"])} repair</h3>
-              <p>{e(app["blurb"])}</p>
-              <p class="meta">{n} Phoenix-metro listing{"s" if n != 1 else ""} so far</p>
-            </a>"""
+    live = live_metros()
+
+    metro_cta = []
+    for m in live:
+        n = len(listings_for_metro(m["slug"]))
+        metro_cta.append(
+            f'<a class="btn {"btn-primary" if not metro_cta else "btn-ghost"}" href="{e(href(page, f"/{m["slug"]}/"))}">'
+            f'Browse {e(metro_nav_label(m))} techs ({n})</a>'
         )
+
+    appliance_sections = []
+    for m in live:
+        cards = []
+        for app in appliances:
+            n = len(listings_for_appliance(app["slug"], m["slug"]))
+            if not n:
+                continue
+            url = href(page, f"/{m['slug']}/{app['pathSegment']}/")
+            cards.append(
+                f"""<a class="card cat-card" href="{e(url)}">
+            <h3>{e(app["name"])} repair</h3>
+            <p>{e(app.get("blurb") and app["name"] + " repair in " + metro_nav_label(m) + "." or "")}</p>
+            <p class="meta">{n} {e(metro_nav_label(m))} listing{"s" if n != 1 else ""} so far</p>
+          </a>"""
+            )
+        if cards:
+            appliance_sections.append(
+                f'<h3 class="metro-cats">{e(metro_nav_label(m))}</h3><div class="grid grid-2">{"".join(cards)}</div>'
+            )
+
     city_cards = []
     for c in cities:
-        if c["status"] == "live":
+        if c.get("status") == "live":
+            n = len(listings_for_metro(c["slug"]))
             city_cards.append(
                 f"""<a class="city-card" href="{e(href(page, f'/{c["slug"]}/'))}">
-                  <h3>{e(c["name"])}, {e(c["state"])}</h3>
-                  <p>{e(c["summary"])}</p>
-                  <p class="meta"><span class="pill">Live · {len(LISTINGS)} listings</span></p>
-                </a>"""
+          <h3>{e(c.get("metroName") or c["name"])}</h3>
+          <p>{e(c.get("summary") or "")}</p>
+          <p class="meta">{n} listing{"s" if n != 1 else ""} · Live directory</p>
+        </a>"""
             )
         else:
             city_cards.append(
                 f"""<div class="city-card planned">
-                  <h3>{e(c["name"])}, {e(c["state"])}</h3>
-                  <p>{e(c["summary"])}</p>
-                  <p class="meta"><span class="pill">Coming next</span></p>
-                </div>"""
+          <h3>{e(c.get("metroName") or c["name"])}</h3>
+          <p>{e(c.get("summary") or "Planned expansion.")}</p>
+          <p class="meta">Planned</p>
+        </div>"""
             )
+
     body = f"""
     <header class="hero">
-      <p class="kicker">Phoenix launch directory</p>
-      <h1>Independent appliance repair techs you can actually call</h1>
-      <p class="lede">A growing list of owner-operated and locally owned shops in the Phoenix metro — the alternative to Angi, Sears, and Mr. Appliance. We list names, phones, service areas, and source URLs. We do not invent ratings or prices.</p>
+      <p class="kicker">Independent technician directory</p>
+      <h1>Find an independent technician. Skip the lead mill.</h1>
+      <p class="lede">A growing list of owner-operated and locally owned shops in Phoenix, Arizona, and Riverside County, California — the alternative to Angi, Sears, and Mr. Appliance. We list names, phones, service areas, and source URLs. We do not invent ratings or prices.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="{e(phoenix)}">Browse Phoenix techs</a>
-        <a class="btn btn-ghost" href="{e(href(page, "/get-listed/"))}">Get listed</a>
+        {"".join(metro_cta)}
       </div>
     </header>
     <section class="section">
-      <h2>Repair by appliance</h2>
-      <p class="lede">Start with the machine that quit. Every category page lists only shops that mention that appliance on a source we opened.</p>
-      <div class="grid grid-2 grid-4">{"".join(cats)}</div>
+      <h2>Repair categories</h2>
+      <p class="lede">Each area has its own refrigerator, washer, dryer, and other category pages, built only from shops that mention that appliance on a source we opened.</p>
+      {"".join(appliance_sections)}
     </section>
     <section class="section">
-      <h2>Cities</h2>
-      <p class="lede">We are going deep on one metro first, then expanding city by city.</p>
+      <h2>Areas we cover</h2>
+      <p class="lede">We go deep on one area at a time, then expand. Phoenix and Riverside County are live; other metros are planned.</p>
       <div class="grid grid-2">{"".join(city_cards)}</div>
     </section>
     <section class="section">
-      <h2>Useful guides</h2>
-      <div class="grid grid-2 grid-3">
+      <h2>Guides and comparisons</h2>
+      <div class="grid grid-2">
         <a class="card cat-card" href="{e(href(page, "/guides/repair-vs-replace/"))}">
-          <h3>Repair or replace?</h3>
-          <p>A practical way to decide after you have a diagnosis — without made-up average prices.</p>
+          <h3>Repair vs. replace</h3>
+          <p>Get a diagnosis first, then compare the quoted repair with the cost and remaining life of a new machine.</p>
         </a>
         <a class="card cat-card" href="{e(href(page, "/compare/independent-vs-chains/"))}">
           <h3>Independent vs. chains</h3>
@@ -440,8 +544,8 @@ def page_home() -> None:
     </section>
     """
     desc = (
-        "Find independent and locally owned appliance repair technicians in the Phoenix metro. "
-        "Call shops directly — not a lead mill. Refrigerator, washer, dryer, and more."
+        "Find independent and locally owned appliance repair technicians in Phoenix, Arizona, "
+        "and Riverside County, California. Call shops directly — not a lead mill."
     )
     schema = ld_json({
         "@context": "https://schema.org",
@@ -449,167 +553,295 @@ def page_home() -> None:
         "name": site["name"],
         "description": site["description"],
         "about": "Independent appliance repair technician directory",
+        "url": (site.get("canonicalOrigin") or "").rstrip("/") or None,
     })
+    item_elements = []
+    pos = 1
+    for m in live:
+        for app in appliances:
+            if listings_for_appliance(app["slug"], m["slug"]):
+                item_elements.append({
+                    "@type": "ListItem",
+                    "position": pos,
+                    "name": f"{app['name']} repair in {metro_nav_label(m)}",
+                    "url": f"/{m['slug']}/{app['pathSegment']}/",
+                })
+                pos += 1
     itemlist = ld_json({
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": "Appliance repair categories in Phoenix",
-        "itemListElement": [
-            {"@type": "ListItem", "position": i + 1, "name": f"{a['name']} repair", "url": f"/phoenix/{a['pathSegment']}/"}
-            for i, a in enumerate(appliances)
-        ],
+        "name": "Appliance repair categories",
+        "itemListElement": item_elements,
     })
-    write_page(page, layout(page, "Indie Appliance Repair — Independent techs in Phoenix", desc, body, "home", extra_head=schema + itemlist))
+    # schema.org url: None would be invalid; strip if empty
+    if schema and '"url": null' in schema:
+        schema = schema.replace(', "url": null', "")
+    write_page(page, layout(page, "Indie Appliance Repair — Independent techs in Phoenix and Riverside County", desc, body, "home", extra_head=schema + itemlist))
 
 
-def page_phoenix() -> None:
-    page = "phoenix/index.html"
-    cards = "".join(listing_card(page, l) for l in LISTINGS)
-    filters = ['<a href="#listings" class="is-active" aria-current="page">All shops</a>']
+def page_metro(metro: dict) -> None:
+    page = f"{metro['slug']}/index.html"
+    shops = listings_for_metro(metro["slug"])
+    label = metro_nav_label(metro)
+    place = metro.get("metroName") or f"{metro['name']}, {metro.get('stateName') or metro.get('state', '')}"
+
+    app_links = []
     for app in appliances:
-        n = len(listings_for_appliance(app["slug"]))
+        n = len(listings_for_appliance(app["slug"], metro["slug"]))
         if n:
-            filters.append(
-                f'<a href="{e(href(page, f"/phoenix/{app["pathSegment"]}/"))}">{e(app["name"])} ({n})</a>'
+            app_links.append(
+                f'<a href="{e(href(page, f"/{metro["slug"]}/{app["pathSegment"]}/"))}">{e(app["name"])} ({n})</a>'
             )
+    app_nav = (", ".join(app_links) + ".") if app_links else "Category pages appear when at least one shop mentions that appliance."
+
+    city_cards = []
+    for sub in metro.get("cities") or []:
+        n = len(listings_for_subcity(metro["slug"], sub))
+        city_cards.append(
+            f"""<a class="city-card" href="{e(href(page, f'/{metro["slug"]}/{sub["slug"]}/'))}">
+          <h3>{e(sub["name"])}</h3>
+          <p>{e((sub.get("blurb") or "")[:180])}{"…" if len(sub.get("blurb") or "") > 180 else ""}</p>
+          <p class="meta">{n} listing{"s" if n != 1 else ""} naming this area</p>
+        </a>"""
+        )
+    cities_section = ""
+    if city_cards:
+        cities_section = f"""
+    <section class="section">
+      <h2>Cities and areas</h2>
+      <p>These pages list only shops that published that city (or a named nearby community) on a source we opened.</p>
+      <div class="grid grid-2">{"".join(city_cards)}</div>
+    </section>"""
+
+    lede_extra = metro.get("summary") or ""
+    if metro["slug"] == "phoenix":
+        heading = "Independent appliance repair in Phoenix, Arizona"
+        lede = (
+            f"A directory of {len(shops)} independent or locally based shops serving Phoenix and the Valley of the Sun. "
+            "We gathered these from the businesses' own websites. Always call to confirm that they still serve your ZIP, and that the phone number is current."
+        )
+        why = (
+            "Phoenix is our first metro because it is a large, year-round repair market — desert heat puts extra load on refrigerators, "
+            "ice makers, and laundry equipment — and because we could document a deep bench of owner-operated and locally owned shops. "
+            "Suburb pages (Mesa, Chandler, Scottsdale, and others) are planned next, and Riverside County, California, is now live as a second market."
+        )
+        faq_coverage = "Many Valley shops cover several cities. Each profile lists only the service areas named on a source we opened. If your city is not listed, still call — coverage can be broader than the website copy, or it may have changed."
+        faq_only = "No. This is a researched starting set, not a complete census. If you run or know an independent shop that should be here, use the Get listed page."
+        schema_name = "Independent appliance repair in Phoenix, AZ"
+    else:
+        heading = "Independent appliance repair in Riverside County, California"
+        lede = (
+            f"A directory of {len(shops)} independent or locally based shops serving Riverside County — from Corona and the city of Riverside "
+            "through Temecula, Hemet, and the Coachella Valley. We gathered these from the businesses' own websites or other public pages we recorded. "
+            "Always call to confirm that they still serve your ZIP, and that the phone number is current."
+        )
+        why = lede_extra or (
+            "Riverside County is our second market: a large Inland Empire and desert-valley area where summer heat stresses refrigerators and ice makers, "
+            "with a documented mix of owner-operated and long-running family shops."
+        )
+        faq_coverage = (
+            "Many shops cover several cities, and some west-county businesses also drive into San Bernardino or Orange County. "
+            "Each profile lists only the service areas named on a source we opened. If your city is not listed, still call — coverage can be broader than the website copy, or it may have changed."
+        )
+        faq_only = (
+            "No. This is a researched starting set, not a complete census of every independent in the county. "
+            "Some cities, especially San Jacinto, still have few shops that published that city by name. "
+            "If you run or know an independent shop that should be here, use the Get listed page."
+        )
+        schema_name = "Independent appliance repair in Riverside County, CA"
+
+    cards = "".join(listing_card(page, l) for l in shops)
     body = f"""
     <header class="hero">
-      <p class="kicker">Launch metro</p>
-      <h1>Independent appliance repair in Phoenix, Arizona</h1>
-      <p class="lede">A directory of {len(LISTINGS)} independent or locally based shops serving Phoenix and the Valley of the Sun. We gathered these from the businesses' own websites. Always call to confirm that they still serve your ZIP, and that the phone number is current.</p>
+      <p class="kicker">{e(place)}</p>
+      <h1>{e(heading)}</h1>
+      <p class="lede">{e(lede)}</p>
     </header>
-    <p class="note">Phoenix is our first metro because it is a large, year-round repair market — desert heat puts extra load on refrigerators, ice makers, and laundry equipment — and because we could document a deep bench of owner-operated and locally owned shops. Next we will add suburb pages (Mesa, Chandler, Scottsdale, and others) and then Tucson.</p>
-    <div class="filter-bar" aria-label="Filter by appliance">{"".join(filters)}</div>
-    <section class="section" id="listings">
-      <h2>{len(LISTINGS)} shops in the Phoenix metro</h2>
+    {registration_html(page, metro)}
+    <p class="note">{e(why)}</p>
+    <p>Browse by appliance: {app_nav}</p>
+    {cities_section}
+    <section class="section">
+      <h2>{len(shops)} shops in this directory</h2>
       <div class="grid grid-2">{cards}</div>
     </section>
-    <section class="section faq">
-      <h2>Phoenix appliance repair questions</h2>
-      <details><summary>Do these companies cover my suburb?</summary>
-      <p>Many Valley shops cover several cities. Each profile lists only the service areas named on a source we opened. If your city is not listed, still call — coverage can be broader than the website copy, or it may have changed.</p></details>
-      <details><summary>Why are there no star ratings?</summary>
-      <p>We do not copy or invent review scores. Ratings go stale, can be incomplete, and are easy to misuse. Use the profile to reach the shop, then check recent reviews on a platform you trust, or ask a neighbor.</p></details>
-      <details><summary>Are these the only independent techs in Phoenix?</summary>
-      <p>No. This is a first batch of businesses we could verify from public websites in November 2026. Licensed shops we have not yet sourced will be added over time, and shops can <a href="{e(href(page, "/get-listed/"))}">request a listing</a>.</p></details>
+    <section class="section">
+      <h2>{e(label)} appliance repair questions</h2>
+      <details><summary>Do these shops cover my city?</summary>
+      <p>{e(faq_coverage)}</p></details>
+      <details><summary>Are these the only independent techs in {e(label)}?</summary>
+      <p>{e(faq_only)}</p></details>
     </section>
     """
     desc = (
-        f"Directory of {len(LISTINGS)} independent and locally owned appliance repair businesses "
-        "serving Phoenix, Mesa, Scottsdale, Chandler, Gilbert, Tempe, and the rest of the Valley."
+        f"Independent appliance repair technicians in {place}. "
+        "Call shops directly — not a lead mill."
     )
+    if metro["slug"] == "phoenix":
+        desc = (
+            "Independent appliance repair technicians serving Phoenix, Mesa, Scottsdale, Chandler, Gilbert, Tempe, and the rest of the Valley."
+        )
     schema = ld_json({
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": "Independent appliance repair in Phoenix, AZ",
-        "numberOfItems": len(LISTINGS),
+        "name": schema_name,
+        "numberOfItems": len(shops),
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": l["name"], "url": listing_url(l)}
-            for i, l in enumerate(LISTINGS)
+            for i, l in enumerate(shops)
         ],
     })
     faq = ld_json({
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-            {"@type": "Question", "name": "Do these companies cover my suburb?",
-             "acceptedAnswer": {"@type": "Answer", "text": "Many Valley shops cover several cities. Each profile lists only the service areas named on a source we opened. Call to confirm coverage for your ZIP."}},
-            {"@type": "Question", "name": "Why are there no star ratings?",
-             "acceptedAnswer": {"@type": "Answer", "text": "We do not copy or invent review scores. Use the profile to reach the shop, then check recent reviews on a platform you trust."}},
-            {"@type": "Question", "name": "Are these the only independent techs in Phoenix?",
-             "acceptedAnswer": {"@type": "Answer", "text": "No. This is a first batch of businesses verified from public websites in November 2026. More listings will be added over time."}},
+            {"@type": "Question", "name": "Do these shops cover my city?",
+             "acceptedAnswer": {"@type": "Answer", "text": faq_coverage}},
+            {"@type": "Question", "name": f"Are these the only independent techs in {label}?",
+             "acceptedAnswer": {"@type": "Answer", "text": faq_only}},
         ],
     })
-    crumbs = [("/", "Home"), ("/phoenix/", "Phoenix")]
+    crumbs = [("/", "Home"), (f"/{metro['slug']}/", label)]
     write_page(page, layout(
         page,
-        "Independent appliance repair in Phoenix, AZ — Indie Appliance Repair",
+        f"{schema_name} — Indie Appliance Repair",
         desc,
         body,
-        "phoenix",
+        metro["slug"],
         crumbs,
         extra_head=schema + faq,
     ))
 
 
-APPLIANCE_INTRO = {
-    "refrigerator": "In the Phoenix metro, a refrigerator that stops cooling is an emergency. Valley summers put a heavy load on compressors, and food can be lost quickly once the box warms up. The shops below are ones whose own sites mention refrigerator or freezer repair. Call early, keep the doors closed, and ask about same-day availability — we do not track live schedules.",
-    "washer": "A washer that will not drain, spin, or fill can shut a household down in a day. The listings on this page mentioned washer or washing-machine repair on a source we opened. Confirm whether they service your brand and type (top-load, front-load, or stacked) when you call.",
-    "dryer": "Dryers that run without heat, take too long, or make new noises should be diagnosed by someone who works on gas and electric machines. Lint and vent issues can also be a fire hazard; several Valley shops mention dryer or vent work. We only include shops that listed dryer repair on a page we opened.",
-    "dishwasher": "Leaks, standing water, and dishes that will not come clean are the usual reasons people look for dishwasher repair. This page lists Phoenix-metro shops that mention dishwashers on their own sites.",
-    "oven-range": "Ovens, ranges, and cooktops — gas or electric — show up often in Valley service areas, including high-end brands. This page includes shops that mentioned oven, range, stove, or cooktop repair on a source we opened.",
-    "microwave": "Built-in and over-the-range microwaves are a different job than a countertop unit you can carry in. We only list shops that mentioned microwave repair on a page we opened; some independents do not take microwave work, so read the profile.",
-    "ice-maker": "Standalone ice machines and in-fridge ice makers are a frequent request in the Phoenix heat. This page lists shops that specifically mentioned ice maker or ice machine repair. Confirm residential vs. commercial coverage when you call.",
-    "freezer": "A chest, upright, or built-in freezer that warms up can cost a lot in lost food. These shops mentioned freezer repair on a source we opened. Keep the door closed until a technician arrives, and ask whether they also handle related refrigerator work.",
-}
-
-
-def page_appliance(app: dict) -> None:
-    rows = listings_for_appliance(app["slug"])
-    if not rows:
-        return
-    page = f"phoenix/{app['pathSegment']}/index.html"
-    cards = "".join(listing_card(page, l) for l in rows)
-    intro = APPLIANCE_INTRO.get(app["slug"], app["blurb"])
+def page_subcity(metro: dict, subcity: dict) -> None:
+    page = f"{metro['slug']}/{subcity['slug']}/index.html"
+    shops = listings_for_subcity(metro["slug"], subcity)
+    label = metro_nav_label(metro)
+    name = subcity["name"]
+    is_region = bool(subcity.get("isRegion"))
+    kind = "area" if is_region else "city"
+    thin = ""
+    if len(shops) <= 2:
+        thin = (
+            f'<p class="note"><strong>Thin on published names.</strong> Only {len(shops)} shop'
+            f'{"s" if len(shops) != 1 else ""} in this directory published {e(name)} on a source we opened. '
+            f"A nearby city page, or the <a href=\"{e(href(page, f'/{metro['slug']}/'))}\">{e(label)} directory</a>, "
+            "may have shops that will still drive to you — call and ask.</p>"
+        )
+    cards = "".join(listing_card(page, l) for l in shops) or "<p>No shops in this directory have published this city yet.</p>"
+    app_links = []
+    for app in appliances:
+        n = len([l for l in shops if app["slug"] in l.get("appliances", [])])
+        if n:
+            app_links.append(
+                f'<a href="{e(href(page, f"/{metro["slug"]}/{app["pathSegment"]}/"))}">{e(app["name"])} ({n})</a>'
+            )
+    app_nav = ("Related county category pages: " + ", ".join(app_links) + ".") if app_links else ""
     body = f"""
     <header class="hero">
-      <p class="kicker">Phoenix metro</p>
-      <h1>{e(app["name"])} repair in Phoenix</h1>
-      <p class="lede">{e(intro)}</p>
+      <p class="kicker">{e(label)}</p>
+      <h1>Independent appliance repair in {e(name)}</h1>
+      <p class="lede">{e(subcity.get("blurb") or f"Shops in the {label} directory whose own sources name {name}.")}</p>
     </header>
-    <p class="fine-print">{len(rows)} listing{"s" if len(rows) != 1 else ""} on this page mentioned {e(app["name"].lower())} repair on a source we recorded. That is not a ranking, and it is not every shop in the Valley.</p>
-    <div class="filter-bar">
-      <a href="{e(href(page, "/phoenix/"))}">All shops</a>
-      <span class="is-active">{e(app["name"])}</span>
-    </div>
+    {registration_html(page, metro)}
+    {thin}
+    <p><a href="{e(href(page, f'/{metro["slug"]}/'))}">All {e(label)} shops</a></p>
+    <p>{app_nav}</p>
     <section class="section">
-      <h2>Independent shops that list {e(app["name"].lower())} repair</h2>
+      <h2>{len(shops)} shop{"s" if len(shops) != 1 else ""} that list{"s" if len(shops)==1 else ""} {e(name)}</h2>
       <div class="grid grid-2">{cards}</div>
     </section>
-    <section class="section">
-      <h2>Before you book</h2>
-      <ul>
-        <li>Have the brand and model number ready if you can find it.</li>
-        <li>Ask whether the visit is a diagnosis first, what the service call costs, and whether that fee is waived if you approve the repair.</li>
-        <li>If you are comparing this repair with buying new, read our <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair vs. replace guide</a>.</li>
-      </ul>
-    </section>
-    {aff_box(page, "parts-common", extra_intro=(
-        f"If you already know the model and want to look up a {app['name'].lower()} part or diagram yourself, "
-        "these are the catalogs we plan to link once a program is approved. A local technician can also source the part."
-    ))}
     """
     desc = (
-        f"Independent {app['name'].lower()} repair in Phoenix, Arizona. "
-        f"{len(rows)} locally based shops that mention {app['name'].lower()} service on their own sites."
+        f"Independent appliance repair in {name}, Riverside County, California. "
+        + (
+            f"{len(shops)} shops in this directory published this {kind} on a source we opened."
+            if len(shops) != 1
+            else f"1 shop in this directory published this {kind} on a source we opened."
+        )
     )
     schema = ld_json({
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": f"{app['name']} repair in Phoenix, AZ",
-        "numberOfItems": len(rows),
+        "name": f"Independent appliance repair in {name}, CA",
+        "numberOfItems": len(shops),
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": l["name"], "url": listing_url(l)}
-            for i, l in enumerate(rows)
+            for i, l in enumerate(shops)
         ],
     })
-    crumbs = [("/", "Home"), ("/phoenix/", "Phoenix"), (f"/phoenix/{app['pathSegment']}/", f"{app['name']} repair")]
+    crumbs = [("/", "Home"), (f"/{metro['slug']}/", label), (f"/{metro['slug']}/{subcity['slug']}/", name)]
     write_page(page, layout(
         page,
-        f"{app['name']} repair in Phoenix, AZ — independent techs",
+        f"Appliance repair in {name}, CA — independent techs",
         desc,
         body,
-        "phoenix",
+        metro["slug"],
+        crumbs,
+        extra_head=schema,
+    ))
+
+
+def page_appliance(metro: dict, app: dict) -> None:
+    shops = listings_for_appliance(app["slug"], metro["slug"])
+    page = f"{metro['slug']}/{app['pathSegment']}/index.html"
+    label = metro_nav_label(metro)
+    place = metro.get("metroName") or label
+    cards = "".join(listing_card(page, l) for l in shops)
+    intro = appliance_intro(metro, app)
+    body = f"""
+    <header class="hero">
+      <p class="kicker">{e(place)}</p>
+      <h1>{e(app["name"])} repair in {e(label)}</h1>
+      <p class="lede">{e(intro)}</p>
+    </header>
+    {registration_html(page, metro)}
+    <p>
+      <a href="{e(href(page, f"/{metro["slug"]}/"))}">All shops</a>
+    </p>
+    <section class="section">
+      <h2>{len(shops)} shop{"s" if len(shops) != 1 else ""} that mention {e(app["name"].lower())} repair</h2>
+      <div class="grid grid-2">{cards}</div>
+    </section>
+    {aff_box(page, "parts-common")}
+    """
+    desc = (
+        f"Independent {app['name'].lower()} repair in {place}. "
+        "Shops whose own sites mention this appliance. Call directly — not a lead mill."
+    )
+    schema = ld_json({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": f"{app['name']} repair in {label}",
+        "numberOfItems": len(shops),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": l["name"], "url": listing_url(l)}
+            for i, l in enumerate(shops)
+        ],
+    })
+    crumbs = [("/", "Home"), (f"/{metro['slug']}/", label), (f"/{metro['slug']}/{app['pathSegment']}/", f"{app['name']} repair")]
+    write_page(page, layout(
+        page,
+        f"{app['name']} repair in {label} — independent techs",
+        desc,
+        body,
+        metro["slug"],
         crumbs,
         extra_head=schema,
     ))
 
 
 def page_profile(listing: dict) -> None:
-    page = f"phoenix/techs/{listing['slug']}/index.html"
+    metro = CITY_BY_SLUG.get(listing.get("citySlug") or "phoenix") or {
+        "slug": listing.get("citySlug") or "phoenix",
+        "name": "Directory",
+        "metroName": "this area",
+        "state": "",
+    }
+    page = f"{metro['slug']}/techs/{listing['slug']}/index.html"
     apps = appliances_for(listing)
     app_links = ", ".join(
-        f'<a href="{e(href(page, f"/phoenix/{a["pathSegment"]}/"))}">{e(a["name"])}</a>' for a in apps
+        f'<a href="{e(href(page, f"/{metro["slug"]}/{a["pathSegment"]}/"))}">{e(a["name"])}</a>' for a in apps
     ) or "See the company website"
     areas = ", ".join(listing.get("serviceAreas") or []) or "Confirm when you call"
     addr = address_line(listing)
@@ -647,17 +879,19 @@ def page_profile(listing: dict) -> None:
       <a class="btn btn-ghost" href="{e(listing['website'])}" rel="noopener noreferrer">Website</a>
     </div>"""
 
+    place = metro.get("metroName") or metro_nav_label(metro)
     body = f"""
     <header class="hero">
-      <p class="kicker">Phoenix metro listing</p>
+      <p class="kicker">{e(place)} listing</p>
       <h1>{e(listing["name"])}</h1>
       {flags_html(listing)}
-      <p class="lede">An independent or locally based appliance repair business serving the Phoenix area. Details below were taken from the sources listed at the bottom of this page. Confirm everything when you call — websites go out of date.</p>
+      <p class="lede">An independent or locally based appliance repair business serving the {e(place)} area. Details below were taken from the sources listed at the bottom of this page. Confirm everything when you call — websites go out of date.</p>
       <div class="hero-actions">
         <a class="btn btn-call" href="{e(tel_href(listing['phone']))}">Call {e(listing['phoneDisplay'])}</a>
         <a class="btn btn-ghost" href="{e(listing['website'])}" rel="noopener noreferrer">Visit website</a>
       </div>
     </header>
+    {registration_html(page, metro)}
     <div class="profile-grid">
       <div>
         <section class="section">
@@ -685,13 +919,13 @@ def page_profile(listing: dict) -> None:
     </div>
     """
     desc = f"{listing['name']} — independent appliance repair serving {areas}. Call {listing['phoneDisplay']}."
-    crumbs = [("/", "Home"), ("/phoenix/", "Phoenix"), (listing_url(listing), listing["name"])]
+    crumbs = [("/", "Home"), (f"/{metro['slug']}/", metro_nav_label(metro)), (listing_url(listing), listing["name"])]
     write_page(page, layout(
         page,
-        f"{listing['name']} — Phoenix appliance repair",
+        f"{listing['name']} — {metro_nav_label(metro)} appliance repair",
         desc,
         body,
-        "phoenix",
+        metro["slug"],
         crumbs,
         extra_head=ld_json(local_business_schema(listing)),
         extra_after=sticky,
@@ -767,7 +1001,7 @@ def page_compare() -> None:
           <tr><th scope="row">Who you call</th><td>The shop or owner, using the number they publish.</td><td>A national or regional dispatch line, or a form that may be sold as a lead to one or more providers.</td></tr>
           <tr><th scope="row">Who shows up</th><td>Often the owner or a technician employed by that local business. Ask if you want to be sure.</td><td>May be an employee, a franchisee, or a subcontractor, depending on the brand and market.</td></tr>
           <tr><th scope="row">Price and warranty</th><td>Set by that shop. Several Phoenix listings publish a service-call fee and whether it is waived with a repair.</td><td>Set by the chain, franchise, or the individual provider who buys the lead. Terms vary; read them for the company that actually visits.</td></tr>
-          <tr><th scope="row">Accountability</th><td>A local reputation and, in Arizona, a Registrar of Contractors license when the work requires one. Some shops publish their ROC number.</td><td>Brand policies plus whatever license the visiting company holds. A familiar logo is not the same thing as a local license check.</td></tr>
+          <tr><th scope="row">Accountability</th><td>A local reputation, plus the license or registration that applies where the work is done. In Arizona, that is often a Registrar of Contractors license. In California, appliance repair dealers must register with the Bureau of Household Goods and Services (BHGS). Some shops publish those numbers; you should still look them up in the official state search.</td><td>Brand policies plus whatever license the visiting company holds. A familiar logo is not the same thing as a local license check.</td></tr>
         </tbody>
       </table>
       <h2>About Angi, Thumbtack, and similar platforms</h2>
@@ -788,7 +1022,7 @@ def page_compare() -> None:
 def page_subzero() -> None:
     page = "best/sub-zero/index.html"
     mentioned = []
-    for l in LISTINGS:
+    for l in listings_for_metro("phoenix"):
         brands = [b.lower() for b in (l.get("brands") or [])]
         note = (l.get("brandsNote") or "").lower()
         facts = " ".join(l.get("facts") or []).lower()
@@ -908,22 +1142,22 @@ def page_about() -> None:
     <article class="prose hero">
       <p class="kicker">About</p>
       <h1>About Indie Appliance Repair</h1>
-      <p class="lede">We are building a small, useful directory of independent appliance technicians — starting in Phoenix, Arizona — so homeowners can call a shop directly instead of entering a lead marketplace.</p>
-      <h2>Launch metro</h2>
-      <p>Phoenix is first: a large, year-round repair market where heat stresses refrigerators and ice makers, with many documented owner-operated shops and no strong consumer directory that organizes independents by city, appliance, and brand. We plan to finish Phoenix depth, then add cities one at a time.</p>
+      <p class="lede">We are building a small, useful directory of independent appliance technicians — now in Phoenix, Arizona, and Riverside County, California — so homeowners can call a shop directly instead of entering a lead marketplace.</p>
+      <h2>Where we cover</h2>
+      <p>Phoenix is our first metro: a large, year-round repair market where heat stresses refrigerators and ice makers, with many documented owner-operated shops and no strong consumer directory that organizes independents by city, appliance, and brand. Riverside County is our second: the Inland Empire and Coachella Valley, where California requires appliance repair dealers to register with the Bureau of Household Goods and Services. We will keep adding verified shops and city pages in both areas, then expand to other metros one at a time.</p>
       <h2>How we research a listing</h2>
       <ul>
         <li>We open the business website (or another public page) and record the URL and the date.</li>
         <li>We include only facts stated there: name, phone, website, address, hours, service area, appliances, brands, and published fees or license numbers.</li>
         <li>We do not invent ratings, reviews, prices, or coverage areas. If a street address was not on the official site, we say so.</li>
-        <li>National chains and lead-mill landing pages are out of scope for “independent” listings. Multi-office Arizona companies can still appear if they are local businesses rather than a national franchise; the profile will say so.</li>
+        <li>National chains and lead-mill landing pages are out of scope for “independent” listings. Multi-office local companies can still appear if they are local businesses rather than a national franchise; the profile will say so.</li>
       </ul>
-      <p>This first batch includes {len(LISTINGS)} Phoenix-metro businesses, researched on {e(site.get("accessedDate") or TODAY)}.</p>
+      <p>This directory currently includes {len(listings_for_metro("phoenix"))} Phoenix-metro businesses and {len(listings_for_metro("riverside-county"))} Riverside County businesses, researched on {e(site.get("accessedDate") or TODAY)}.</p>
       <h2>Get in touch</h2>
       <p>Use the <a href="{e(href(page, "/get-listed/"))}">Get listed</a> page to request an addition or a correction. The form is a placeholder until a backend and public email are connected (TODO).</p>
     </article>
     """
-    desc = "How Indie Appliance Repair researches listings, why Phoenix is the launch metro, and what we will not invent."
+    desc = "How Indie Appliance Repair researches listings, why Phoenix and Riverside County are the first markets, and what we will not invent."
     crumbs = [("/", "Home"), ("/about/", "About")]
     write_page(page, layout(page, "About Indie Appliance Repair", desc, body, "home", crumbs))
 
@@ -934,9 +1168,10 @@ def page_404() -> None:
     <header class="hero">
       <p class="kicker">404</p>
       <h1>That page is not here</h1>
-      <p class="lede">The link may be outdated, or the city page has not been built yet. Try the Phoenix directory or the homepage.</p>
+      <p class="lede">The link may be outdated, or the city page has not been built yet. Try a live directory or the homepage.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="{e(href(page, "/phoenix/"))}">Phoenix directory</a>
+        <a class="btn btn-ghost" href="{e(href(page, "/riverside-county/"))}">Riverside County directory</a>
         <a class="btn btn-ghost" href="{e(href(page, "/"))}">Home</a>
       </div>
     </header>
@@ -992,14 +1227,19 @@ def write_cname() -> None:
 def main() -> None:
     # Keep research/planning files; regenerate HTML output dirs as needed.
     page_home(); remember("index.html")
-    page_phoenix(); remember("phoenix/index.html")
-    for app in appliances:
-        if listings_for_appliance(app["slug"]):
-            page_appliance(app)
-            remember(f"phoenix/{app['pathSegment']}/index.html")
-    for listing in LISTINGS:
-        page_profile(listing)
-        remember(f"phoenix/techs/{listing['slug']}/index.html")
+    for metro in live_metros():
+        page_metro(metro)
+        remember(f"{metro['slug']}/index.html")
+        for subcity in metro.get("cities") or []:
+            page_subcity(metro, subcity)
+            remember(f"{metro['slug']}/{subcity['slug']}/index.html")
+        for app in appliances:
+            if listings_for_appliance(app["slug"], metro["slug"]):
+                page_appliance(metro, app)
+                remember(f"{metro['slug']}/{app['pathSegment']}/index.html")
+        for listing in listings_for_metro(metro["slug"]):
+            page_profile(listing)
+            remember(f"{metro['slug']}/techs/{listing['slug']}/index.html")
     page_guide(); remember("guides/repair-vs-replace/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")

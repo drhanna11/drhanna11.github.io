@@ -1,8 +1,6 @@
 # Indie Appliance Repair
 
-A static directory of independent and locally owned appliance repair technicians, launching in the Phoenix, Arizona metro. Built as plain HTML, CSS, and JS for GitHub Pages. There is no required build for hosting once the HTML is generated; a small Python script regenerates pages from JSON.
-
-This repository was prepared on the operator's computer. It has **not** been published, and no GitHub (or other) account was created from this work.
+A static directory of independent and locally owned appliance repair technicians, live in the Phoenix, Arizona metro and Riverside County, California. Built as plain HTML, CSS, and JS for GitHub Pages at [indieappliancerepair.com](https://indieappliancerepair.com). There is no required build for hosting once the HTML is generated; a small Python script regenerates pages from JSON.
 
 ## Preview locally
 
@@ -12,16 +10,17 @@ From this folder:
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080/. Clean URLs such as `/phoenix/` work because each section is a folder with `index.html`.
+Then open http://localhost:8080/. Clean URLs such as `/phoenix/` and `/riverside-county/temecula/` work because each section is a folder with `index.html`.
 
 ## Data and URL scheme
 
 | Kind | Path | Source |
 | --- | --- | --- |
 | Homepage | `/` | generated |
-| City | `/phoenix/` | `data/cities.json` + listings |
-| City + appliance | `/phoenix/refrigerator-repair/` | `data/appliances.json` + listings that mention that appliance |
-| Shop profile | `/phoenix/techs/{slug}/` | one object in `data/listings.json` |
+| Metro / county hub | `/phoenix/`, `/riverside-county/` | `data/cities.json` + listings with that `citySlug` |
+| City or area page | `/riverside-county/temecula/`, `/riverside-county/coachella-valley/` | `cities[].cities` in `data/cities.json`; shops whose `serviceAreas` match |
+| Metro + appliance | `/phoenix/refrigerator-repair/`, `/riverside-county/refrigerator-repair/` | `data/appliances.json` + listings in that metro that mention the appliance |
+| Shop profile | `/phoenix/techs/{slug}/`, `/riverside-county/techs/{slug}/` | one object in `data/listings.json` |
 | Guides / compare / best-for | `/guides/...`, `/compare/...`, `/best/...` | templates in `scripts/build.py` (later: optional `data/pages.json`) |
 | Get listed / disclosure / about | `/get-listed/`, `/disclosure/`, `/about/` | templates in `scripts/build.py` |
 
@@ -39,16 +38,15 @@ python3 scripts/build.py
 
 4. Spot-check the new profile and the city / appliance pages it should appear on.
 
-To add a **new city**, add it to `data/cities.json` with `"status": "live"` and extend `scripts/build.py` so that city gets a page (Phoenix is the only live city in the first build). To add an **appliance category**, add it to `data/appliances.json` and rebuild; a city+appliance page is created when at least one listing mentions that slug.
+To add a **new metro or county**, add it to `data/cities.json` with `"status": "live"`, give listings that `citySlug`, and rebuild. Optional `cities` entries under a metro generate city or area pages (Riverside County uses these). To add an **appliance category**, add it to `data/appliances.json` and rebuild; a metro+appliance page is created when at least one listing in that metro mentions that slug. California pages include a short BHGS registration note and a link to the official license search.
 
 Editorial pages (new guides, comparisons) are added as functions in `scripts/build.py` and registered in `main()`. See `PLAN.md` for the prioritized backlog of the next 30 pages.
 
-## GitHub Pages (not done yet)
+## GitHub Pages
 
+- The site is published at `https://indieappliancerepair.com` (`canonicalOrigin` in `data/site.json`). Rebuild after changing that value so canonical tags, the sitemap, and the `CNAME` file stay in sync.
 - The repo includes `.nojekyll` so Pages will not run Jekyll on the HTML.
-- When a public origin is known, set `canonicalOrigin` in `data/site.json` (no trailing slash, for example `https://www.example.com`) and run the build again so canonical tags and the sitemap use absolute URLs.
-- If the site is served from a project URL such as `https://user.github.io/repo/`, set `"baseUrl"` support is still TODO — prefer a custom domain or a user/organization site at the root, or add a base-prefix helper before launching on a subpath.
-- Do not push or create a GitHub repository until the owner has signed in and approved publishing.
+- Never push the `private-history` branch. Planning notes and `outreach/` are gitignored.
 
 ## Editorial rules
 
