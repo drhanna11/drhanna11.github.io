@@ -1,0 +1,14 @@
+{
+  "name": "Indie Appliance Repair",
+  "tagline": "Find an independent technician. Skip the lead mill.",
+  "shortName": "Indie Appliance Repair",
+  "description": "A directory of independent, locally owned appliance repair technicians — organized by city, appliance, and brand. We list shops you can call directly, not a lead auction.",
+  "launchMetro": "phoenix",
+  "launchMetroName": "Phoenix, Arizona",
+  "baseUrl": "",
+  "canonicalOrigin": "https://drhanna11.github.io",
+  "language": "en-US",
+  "accessedDate": "2026-11-18",
+  "disclosureSummary": "We do not invent ratings, reviews, or prices. Facts on listing pages come from the business's own website or other public sources we record. Some pages include labeled affiliate-placement boxes, but this site does not currently use live affiliate tracking links and does not earn commissions from them. If that changes, those links will stay labeled. See our Affiliate Disclosure.",
+  "formTodo": "TODO: connect a form backend (no real backend yet). Do not treat submissions as received."
+}

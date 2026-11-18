@@ -1,0 +1,142 @@
+{
+  "updated": "2026-11-18",
+  "notes": "Drop a real tracking URL into programs.<id>.trackingUrl and set enabled to true after a program is approved. Until then the build writes placeholder hrefs that point at /disclosure/#affiliate-placeholders. Do not invent rates here; see MONETIZATION.md.",
+  "programs": {
+    "appliancepartspros": {
+      "id": "appliancepartspros",
+      "name": "AppliancePartsPros",
+      "role": "parts",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.appliancepartspros.com/",
+      "label": "AppliancePartsPros (parts catalog)"
+    },
+    "repairclinic": {
+      "id": "repairclinic",
+      "name": "RepairClinic",
+      "role": "parts",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.repairclinic.com/",
+      "label": "RepairClinic (parts and repair guides)"
+    },
+    "searspartsdirect": {
+      "id": "searspartsdirect",
+      "name": "Sears PartsDirect",
+      "role": "parts",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.searspartsdirect.com/",
+      "label": "Sears PartsDirect (OEM parts)"
+    },
+    "partselect": {
+      "id": "partselect",
+      "name": "PartSelect",
+      "role": "parts",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.partselect.com/",
+      "label": "PartSelect (parts and diagrams)"
+    },
+    "ge-parts": {
+      "id": "ge-parts",
+      "name": "GE Appliances Parts & Accessories",
+      "role": "parts-brand",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.geappliances.com/",
+      "label": "GE Appliances parts and filters"
+    },
+    "harborfreight": {
+      "id": "harborfreight",
+      "name": "Harbor Freight Tools",
+      "role": "tools",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.harborfreight.com/",
+      "label": "Harbor Freight (tools)"
+    },
+    "ajmadison": {
+      "id": "ajmadison",
+      "name": "AJ Madison",
+      "role": "replace",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.ajmadison.com/",
+      "label": "AJ Madison (replacement appliances)"
+    },
+    "whirlpool": {
+      "id": "whirlpool",
+      "name": "Whirlpool",
+      "role": "replace",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.whirlpool.com/",
+      "label": "Whirlpool (new appliances)"
+    },
+    "choicehomewarranty": {
+      "id": "choicehomewarranty",
+      "name": "Choice Home Warranty",
+      "role": "warranty",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.choicehomewarranty.com/",
+      "label": "Choice Home Warranty"
+    },
+    "upsie": {
+      "id": "upsie",
+      "name": "Upsie",
+      "role": "warranty",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://upsie.com/",
+      "label": "Upsie (product protection plans)"
+    },
+    "ahs": {
+      "id": "ahs",
+      "name": "American Home Shield",
+      "role": "warranty",
+      "enabled": false,
+      "trackingUrl": "",
+      "fallbackUrl": "https://www.ahs.com/",
+      "label": "American Home Shield"
+    }
+  },
+  "placements": {
+    "parts-common": {
+      "id": "parts-common",
+      "kicker": "Affiliate placement",
+      "title": "Common parts for this repair",
+      "intro": "If you already have a model number and want to look up a part or diagram yourself, these are the parts catalogs we plan to link once an affiliate program is approved. A local technician can also source the part for you.",
+      "programs": ["appliancepartspros", "repairclinic", "searspartsdirect", "partselect"]
+    },
+    "parts-ge": {
+      "id": "parts-ge",
+      "kicker": "Affiliate placement",
+      "title": "Genuine GE parts and filters",
+      "intro": "For GE and Profile appliances, a manufacturer parts store is one place to check a filter or OEM part. This placement is reserved until the official program is approved.",
+      "programs": ["ge-parts"]
+    },
+    "tools": {
+      "id": "tools",
+      "kicker": "Affiliate placement",
+      "title": "Tools people use for simple checks",
+      "intro": "A basic multimeter or hand tool is sometimes enough for a homeowner safety check, but sealed-system and live-voltage work belong with a technician. Links will go live only after a tools program is approved.",
+      "programs": ["harborfreight"]
+    },
+    "replace-appliance": {
+      "id": "replace-appliance",
+      "kicker": "Affiliate placement",
+      "title": "If you are replacing the machine",
+      "intro": "After a written diagnosis, some people compare the repair quote with a new unit. These retailer placements are reserved until a program is approved. We are not recommending a brand or model here.",
+      "programs": ["ajmadison", "whirlpool"]
+    },
+    "warranty-protect": {
+      "id": "warranty-protect",
+      "kicker": "Affiliate placement",
+      "title": "Protect it next time",
+      "intro": "A home warranty or product-protection plan is a different product from hiring a local technician, and the company may dispatch its own network. Compare terms carefully. These links are placeholders; we do not currently earn a commission from them.",
+      "programs": ["choicehomewarranty", "upsie", "ahs"]
+    }
+  }
+}

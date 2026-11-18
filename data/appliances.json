@@ -1,0 +1,10 @@
+[
+  {"slug": "refrigerator", "name": "Refrigerator", "plural": "Refrigerators", "pathSegment": "refrigerator-repair", "blurb": "Not cooling, leaking, noisy, or an ice maker that quit — refrigerators are the highest-urgency repair in a Phoenix summer."},
+  {"slug": "washer", "name": "Washer", "plural": "Washers", "pathSegment": "washer-repair", "blurb": "Won't drain, spin, or fill, or water on the floor — a washer that stops can pile up laundry in a day."},
+  {"slug": "dryer", "name": "Dryer", "plural": "Dryers", "pathSegment": "dryer-repair", "blurb": "No heat, long dry times, or a drum that will not turn. Leave gas and electrical dryer repairs to a trained technician."},
+  {"slug": "dishwasher", "name": "Dishwasher", "plural": "Dishwashers", "pathSegment": "dishwasher-repair", "blurb": "Not cleaning, not draining, or leaking at the door."},
+  {"slug": "oven-range", "name": "Oven & Range", "plural": "Ovens & Ranges", "pathSegment": "oven-range-repair", "blurb": "Won't heat, a burner that will not light, or a cooktop fault on a gas or electric range."},
+  {"slug": "microwave", "name": "Microwave", "plural": "Microwaves", "pathSegment": "microwave-repair", "blurb": "No heat, a turntable that will not spin, or a built-in unit that has shut down."},
+  {"slug": "ice-maker", "name": "Ice Maker", "plural": "Ice Makers", "pathSegment": "ice-maker-repair", "blurb": "No ice, slow production, or a standalone or built-in ice machine that needs service."},
+  {"slug": "freezer", "name": "Freezer", "plural": "Freezers", "pathSegment": "freezer-repair", "blurb": "Frost buildup, temperature swings, or a freezer that has stopped getting cold."}
+]

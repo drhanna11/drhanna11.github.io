@@ -1,0 +1,15 @@
+[
+  {
+    "slug": "phoenix",
+    "name": "Phoenix",
+    "state": "AZ",
+    "stateName": "Arizona",
+    "metroName": "Phoenix metro (Valley of the Sun)",
+    "status": "live",
+    "includes": ["Phoenix", "Mesa", "Chandler", "Scottsdale", "Gilbert", "Glendale", "Tempe", "Peoria", "Surprise", "Avondale", "Goodyear", "Queen Creek", "Fountain Hills", "Cave Creek", "Sun City", "Paradise Valley", "Ahwatukee"],
+    "summary": "The Phoenix-Mesa-Chandler metro is our launch market: a large, year-round repair area where desert heat puts extra load on refrigerators, ice makers, and laundry equipment."
+  },
+  {"slug": "tucson", "name": "Tucson", "state": "AZ", "stateName": "Arizona", "metroName": "Tucson", "status": "planned", "summary": "Next Arizona metro after Phoenix depth is further along."},
+  {"slug": "las-vegas", "name": "Las Vegas", "state": "NV", "stateName": "Nevada", "metroName": "Las Vegas", "status": "planned", "summary": "Planned Sun Belt expansion."},
+  {"slug": "dallas", "name": "Dallas–Fort Worth", "state": "TX", "stateName": "Texas", "metroName": "Dallas–Fort Worth", "status": "planned", "summary": "Planned expansion after Arizona and Las Vegas."}
+]
