@@ -9,15 +9,34 @@
     });
   }
 
-  var form = document.querySelector("#get-listed-form");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var status = document.querySelector("#form-status");
-      if (status) {
-        status.classList.add("show");
-        status.setAttribute("role", "status");
-        status.focus();
+  var links = document.querySelectorAll("a.js-listing-email[data-user][data-domain]");
+  if (links.length) {
+    var subject = "Get listed: [business name]";
+    var body = [
+      "Business name:",
+      "Phone:",
+      "Website:",
+      "Cities served:",
+      "Appliances repaired:",
+      "Independently owned (yes/no):",
+      "",
+      "Anything else we should verify:",
+      ""
+    ].join("\n");
+    var href =
+      "mailto:" +
+      links[0].getAttribute("data-user") +
+      "@" +
+      links[0].getAttribute("data-domain") +
+      "?subject=" +
+      encodeURIComponent(subject) +
+      "&body=" +
+      encodeURIComponent(body);
+    links.forEach(function (a) {
+      var addr = a.getAttribute("data-user") + "@" + a.getAttribute("data-domain");
+      a.setAttribute("href", href);
+      if (!a.classList.contains("btn")) {
+        a.textContent = addr;
       }
     });
   }

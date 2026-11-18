@@ -7,6 +7,7 @@ import shutil
 from datetime import date
 from html import escape
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -1064,32 +1065,57 @@ def page_subzero() -> None:
     write_page(page, layout(page, "Phoenix shops that list Sub-Zero service — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=schema))
 
 
+def listing_request_mailto(email: str) -> str:
+    subject = "Get listed: [business name]"
+    body = (
+        "Business name:\n"
+        "Phone:\n"
+        "Website:\n"
+        "Cities served:\n"
+        "Appliances repaired:\n"
+        "Independently owned (yes/no):\n"
+        "\n"
+        "Anything else we should verify:\n"
+    )
+    return f"mailto:{email}?subject={quote(subject, safe='')}&body={quote(body, safe='')}"
+
+
+def obfuscate_email_html(email: str) -> str:
+    user, _, domain = email.partition("@")
+    return f"{e(user)}&#64;{e(domain)}"
+
+
 def page_get_listed() -> None:
     page = "get-listed/index.html"
-    body = """
+    email = (site.get("contactEmail") or "").strip()
+    if "@" not in email:
+        raise SystemExit("Set contactEmail in data/site.json")
+    user, _, domain = email.partition("@")
+    mailto_href = e(listing_request_mailto(email)).replace("@", "&#64;")
+    email_html = obfuscate_email_html(email)
+    attrs = f'data-user="{e(user)}" data-domain="{e(domain)}"'
+    body = f"""
     <header class="hero">
       <p class="kicker">For technicians and shop owners</p>
       <h1>Get listed, or ask about a featured listing</h1>
-      <p class="lede">If you are an independent or locally owned appliance repair business serving a city we cover, we want accurate information on this site. Featured placements, if we offer them, will be clearly labeled and will not bury or hide other shops.</p>
+      <p class="lede">If you are an independent or locally owned appliance repair business serving a city we cover, we want accurate information on this site. Basic listings are free. Featured placements, if we offer them later, will be clearly labeled and will not bury or hide other shops.</p>
     </header>
-    <div class="todo">
-      <strong>TODO — no form backend yet.</strong> Submitting this form does not send a message and does not create a listing. We still need a form endpoint (and a public contact email once a domain is live). Until then, treat this page as a preview of what we will collect.
-    </div>
-    <form id="get-listed-form" action="#" method="post" novalidate>
-      <label>Your name <input type="text" name="name" autocomplete="name" required></label>
-      <label>Business name <input type="text" name="business" required></label>
-      <label>City or metro you serve <input type="text" name="city" required></label>
-      <label>Phone <input type="tel" name="phone" autocomplete="tel" required></label>
-      <label>Email <input type="email" name="email" autocomplete="email" required></label>
-      <label>Website <input type="url" name="website" placeholder="https://"></label>
-      <label>Appliances and brands you service, and anything we should verify
-        <textarea name="message" required></textarea>
-      </label>
-      <label class="check"><input type="checkbox" name="featured" value="yes"> I would also like to hear about a clearly labeled featured listing when that program is ready.</label>
-      <label class="check"><input type="checkbox" name="specialist" value="yes"> I would also like to hear about a labeled brand-specialist sponsorship (for example Sub-Zero, Wolf, or another brand I service).</label>
-      <button class="btn btn-primary" type="submit">Submit request (preview only)</button>
-    </form>
-    <p id="form-status" class="form-status" tabindex="-1">This form is a placeholder and was not sent. TODO: connect a form backend before the site is public. Nothing in this preview is a paid placement or a commitment to list a business.</p>
+    <section class="listing-request" aria-labelledby="email-to-list">
+      <h2 id="email-to-list">Email us to get listed</h2>
+      <p>Email us your shop details and we will verify them before publishing. We list independent and locally owned shops only — not national call centers or lead mills.</p>
+      <p>Send your request to <a class="js-listing-email" {attrs} href="{mailto_href}">{email_html}</a>.</p>
+      <p><a class="btn btn-primary js-listing-email" {attrs} href="{mailto_href}">Email us to get listed</a></p>
+      <p class="fine-print">Your email app will open with the subject “Get listed: [business name]” and a short checklist in the body. Replace the bracketed text with your shop name, fill in the details, and send. A request is not a paid placement and does not guarantee a listing until we verify your information.</p>
+      <h3>Please include</h3>
+      <ul>
+        <li>Business name</li>
+        <li>Phone</li>
+        <li>Website</li>
+        <li>Cities served</li>
+        <li>Appliances repaired</li>
+        <li>Whether the shop is independently owned</li>
+      </ul>
+    </section>
     <section class="section prose">
       <h2>What we will and will not do</h2>
       <ul>
@@ -1098,17 +1124,11 @@ def page_get_listed() -> None:
         <li>A featured listing, if offered, will be marked as paid or featured. It will not be the only way to appear in the directory.</li>
         <li>A brand-specialist sponsorship, if offered, will be labeled as a paid sponsorship and will not be presented as a ranked “best of.”</li>
       </ul>
-      <h2>Proposed products (not a live offer)</h2>
-      <p>These prices are a proposal for when the site is public and the form works. Nothing on this preview is a contract, and no placements have been sold.</p>
-      <ul>
-        <li>Free basic listing.</li>
-        <li>Founding featured listing on a city or category page: $39 per month or $349 per year, rate locked for 12 months, limited spots per city.</li>
-        <li>Brand-specialist sponsorship (for example a labeled Sub-Zero specialist slot): $59–$79 per month or $499–$699 per year, one or two spots per brand page.</li>
-        <li>Exclusive pay-per-call or pay-per-lead would come later, only after call tracking or a lead form is in place.</li>
-      </ul>
+      <h2>Featured placements</h2>
+      <p>Paid featured options may come later. Nothing is for sale now, and no featured or sponsored placements have been sold. If we offer them, they will stay clearly labeled.</p>
     </section>
     """
-    desc = "Request a listing in the Indie Appliance Repair directory, or ask about a clearly labeled featured placement. Form backend not connected yet."
+    desc = "Request a free listing in the Indie Appliance Repair directory by email. Independent shops only. Featured placements, if offered, will be clearly labeled."
     crumbs = [("/", "Home"), ("/get-listed/", "Get listed")]
     write_page(page, layout(page, "Get listed or request a featured listing — Indie Appliance Repair", desc, body, "get-listed", crumbs))
 
@@ -1154,7 +1174,7 @@ def page_about() -> None:
       </ul>
       <p>This directory currently includes {len(listings_for_metro("phoenix"))} Phoenix-metro businesses and {len(listings_for_metro("riverside-county"))} Riverside County businesses, researched on {e(site.get("accessedDate") or TODAY)}.</p>
       <h2>Get in touch</h2>
-      <p>Use the <a href="{e(href(page, "/get-listed/"))}">Get listed</a> page to request an addition or a correction. The form is a placeholder until a backend and public email are connected (TODO).</p>
+      <p>Use the <a href="{e(href(page, "/get-listed/"))}">Get listed</a> page to request an addition or a correction by email. Listings are free for independent and locally owned shops.</p>
     </article>
     """
     desc = "How Indie Appliance Repair researches listings, why Phoenix and Riverside County are the first markets, and what we will not invent."
@@ -1196,7 +1216,6 @@ def write_robots_and_sitemap() -> None:
     sitemap_ref = f"{origin}/sitemap.xml" if origin else "/sitemap.xml"
     (ROOT / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n\n"
-        "# TODO: set canonicalOrigin in data/site.json so Sitemap can be an absolute URL.\n"
         f"Sitemap: {sitemap_ref}\n",
         encoding="utf-8",
     )

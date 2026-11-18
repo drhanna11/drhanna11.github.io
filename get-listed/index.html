@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Get listed or request a featured listing — Indie Appliance Repair</title>
-  <meta name="description" content="Request a listing in the Indie Appliance Repair directory, or ask about a clearly labeled featured placement. Form backend not connected yet.">
+  <meta name="description" content="Request a free listing in the Indie Appliance Repair directory by email. Independent shops only. Featured placements, if offered, will be clearly labeled.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://indieappliancerepair.com/get-listed/">
   <link rel="stylesheet" href="../css/styles.css">
@@ -33,26 +33,24 @@
     <header class="hero">
       <p class="kicker">For technicians and shop owners</p>
       <h1>Get listed, or ask about a featured listing</h1>
-      <p class="lede">If you are an independent or locally owned appliance repair business serving a city we cover, we want accurate information on this site. Featured placements, if we offer them, will be clearly labeled and will not bury or hide other shops.</p>
+      <p class="lede">If you are an independent or locally owned appliance repair business serving a city we cover, we want accurate information on this site. Basic listings are free. Featured placements, if we offer them later, will be clearly labeled and will not bury or hide other shops.</p>
     </header>
-    <div class="todo">
-      <strong>TODO — no form backend yet.</strong> Submitting this form does not send a message and does not create a listing. We still need a form endpoint (and a public contact email once a domain is live). Until then, treat this page as a preview of what we will collect.
-    </div>
-    <form id="get-listed-form" action="#" method="post" novalidate>
-      <label>Your name <input type="text" name="name" autocomplete="name" required></label>
-      <label>Business name <input type="text" name="business" required></label>
-      <label>City or metro you serve <input type="text" name="city" required></label>
-      <label>Phone <input type="tel" name="phone" autocomplete="tel" required></label>
-      <label>Email <input type="email" name="email" autocomplete="email" required></label>
-      <label>Website <input type="url" name="website" placeholder="https://"></label>
-      <label>Appliances and brands you service, and anything we should verify
-        <textarea name="message" required></textarea>
-      </label>
-      <label class="check"><input type="checkbox" name="featured" value="yes"> I would also like to hear about a clearly labeled featured listing when that program is ready.</label>
-      <label class="check"><input type="checkbox" name="specialist" value="yes"> I would also like to hear about a labeled brand-specialist sponsorship (for example Sub-Zero, Wolf, or another brand I service).</label>
-      <button class="btn btn-primary" type="submit">Submit request (preview only)</button>
-    </form>
-    <p id="form-status" class="form-status" tabindex="-1">This form is a placeholder and was not sent. TODO: connect a form backend before the site is public. Nothing in this preview is a paid placement or a commitment to list a business.</p>
+    <section class="listing-request" aria-labelledby="email-to-list">
+      <h2 id="email-to-list">Email us to get listed</h2>
+      <p>Email us your shop details and we will verify them before publishing. We list independent and locally owned shops only — not national call centers or lead mills.</p>
+      <p>Send your request to <a class="js-listing-email" data-user="Surfwav2000" data-domain="gmail.com" href="mailto:Surfwav2000&#64;gmail.com?subject=Get%20listed%3A%20%5Bbusiness%20name%5D&amp;body=Business%20name%3A%0APhone%3A%0AWebsite%3A%0ACities%20served%3A%0AAppliances%20repaired%3A%0AIndependently%20owned%20%28yes%2Fno%29%3A%0A%0AAnything%20else%20we%20should%20verify%3A%0A">Surfwav2000&#64;gmail.com</a>.</p>
+      <p><a class="btn btn-primary js-listing-email" data-user="Surfwav2000" data-domain="gmail.com" href="mailto:Surfwav2000&#64;gmail.com?subject=Get%20listed%3A%20%5Bbusiness%20name%5D&amp;body=Business%20name%3A%0APhone%3A%0AWebsite%3A%0ACities%20served%3A%0AAppliances%20repaired%3A%0AIndependently%20owned%20%28yes%2Fno%29%3A%0A%0AAnything%20else%20we%20should%20verify%3A%0A">Email us to get listed</a></p>
+      <p class="fine-print">Your email app will open with the subject “Get listed: [business name]” and a short checklist in the body. Replace the bracketed text with your shop name, fill in the details, and send. A request is not a paid placement and does not guarantee a listing until we verify your information.</p>
+      <h3>Please include</h3>
+      <ul>
+        <li>Business name</li>
+        <li>Phone</li>
+        <li>Website</li>
+        <li>Cities served</li>
+        <li>Appliances repaired</li>
+        <li>Whether the shop is independently owned</li>
+      </ul>
+    </section>
     <section class="section prose">
       <h2>What we will and will not do</h2>
       <ul>
@@ -61,14 +59,8 @@
         <li>A featured listing, if offered, will be marked as paid or featured. It will not be the only way to appear in the directory.</li>
         <li>A brand-specialist sponsorship, if offered, will be labeled as a paid sponsorship and will not be presented as a ranked “best of.”</li>
       </ul>
-      <h2>Proposed products (not a live offer)</h2>
-      <p>These prices are a proposal for when the site is public and the form works. Nothing on this preview is a contract, and no placements have been sold.</p>
-      <ul>
-        <li>Free basic listing.</li>
-        <li>Founding featured listing on a city or category page: $39 per month or $349 per year, rate locked for 12 months, limited spots per city.</li>
-        <li>Brand-specialist sponsorship (for example a labeled Sub-Zero specialist slot): $59–$79 per month or $499–$699 per year, one or two spots per brand page.</li>
-        <li>Exclusive pay-per-call or pay-per-lead would come later, only after call tracking or a lead form is in place.</li>
-      </ul>
+      <h2>Featured placements</h2>
+      <p>Paid featured options may come later. Nothing is for sale now, and no featured or sponsored placements have been sold. If we offer them, they will stay clearly labeled.</p>
     </section>
     </div>
   </main>
