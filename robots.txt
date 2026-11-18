@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # TODO: set canonicalOrigin in data/site.json so Sitemap can be an absolute URL.
-Sitemap: https://drhanna11.github.io/sitemap.xml
+Sitemap: https://indieappliancerepair.com/sitemap.xml

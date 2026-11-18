@@ -978,6 +978,17 @@ def write_robots_and_sitemap() -> None:
     (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
 
 
+def write_cname() -> None:
+    """Write a GitHub Pages CNAME file when canonicalOrigin is a custom domain."""
+    origin = (site.get("canonicalOrigin") or "").rstrip("/")
+    if "://" not in origin:
+        return
+    host = origin.split("://", 1)[1].split("/")[0]
+    if not host or host.endswith(".github.io"):
+        return
+    (ROOT / "CNAME").write_text(host + "\n", encoding="utf-8")
+
+
 def main() -> None:
     # Keep research/planning files; regenerate HTML output dirs as needed.
     page_home(); remember("index.html")
@@ -997,6 +1008,7 @@ def main() -> None:
     page_about(); remember("about/index.html")
     page_404()
     write_robots_and_sitemap()
+    write_cname()
     (ROOT / ".nojekyll").write_text("", encoding="utf-8")
     print(f"Built {len(SITEMAP_PATHS)} indexable pages + 404. Listings: {len(LISTINGS)}")
 
