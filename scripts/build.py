@@ -18,6 +18,46 @@ appliances = json.loads((DATA / "appliances.json").read_text(encoding="utf-8"))
 cities = json.loads((DATA / "cities.json").read_text(encoding="utf-8"))
 listings = json.loads((DATA / "listings.json").read_text(encoding="utf-8"))
 affiliates_cfg = json.loads((DATA / "affiliates.json").read_text(encoding="utf-8"))
+DO_NOT_LIST_PATH = DATA / "do-not-list.json"
+do_not_list = json.loads(DO_NOT_LIST_PATH.read_text(encoding="utf-8")) if DO_NOT_LIST_PATH.exists() else []
+
+
+def _norm_url(value: str | None) -> str:
+    return (value or "").strip().rstrip("/").lower()
+
+
+def _norm_phone(value: str | None) -> str:
+    return "".join(ch for ch in (value or "") if ch.isdigit())
+
+
+def listing_is_blocked(listing: dict) -> bool:
+    """True if a shop is on data/do-not-list.json (id, slug, site, phone, email, or name)."""
+    listing_id = (listing.get("id") or "").strip()
+    slug = (listing.get("slug") or "").strip()
+    website = _norm_url(listing.get("website"))
+    phone = _norm_phone(listing.get("phone"))
+    email = (listing.get("email") or "").strip().lower()
+    name = (listing.get("name") or "").strip().lower()
+    for entry in do_not_list:
+        if listing_id and listing_id == (entry.get("id") or "").strip():
+            return True
+        if slug and slug == (entry.get("slug") or "").strip():
+            return True
+        if website and website == _norm_url(entry.get("website")):
+            return True
+        if phone and phone == _norm_phone(entry.get("phone")):
+            return True
+        if email and email == (entry.get("email") or "").strip().lower():
+            return True
+        if name and name == (entry.get("name") or "").strip().lower():
+            return True
+    return False
+
+
+_skipped = [l for l in listings if listing_is_blocked(l)]
+if _skipped:
+    print("Skipping do-not-list shop(s): " + ", ".join(l.get("slug") or l.get("id") or "?" for l in _skipped))
+listings = [l for l in listings if not listing_is_blocked(l)]
 AFF_PROGRAMS = affiliates_cfg.get("programs", {})
 AFF_PLACEMENTS = affiliates_cfg.get("placements", {})
 
@@ -1269,7 +1309,24 @@ def main() -> None:
     write_robots_and_sitemap()
     write_cname()
     (ROOT / ".nojekyll").write_text("", encoding="utf-8")
+    remove_do_not_list_profiles()
     print(f"Built {len(SITEMAP_PATHS)} indexable pages + 404. Listings: {len(LISTINGS)}")
+
+
+def remove_do_not_list_profiles() -> None:
+    """Delete leftover profile folders for shops that must stay off the site."""
+    metros = [c["slug"] for c in cities]
+    for entry in do_not_list:
+        slug = (entry.get("slug") or entry.get("id") or "").strip()
+        if not slug:
+            continue
+        city = (entry.get("citySlug") or "").strip()
+        targets = [city] if city else metros
+        for metro in targets:
+            path = ROOT / metro / "techs" / slug
+            if path.exists():
+                shutil.rmtree(path)
+                print(f"Removed do-not-list profile directory: {path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

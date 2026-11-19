@@ -65,35 +65,7 @@ listings = [
       src("https://azfreeze.com/", "name, phone, email, owner-operator claim, service areas, appliances, brands, EPA 608 and insured claim, same-day policy, 12-month warranty, $100 service call")
     ]
   },
-  {
-    "id": "early-bird-appliance-repair",
-    "name": "Early Bird Appliance Repair",
-    "slug": "early-bird-appliance-repair",
-    "citySlug": "phoenix",
-    "phone": "4804331766",
-    "phoneDisplay": "(480) 433-1766",
-    "website": "https://www.earlybirdappliancerepair.com/",
-    "email": "service@earlybirdappliancerepair.com",
-    "address": {"street": "3104 E Camelback Rd #1115", "city": "Phoenix", "state": "AZ", "zip": "85016"},
-    "serviceAreas": ["Phoenix"],
-    "appliances": ["refrigerator", "washer", "dryer", "dishwasher", "ice-maker"],
-    "brands": ["Maytag", "Whirlpool", "Sub-Zero", "Wolf"],
-    "brandsNote": "The company website says it repairs most brands of residential appliances, including Maytag and Whirlpool, and also services high-end brands such as Sub-Zero and Wolf.",
-    "hours": None,
-    "flags": ["owner-operated", "family-owned", "locally-owned"],
-    "license": None,
-    "facts": [
-      "The company says it is a locally owned Arizona business and a small family team.",
-      "The website names Chip as business owner and appliance technician. It says he has been repairing appliances since 2016 and founded Early Bird in 2017.",
-      "The website advertises early-bird service calls starting at 6 a.m. and a convenient 2-hour arrival window, with reminder and en-route messages.",
-      "Besides major appliances, the site also lists dryer vent cleaning, under-sink drinking-water system installation and filter changes, wine coolers, trash compactors, and warming drawers.",
-      "The pages we opened list a Phoenix mailing address but do not publish a broader city-by-city service map; confirm coverage when you call or text."
-    ],
-    "sources": [
-      src("https://www.earlybirdappliancerepair.com/", "name, locally owned claim, early-bird 6 a.m. calls, 2-hour window, address, email, phone"),
-      src("https://www.earlybirdappliancerepair.com/appliance-repair", "appliances, brands including Sub-Zero and Wolf, owner Chip, founded 2017, family team")
-    ]
-  },
+  # Early Bird Appliance Repair is in data/do-not-list.json — never re-add.
   {
     "id": "promaster-az",
     "name": "ProMaster AZ",
@@ -592,7 +564,7 @@ def main():
     # sanity
     ids = [l["id"] for l in listings]
     assert len(ids) == len(set(ids)), "duplicate ids"
-    assert len(listings) == 21, len(listings)
+    assert len(listings) == 20, len(listings)
     for l in listings:
         assert l["phone"].isdigit()
         assert l["website"].startswith("http")
