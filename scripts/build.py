@@ -549,6 +549,17 @@ def page_home() -> None:
         </div>"""
             )
 
+    city_link_rows = []
+    for m in live:
+        subs = m.get("cities") or []
+        if not subs:
+            continue
+        links = ", ".join(
+            f'<a href="{e(href(page, f"/{m["slug"]}/{sub["slug"]}/"))}">{e(sub["name"])}</a>' for sub in subs
+        )
+        city_link_rows.append(f"<p><strong>{e(metro_nav_label(m))}:</strong> {links}</p>")
+    city_pages_html = "".join(city_link_rows)
+
     body = f"""
     <header class="hero">
       <p class="kicker">Independent technician directory</p>
@@ -567,6 +578,8 @@ def page_home() -> None:
       <h2>Areas we cover</h2>
       <p class="lede">We go deep on one area at a time, then expand. Phoenix and Riverside County are live; other metros are planned.</p>
       <div class="grid grid-2">{"".join(city_cards)}</div>
+      <h3>City pages</h3>
+      {city_pages_html}
     </section>
     <section class="section">
       <h2>Guides and comparisons</h2>
@@ -679,7 +692,7 @@ def page_metro(metro: dict) -> None:
         why = (
             "Phoenix is our first metro because it is a large, year-round repair market — desert heat puts extra load on refrigerators, "
             "ice makers, and laundry equipment — and because we could document a deep bench of owner-operated and locally owned shops. "
-            "Suburb pages (Mesa, Chandler, Scottsdale, and others) are planned next, and Riverside County, California, is now live as a second market."
+            "City pages are rolling out one at a time, starting with Mesa; Chandler, Scottsdale, and others are next. Riverside County, California, is live as a second market."
         )
         faq_coverage = "Many Valley shops cover several cities. Each profile lists only the service areas named on a source we opened. If your city is not listed, still call — coverage can be broader than the website copy, or it may have changed."
         faq_only = "No. This is a researched starting set, not a complete census. If you run or know an independent shop that should be here, use the Get listed page."
@@ -771,11 +784,26 @@ def page_metro(metro: dict) -> None:
 
 def page_subcity(metro: dict, subcity: dict) -> None:
     page = f"{metro['slug']}/{subcity['slug']}/index.html"
-    shops = listings_for_subcity(metro["slug"], subcity)
+    names = subcity.get("match") or [subcity["name"]]
+    names_l = {n.lower() for n in names}
+    shops_all = listings_for_subcity(metro["slug"], subcity)
     label = metro_nav_label(metro)
     name = subcity["name"]
+    state = metro.get("state") or ""
+    state_name = metro.get("stateName") or state
     is_region = bool(subcity.get("isRegion"))
     kind = "area" if is_region else "city"
+
+    def based_here(l: dict) -> bool:
+        return ((l.get("address") or {}).get("city") or "").lower() in names_l
+
+    based = [l for l in shops_all if based_here(l)]
+    others = [l for l in shops_all if not based_here(l)]
+    # Split into "based here" and "also lists" only when a page has some of each
+    # and opts in (Riverside County pages keep their original single list).
+    split = bool(subcity.get("splitBased")) and based and others
+    shops = based + others if split else shops_all
+
     thin = ""
     if len(shops) <= 2:
         thin = (
@@ -784,7 +812,6 @@ def page_subcity(metro: dict, subcity: dict) -> None:
             f"A nearby city page, or the <a href=\"{e(href(page, f'/{metro['slug']}/'))}\">{e(label)} directory</a>, "
             "may have shops that will still drive to you — call and ask.</p>"
         )
-    cards = "".join(listing_card(page, l) for l in shops) or "<p>No shops in this directory have published this city yet.</p>"
     app_links = []
     for app in appliances:
         n = len([l for l in shops if app["slug"] in l.get("appliances", [])])
@@ -792,7 +819,72 @@ def page_subcity(metro: dict, subcity: dict) -> None:
             app_links.append(
                 f'<a href="{e(href(page, f"/{metro["slug"]}/{app["pathSegment"]}/"))}">{e(app["name"])} ({n})</a>'
             )
-    app_nav = ("Related county category pages: " + ", ".join(app_links) + ".") if app_links else ""
+    scope_word = "county" if metro.get("hubKind") == "county" else "metro"
+    app_nav = (f"Related {scope_word} category pages: " + ", ".join(app_links) + ".") if app_links else ""
+
+    if split:
+        listing_sections = f"""
+    <section class="section">
+      <h2>{len(based)} shop{"s" if len(based) != 1 else ""} based in {e(name)}</h2>
+      <p>The address on the shop's own website is in {e(name)}.</p>
+      <div class="grid grid-2">{"".join(listing_card(page, l) for l in based)}</div>
+    </section>
+    <section class="section">
+      <h2>{len(others)} more shop{"s" if len(others) != 1 else ""} that list {e(name)}</h2>
+      <p>Based elsewhere in the {e(label)} area, but {e(name)} is named in their published service area.</p>
+      <div class="grid grid-2">{"".join(listing_card(page, l) for l in others)}</div>
+    </section>"""
+    else:
+        cards = "".join(listing_card(page, l) for l in shops) or "<p>No shops in this directory have published this city yet.</p>"
+        listing_sections = f"""
+    <section class="section">
+      <h2>{len(shops)} shop{"s" if len(shops) != 1 else ""} that list{"s" if len(shops)==1 else ""} {e(name)}</h2>
+      <div class="grid grid-2">{cards}</div>
+    </section>"""
+
+    tips_html = ""
+    tips = subcity.get("tips") or []
+    if tips:
+        items = "".join(f"<li>{e(t)}</li>" for t in tips)
+        lic = ""
+        if metro.get("licenseSearchUrl"):
+            lic = (
+                f'<p><a href="{e(metro["licenseSearchUrl"])}" rel="noopener noreferrer">Arizona ROC contractor search</a>'
+                + (f' · <a href="{e(metro["licenseGuideUrl"])}" rel="noopener noreferrer">ROC: before you hire a contractor</a>' if metro.get("licenseGuideUrl") else "")
+                + "</p>"
+            )
+        tips_html = f"""
+    <section class="section">
+      <h2>Before you call a {e(name)} repair shop</h2>
+      <ul>{items}</ul>
+      {lic}
+    </section>"""
+
+    faq_items = []
+    if split:
+        faq_items.append((
+            f"How many independent appliance repair shops in this directory serve {name}?",
+            f"{len(shops)} shops in this directory publish {name} on a source we opened: {len(based)} based in {name} and {len(others)} based elsewhere that list it in their service area. This is a researched starting set, not a complete census.",
+        ))
+        faq_items.append((
+            f"Is a shop based in {name} faster to get?",
+            "Not necessarily. Many Valley shops route technicians across several cities, and some out-of-town shops say they have techs who live near their customers. Ask about the next available window and any trip fee when you call.",
+        ))
+    faq_html = ""
+    faq_ld = ""
+    if faq_items:
+        faq_html = '<section class="section"><h2>' + e(name) + " appliance repair questions</h2>" + "".join(
+            f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in faq_items
+        ) + "</section>"
+        faq_ld = ld_json({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                for q, a in faq_items
+            ],
+        })
+
     body = f"""
     <header class="hero">
       <p class="kicker">{e(label)}</p>
@@ -803,15 +895,16 @@ def page_subcity(metro: dict, subcity: dict) -> None:
     {thin}
     <p><a href="{e(href(page, f'/{metro["slug"]}/'))}">All {e(label)} shops</a></p>
     <p>{app_nav}</p>
-    <section class="section">
-      <h2>{len(shops)} shop{"s" if len(shops) != 1 else ""} that list{"s" if len(shops)==1 else ""} {e(name)}</h2>
-      <div class="grid grid-2">{cards}</div>
-    </section>
+    {listing_sections}
+    {tips_html}
+    {faq_html}
     """
+    region = f"{label}, {state_name}" if metro.get("hubKind") == "county" else state_name
     desc = (
-        f"Independent appliance repair in {name}, Riverside County, California. "
+        f"Independent appliance repair in {name}, {region}. "
         + (
-            f"{len(shops)} shops in this directory published this {kind} on a source we opened."
+            f"{len(shops)} shops in this directory published this {kind} on a source we opened"
+            + (f", {len(based)} of them based in {name}." if split else ".")
             if len(shops) != 1
             else f"1 shop in this directory published this {kind} on a source we opened."
         )
@@ -819,7 +912,7 @@ def page_subcity(metro: dict, subcity: dict) -> None:
     schema = ld_json({
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": f"Independent appliance repair in {name}, CA",
+        "name": f"Independent appliance repair in {name}, {state}",
         "numberOfItems": len(shops),
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": l["name"], "url": listing_url(l)}
@@ -829,12 +922,12 @@ def page_subcity(metro: dict, subcity: dict) -> None:
     crumbs = [("/", "Home"), (f"/{metro['slug']}/", label), (f"/{metro['slug']}/{subcity['slug']}/", name)]
     write_page(page, layout(
         page,
-        f"Appliance repair in {name}, CA — independent techs",
+        f"Appliance repair in {name}, {state} — independent techs",
         desc,
         body,
         metro["slug"],
         crumbs,
-        extra_head=schema,
+        extra_head=schema + faq_ld,
     ))
 
 

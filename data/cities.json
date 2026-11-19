@@ -25,7 +25,26 @@
       "Paradise Valley",
       "Ahwatukee"
     ],
-    "summary": "The Phoenix-Mesa-Chandler metro is our launch market: a large, year-round repair area where desert heat puts extra load on refrigerators, ice makers, and laundry equipment."
+    "summary": "The Phoenix-Mesa-Chandler metro is our launch market: a large, year-round repair area where desert heat puts extra load on refrigerators, ice makers, and laundry equipment.",
+    "cities": [
+      {
+        "slug": "mesa",
+        "name": "Mesa",
+        "match": [
+          "Mesa"
+        ],
+        "blurb": "Mesa is the East Valley's largest city, stretching from older neighborhoods near downtown and the Fiesta District out to newer builds in Eastmark and toward the Superstition foothills. Many shops based in Tempe, Gilbert, Chandler, or central Phoenix also drive here, so this page lists every shop in the directory that names Mesa on a source we opened — with Mesa-based shops first. Always confirm your ZIP when you call.",
+        "tips": [
+          "Check the license. Arizona contractors are licensed by the Registrar of Contractors (ROC). Several Mesa-area shops publish an ROC number on their websites; we record that as the shop's claim, and you can confirm it in the ROC's public contractor search before you book.",
+          "Ask about the trip or diagnostic fee up front. Several shops below publish a fee policy (for example, waived if you approve the repair). We quote only what a shop published, with the date we read it.",
+          "Garage fridges and freezers run hot here. If a second refrigerator in a summer garage stops keeping temperature, tell the shop where it lives — it changes the diagnosis.",
+          "Southeast Mesa, Gold Canyon, and Apache Junction are at the edge of some service areas. If you live out that way, ask whether there is an extra trip charge."
+        ],
+        "splitBased": true
+      }
+    ],
+    "licenseSearchUrl": "https://azroc.my.site.com/AZRoc/s/contractor-search",
+    "licenseGuideUrl": "https://roc.az.gov/before-hire"
   },
   {
     "slug": "riverside-county",
