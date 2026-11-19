@@ -65,12 +65,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;
 }
 .logo:hover { color: #fff; }
-.logo-mark {
-  width: 2.15rem; height: 2.15rem; flex: none;
-  border: 1.5px solid #c4a574; border-radius: 0.25rem;
-  display: grid; place-items: center;
+.logo-img {
+  width: 32px; height: 32px; flex: none; display: block;
+  border-radius: 50%;
 }
-.logo-mark svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: #e8d5b0; stroke-width: 1.7; }
 .logo-text { display: flex; flex-direction: column; }
 .logo-text strong { font-size: 1.05rem; }
 .logo-text span { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: #d7c7a4; }

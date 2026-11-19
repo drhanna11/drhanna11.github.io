@@ -159,11 +159,9 @@ def ld_json(obj: dict) -> str:
     return f'<script type="application/ld+json">{payload}</script>'
 
 
-def logo_svg() -> str:
-    return """<span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24">
-      <rect x="6" y="2.5" width="12" height="19" rx="1.2"/>
-      <path d="M6 11.5h12"/><path d="M9 5.5v3"/><path d="M9 14v3"/>
-    </svg></span>"""
+def logo_html(page_file: str) -> str:
+    src = href(page_file, "/img/logo.png")
+    return f'<img class="logo-img" src="{e(src)}" alt="" width="32" height="32">'
 
 
 def nav_html(page_file: str, current: str) -> str:
@@ -340,6 +338,18 @@ def layout(
     if page_file.endswith("404.html"):
         path = "/404.html"
     canonical = f'<link rel="canonical" href="{e(origin + path)}">' if origin else ""
+    favicon = href(page_file, "/favicon.ico")
+    favicon_32 = href(page_file, "/img/favicon-32.png")
+    favicon_16 = href(page_file, "/img/favicon-16.png")
+    apple_icon = href(page_file, "/img/apple-touch-icon.png")
+    logo_abs = f"{origin}/img/logo.png" if origin else ""
+    og_image = (
+        f'<meta property="og:image" content="{e(logo_abs)}">\n'
+        f'  <meta property="og:image:type" content="image/png">\n'
+        f'  <meta property="og:image:width" content="512">\n'
+        f'  <meta property="og:image:height" content="512">'
+        if logo_abs else ""
+    )
     return f"""<!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -349,6 +359,11 @@ def layout(
   <meta name="description" content="{e(description)}">
   <meta name="robots" content="index,follow">
   {canonical}
+  <link rel="icon" href="{e(favicon)}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{e(favicon_32)}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{e(favicon_16)}">
+  <link rel="apple-touch-icon" href="{e(apple_icon)}">
+  {og_image}
   <link rel="stylesheet" href="{e(css)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -360,7 +375,7 @@ def layout(
   <header class="site-header">
     <div class="wrap">
       <div class="header-inner">
-        <a class="logo" href="{e(home)}">{logo_svg()}<span class="logo-text"><strong>Indie Appliance Repair</strong><span>Independent techs, not a lead mill</span></span></a>
+        <a class="logo" href="{e(home)}">{logo_html(page_file)}<span class="logo-text"><strong>Indie Appliance Repair</strong><span>Independent techs, not a lead mill</span></span></a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">{nav_html(page_file, current)}</nav>
