@@ -149,7 +149,8 @@ def registration_html(page_file: str, metro: dict) -> str:
     return (
         f'<p class="note"><strong>California registration.</strong> {e(note)} '
         f'<a href="{e(search)}" rel="noopener noreferrer">Search BHGS registrations</a>. '
-        f'<a href="{e(guide)}" rel="noopener noreferrer">BHGS consumer guide</a>.</p>'
+        f'<a href="{e(guide)}" rel="noopener noreferrer">BHGS consumer guide</a>. '
+        f'<a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">How to check a registration, step by step</a>.</p>'
     )
 
 
@@ -219,6 +220,7 @@ def footer_html(page_file: str) -> str:
       <ul>
         {metro_links}
         <li><a href="{e(href(page_file, "/guides/repair-vs-replace/"))}">Repair vs. replace</a></li>
+        <li><a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">Check a CA BHGS registration</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
         <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
       </ul>
@@ -587,6 +589,10 @@ def page_home() -> None:
         <a class="card cat-card" href="{e(href(page, "/guides/repair-vs-replace/"))}">
           <h3>Repair vs. replace</h3>
           <p>Get a diagnosis first, then compare the quoted repair with the cost and remaining life of a new machine.</p>
+        </a>
+        <a class="card cat-card" href="{e(href(page, "/guides/check-california-bhgs-registration/"))}">
+          <h3>Check a California BHGS registration</h3>
+          <p>Step-by-step lookup of an appliance repair dealer in the state license search, what the results mean, and how to file a complaint.</p>
         </a>
         <a class="card cat-card" href="{e(href(page, "/compare/independent-vs-chains/"))}">
           <h3>Independent vs. chains</h3>
@@ -1136,6 +1142,133 @@ def page_guide() -> None:
     write_page(page, layout(page, "Repair or replace an appliance? — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=faq))
 
 
+BHGS_GUIDE_PATH = "/guides/check-california-bhgs-registration/"
+
+
+def page_bhgs_guide() -> None:
+    page = "guides/check-california-bhgs-registration/index.html"
+    src = {
+        "ear": "https://www.bhgs.dca.ca.gov/consumers/ear.html",
+        "law": "https://www.bhgs.dca.ca.gov/laws/ear_law_book-effective_1-1-24_with_links.pdf",
+        "search": "https://search.dca.ca.gov/",
+        "faq": "https://search.dca.ca.gov/FAQ",
+        "lookup": "https://www.bhgs.dca.ca.gov/enforcement/lookup.html",
+        "complaint": "https://www.bhgs.dca.ca.gov/consumers/complaint.html",
+        "online": "https://connect.dca.ca.gov/bhgs/public/submitcomplaint/bhgs",
+        "form": "https://www.bhgs.dca.ca.gov/forms_pubs/complaint_form.pdf",
+        "cslb": "https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx",
+    }
+    def a(key: str, label: str) -> str:
+        return f'<a href="{e(src[key])}" rel="noopener noreferrer">{label}</a>'
+    riverside = href(page, "/riverside-county/")
+    body = f"""
+    <article class="prose hero">
+      <p class="kicker">Guide · California · Riverside County</p>
+      <h1>How to check an appliance repair shop’s California BHGS registration</h1>
+      <p class="lede">In California, a business that repairs major home appliances for pay has to be registered with the Bureau of Household Goods and Services (BHGS) as a service dealer. Here is what that registration is, how to look a shop up in the state’s free license search, and where to file a complaint. Every rule below links to the official source.</p>
+      <p class="note">This is a plain-language summary, not legal advice. Laws and state websites change. If anything here differs from the official pages linked below, the official pages win. Last checked: November 19, 2026.</p>
+
+      <h2>What a “service dealer” registration is</h2>
+      <p>California’s Electronic and Appliance Repair Dealer Registration Law (Business and Professions Code, starting at section 9800) defines a <strong>service dealer</strong> as a person or business that, for compensation, repairs, services, or maintains major appliances or home electronics, or advertises that it does (section 9801(f)). The law defines “major home appliance” to include refrigerators, freezers, ranges, microwave ovens, washers, dryers, dishwashers, trash compactors, ice makers, dehumidifiers, residential portable furnaces, and room air conditioners used in the home or home office (section 9801(i)). {a("law", "Source: BHGS law book, 2024 edition (PDF)")}.</p>
+      <p>The bureau that enforces this law is BHGS, part of the California Department of Consumer Affairs (DCA). BHGS says it regulates “service dealers and the repair of major home appliances and electronic equipment used for personal or home office use,” and handles complaints about the repair or installation — not the sale — of those items. {a("ear", "Source: BHGS consumer guide to electronic and appliance repair")}.</p>
+
+      <h2>Who has to register</h2>
+      <ul>
+        <li><strong>Any business acting as a service dealer.</strong> Section 9840 makes it unlawful to act as a service dealer without first registering and without a registration that is currently valid.</li>
+        <li><strong>Each location.</strong> Section 9830 requires the registration fee for each place of business and each drop-off location the dealer operates in California.</li>
+        <li><strong>Out-of-state businesses, too.</strong> Under section 9830, a service dealer with no place of business in California that still does appliance or electronic repair work in the state must hold a valid BHGS registration.</li>
+        <li><strong>Renewal is not optional.</strong> Section 9832 says registrations expire no more than 12 months after issue and must be renewed.</li>
+      </ul>
+      <p>{a("law", "Source: sections 9830, 9832, and 9840 in the BHGS law book (PDF)")}.</p>
+
+      <h2>Where the registration number should show up</h2>
+      <p>You often do not have to ask for the number. The BHGS regulations require it on paperwork you will see:</p>
+      <ul>
+        <li><strong>Receipts or claim checks</strong> when a shop takes an appliance away for repair must show the dealer’s name and registration number (California Code of Regulations, title 16, section 2721).</li>
+        <li><strong>Invoices</strong> must show the dealer’s state registration number(s), identified as such (section 2725).</li>
+        <li><strong>The registration certificate</strong> must be displayed in a conspicuous place at the registered place of business (section 2714).</li>
+      </ul>
+      <p>Numbers in BHGS’s own published citation list look like <code>A-49953</code> for appliance businesses and <code>E-93487</code> for electronics businesses. {a("lookup", "Source: BHGS citations and disciplinary actions")}. {a("law", "Regulations: BHGS law book (PDF)")}.</p>
+
+      <h2>How to search, step by step</h2>
+      <ol>
+        <li>Open the {a("search", "DCA License Search")} at search.dca.ca.gov. (BHGS’s own {a("lookup", "license search page")} sends “All Other Industries” — everything except household movers — to this same search.)</li>
+        <li>Under <strong>Boards and Bureaus</strong>, choose <strong>Household Goods and Services, Bureau of</strong>.</li>
+        <li>Under <strong>License Type</strong>, you can pick <strong>Major Appliance Repair</strong> or <strong>Combination-Electric and Appliance Repair</strong>. If you are not sure which one the shop holds, leave the type unselected so you do not filter it out.</li>
+        <li>Search by <strong>License Number</strong> if the shop published one or it appears on your estimate or invoice. Otherwise, search by <strong>Business Name</strong>, or by the owner’s first and last name.</li>
+        <li>Open <strong>More Details</strong> on the matching record. DCA says each record shows whether a license is current, expired, or has been subject to disciplinary action such as suspension or revocation. {a("search", "Source: DCA License Search")}.</li>
+        <li>Check that the name and address on the record match the business you are about to hire. A shop that advertises appliance repair is required to show its firm name and address as they appear on its registration certificate (regulation section 2751).</li>
+      </ol>
+
+      <h2>What the results mean</h2>
+      <ul>
+        <li><strong>Status.</strong> The record tells you whether the registration is current or expired, and whether there has been disciplinary action. When a status has a question-mark hint, DCA says the hint gives that status’s detailed definition — read it rather than guessing. {a("faq", "Source: DCA License Search FAQ")}.</li>
+        <li><strong>Icons on “More Details.”</strong> Per DCA, one icon means the record has public record or disciplinary actions; another means public documents are available. Open them. {a("faq", "Source: DCA License Search FAQ")}.</li>
+        <li><strong>City filters can miss shops.</strong> DCA says city and county filters use the address of record, which does not always match where a business works. A shop based in Riverside or Temecula can still serve Hemet or San Jacinto, so search by name or number instead of filtering by your own city. {a("faq", "Source: DCA License Search FAQ")}.</li>
+        <li><strong>Citations are listed separately.</strong> BHGS publishes a table of citations and disciplinary actions, including fines issued to businesses marked “UNLICENSED.” {a("lookup", "BHGS citations and disciplinary actions")}.</li>
+        <li><strong>No match?</strong> Try the exact legal name, the DBA, or the owner’s name before drawing conclusions. DCA’s disclaimer notes its data can contain errors or posting delays. If you still cannot find a current registration, ask the shop for its number and look it up again.</li>
+      </ul>
+
+      <h2>Contractor licenses are a separate check</h2>
+      <p>A BHGS registration covers appliance repair. Some shops also hold a Contractors State License Board (CSLB) license for other work. CSLB licenses are not in the DCA License Search; DCA points to the {a("cslb", "CSLB license check")} instead. {a("search", "Source: DCA License Search")}.</p>
+
+      <h2>Your rights on a repair (what BHGS says)</h2>
+      <ul>
+        <li><strong>Written estimate first.</strong> Service dealers must give you a written estimate with the total price before repairs. (Business and Professions Code section 9844.)</li>
+        <li><strong>Trip and diagnostic charges.</strong> A trip charge, if any, must be quoted before the service call. The dealer may charge a reasonable diagnostic fee, and charges for the actual repair only if you agree to it.</li>
+        <li><strong>More than the estimate.</strong> Extra parts or labor require your approval of the revised total.</li>
+        <li><strong>Your old parts.</strong> You can get replaced parts back, except unsafe or toxic parts, parts rebuilt on an exchange basis, or if you waived it.</li>
+        <li><strong>Part prices are not regulated.</strong> BHGS says it does not regulate the price of parts.</li>
+      </ul>
+      <p>{a("ear", "Source: BHGS consumer guide FAQ")}. {a("law", "Law: section 9844 (PDF)")}.</p>
+
+      <h2>How to file a complaint</h2>
+      <ol>
+        <li><strong>Try the business first.</strong> BHGS suggests writing to the manager, explaining the service, the problem, and the resolution you want, with copies of receipts or warranties.</li>
+        <li><strong>File with BHGS.</strong> Use the {a("online", "online complaint form on DCA Connect")} (BHGS’s recommended option), or the {a("form", "printable complaint form (PDF)")} by email or mail. The form asks for the business’s license number if you know it and copies of estimates, invoices, and other papers.</li>
+        <li><strong>Include the model and serial number</strong> if your complaint involves an appliance the shop took away. BHGS says that if a dealer went out of business while holding your item, you can call DCA at 1-800-952-5210 or file with BHGS, and it will try to help locate the item.</li>
+      </ol>
+      <p><strong>What can happen.</strong> BHGS reviews whether a complaint is within its authority. Depending on the investigation, outcomes range from education or a warning letter to a citation and fine, probation, suspension or revocation, or a referral to law enforcement or a district attorney. BHGS says a refund, repair, or replacement is not guaranteed, and it cannot force a business to settle or refund you. For money recovery, it points to small claims court (claims under $10,000) or civil court. Manufacturer-warranty and home-warranty problems go elsewhere (the Song-Beverly Warranty Act and the California Department of Insurance, respectively). {a("complaint", "Source: BHGS File a Complaint page")}.</p>
+      <p>BHGS’s phone number, as published on its website and complaint form: (916) 999-2041.</p>
+
+      <h2>How we use registration on this site</h2>
+      <p>On our {f'<a href="{e(riverside)}">Riverside County pages</a>'}, when a shop publishes a registration number on its own website, we quote it as the shop’s claim and link to the official search. We do not invent license numbers, and a number on a shop’s website is not proof that the registration is current today. Look it up before you book.</p>
+
+      <section class="sources" aria-label="Sources">
+        <h2>Sources</h2>
+        <ul>
+          <li>{a("ear", "BHGS — A Consumer Guide to Electronic and Appliance Repair")} (accessed 2026-11-19)</li>
+          <li>{a("law", "BHGS — Electronic and Appliance Repair Dealer Registration Law and Regulations, 2024 edition (PDF)")}: B&amp;P Code §§ 9801, 9830, 9832, 9840, 9844; 16 CCR §§ 2714, 2721, 2725, 2751 (accessed 2026-11-19)</li>
+          <li>{a("search", "DCA License Search")}, its {a("faq", "FAQ")}, and its disclaimer (accessed 2026-11-19)</li>
+          <li>{a("lookup", "BHGS — License Search and Citations and Disciplinary Actions")} (accessed 2026-11-19)</li>
+          <li>{a("complaint", "BHGS — File a Complaint")} and {a("form", "BHGS complaint form (PDF, rev. 02/26)")} (accessed 2026-11-19)</li>
+        </ul>
+      </section>
+
+      <h2>Find a local tech</h2>
+      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> — Riverside, Moreno Valley, Corona, Temecula, Murrieta, Hemet, San Jacinto, Menifee, Perris, Lake Elsinore, and the Coachella Valley. Before you book, look up the shop’s registration with the steps above. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a> and <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>.</p>
+    </article>
+    """
+    desc = (
+        "How to look up a California appliance repair shop's BHGS service dealer registration in the DCA "
+        "License Search, what the results mean, and how to file a complaint. Official sources cited."
+    )
+    faq = ld_json({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Do appliance repair businesses in California need to register?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Yes. Under California Business and Professions Code section 9840, it is unlawful to act as a service dealer — a business that repairs, services, or maintains major home appliances or home electronics for pay — without a currently valid registration with the Bureau of Household Goods and Services (BHGS)."}},
+            {"@type": "Question", "name": "How do I check an appliance repair shop's BHGS registration?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Use the DCA License Search at search.dca.ca.gov. Choose Household Goods and Services, Bureau of; optionally pick the Major Appliance Repair or Combination-Electric and Appliance Repair license type; then search by license number, business name, or owner name and open More Details to see whether the registration is current, expired, or subject to discipline."}},
+            {"@type": "Question", "name": "Where do I file a complaint about an appliance repair in California?",
+             "acceptedAnswer": {"@type": "Answer", "text": "BHGS accepts complaints about the repair or installation of major home appliances. BHGS recommends filing online through DCA Connect; a printable complaint form can be sent by email or mail. BHGS says a refund is not guaranteed and it cannot force a business to settle."}},
+        ],
+    })
+    crumbs = [("/", "Home"), ("/riverside-county/", "Riverside County"), (BHGS_GUIDE_PATH, "Check a BHGS registration")]
+    write_page(page, layout(page, "How to check a California appliance repair shop’s BHGS registration — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=faq))
+
+
 def page_compare() -> None:
     page = "compare/independent-vs-chains/index.html"
     body = f"""
@@ -1408,6 +1541,7 @@ def main() -> None:
             page_profile(listing)
             remember(f"{metro['slug']}/techs/{listing['slug']}/index.html")
     page_guide(); remember("guides/repair-vs-replace/index.html")
+    page_bhgs_guide(); remember("guides/check-california-bhgs-registration/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")
     page_get_listed(); remember("get-listed/index.html")
