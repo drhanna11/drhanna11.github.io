@@ -182,6 +182,17 @@ def nav_html(page_file: str, current: str) -> str:
     return f'<ul>{"".join(links)}</ul>'
 
 
+def absolute_url(path: str) -> str:
+    """Absolute https canonical URL for a site path."""
+    origin = (site.get("canonicalOrigin") or "https://indieappliancerepair.com").rstrip("/")
+    path = (path or "/").strip() or "/"
+    if not path.startswith("/"):
+        path = "/" + path
+    if path != "/" and not path.endswith("/") and not path.rsplit("/", 1)[-1].count("."):
+        path += "/"
+    return origin + path
+
+
 def crumbs_html(page_file: str, crumbs: list[tuple[str, str]]) -> str:
     parts = []
     items = []
@@ -191,11 +202,12 @@ def crumbs_html(page_file: str, crumbs: list[tuple[str, str]]) -> str:
             parts.append(f"<li aria-current='page'>{e(label)}</li>")
         else:
             parts.append(f'<li><a href="{e(href(page_file, path))}">{e(label)}</a></li>')
-        item = {"@type": "ListItem", "position": i + 1, "name": label}
-        if not last:
-            # Breadcrumb URLs stay path-only until a public origin is set
-            item["item"] = path if path != "/" else "/"
-        items.append(item)
+        items.append({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": label,
+            "item": absolute_url(path),
+        })
     schema = ld_json({
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
