@@ -2961,5 +2961,202 @@
     "citySlug": "riverside-county",
     "brandsNote": null,
     "license": null
+  },
+  {
+    "id": "jazz-appliance-repair",
+    "name": "Jazz Appliance Repair",
+    "slug": "jazz-appliance-repair",
+    "citySlug": "phoenix",
+    "phone": "4802070303",
+    "phoneDisplay": "(480) 207-0303",
+    "website": "https://jazzappliancerepair.com/",
+    "email": null,
+    "address": {
+      "street": null,
+      "city": "Chandler",
+      "state": "AZ",
+      "zip": null
+    },
+    "addressNotes": "The shop's own site gives its location as Chandler, AZ without a street address in the pages we opened.",
+    "serviceAreas": [
+      "Chandler",
+      "Gilbert",
+      "Mesa",
+      "Tempe",
+      "Guadalupe",
+      "Scottsdale",
+      "Queen Creek",
+      "San Tan Valley"
+    ],
+    "appliances": [
+      "refrigerator",
+      "washer",
+      "dryer",
+      "oven-range",
+      "microwave",
+      "dishwasher"
+    ],
+    "brands": [
+      "Samsung",
+      "LG",
+      "GE",
+      "Whirlpool",
+      "Maytag",
+      "Kenmore"
+    ],
+    "brandsNote": "The homepage names these brands and adds \"and more\"; confirm your model when you call.",
+    "hours": "Monday\u2013Thursday 8:00 a.m.\u20136:00 p.m.; Friday 8:00 a.m.\u20135:00 p.m.; Saturday\u2013Sunday 10:00 a.m.\u20133:00 p.m. (per the About Us page).",
+    "flags": [
+      "family-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The About Us page describes Jazz Appliance Repair as a family-run appliance repair business based in Chandler, AZ.",
+      "The site says a service charge applies for travel and diagnosis, and that it is waived if you go ahead with the complete repair (parts and labor). It also offers free advice over the phone first (accessed 2026-11-20; confirm when you call).",
+      "The site advertises same-day or next-day service, a parts-and-service estimate before work begins, and a warranty of 90 days on labor and 1 year on parts.",
+      "Listed service area: Chandler, Gilbert, Mesa, Tempe, Guadalupe, Scottsdale, Queen Creek, and San Tan Valley."
+    ],
+    "sources": [
+      {
+        "url": "https://jazzappliancerepair.com/home-appliance-repair/about-us/",
+        "accessed": "2026-11-20",
+        "facts": "family-run, based in Chandler, phone, hours, service cities, appliance types, service-charge waiver, warranty terms, same/next-day claim"
+      },
+      {
+        "url": "https://jazzappliancerepair.com/",
+        "accessed": "2026-11-20",
+        "facts": "brands named (Samsung, LG, GE, Whirlpool, Maytag, Kenmore), appliance types, free phone advice, flat-rate pricing note"
+      }
+    ]
+  },
+  {
+    "id": "e-and-j-appliance",
+    "name": "E&J Appliance Service Company",
+    "slug": "e-and-j-appliance",
+    "citySlug": "phoenix",
+    "phone": "4805883383",
+    "phoneDisplay": "(480) 588-3383",
+    "website": "https://www.ejappliance.com/",
+    "email": "info@ejappliance.com",
+    "address": {
+      "street": "5010 S Ash Ave #103",
+      "city": "Tempe",
+      "state": "AZ",
+      "zip": "85282"
+    },
+    "addressNotes": "The contact page also lists an alternate phone, (480) 345-8884, which the FAQ gives as the scheduling line.",
+    "serviceAreas": [
+      "Gilbert",
+      "Chandler",
+      "Mesa",
+      "Scottsdale",
+      "Paradise Valley",
+      "Phoenix",
+      "Ahwatukee",
+      "Tempe",
+      "Queen Creek"
+    ],
+    "appliances": [
+      "refrigerator",
+      "freezer",
+      "ice-maker",
+      "washer",
+      "dryer",
+      "dishwasher",
+      "oven-range",
+      "microwave"
+    ],
+    "brands": [
+      "LG",
+      "Maytag",
+      "Whirlpool",
+      "Amana",
+      "GE",
+      "Estate",
+      "Hotpoint",
+      "JennAir",
+      "KitchenAid",
+      "Samsung"
+    ],
+    "brandsNote": "Brand list as published on the About page; the FAQ says they repair numerous major residential brands and to call about your model.",
+    "hours": "Monday\u2013Thursday 7:30 a.m.\u20135:00 p.m.; Friday 7:30 a.m.\u20134:00 p.m.; Saturday\u2013Sunday closed (per the contact page).",
+    "flags": [
+      "family-owned",
+      "locally-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The FAQ says E&J is a family-owned and operated business that has served East Valley homeowners since 1982.",
+      "The About page says every repair comes with a satisfaction guarantee and a 90-day warranty on labor.",
+      "The FAQ says the company maintains Master Technician certification through the Certified Service Center organization, and the About page lists membership in the United Appliance Servicers Association and the Professional Servicers Association.",
+      "Besides the major appliances, the About page lists garbage disposal, vent hood, and wine cooler repair."
+    ],
+    "sources": [
+      {
+        "url": "https://www.ejappliance.com/about",
+        "accessed": "2026-11-20",
+        "facts": "established 1982, services, brands, specialties, associations, 90-day labor warranty, address"
+      },
+      {
+        "url": "https://www.ejappliance.com/contact",
+        "accessed": "2026-11-20",
+        "facts": "address, main and alternate phones, email, service area, business hours"
+      },
+      {
+        "url": "https://www.ejappliance.com/faqs",
+        "accessed": "2026-11-20",
+        "facts": "family-owned since 1982, service area, Master Technician certification claim, scheduling phone"
+      }
+    ]
+  },
+  {
+    "id": "quality-on-site",
+    "name": "Quality On-Site",
+    "slug": "quality-on-site",
+    "citySlug": "phoenix",
+    "phone": "4804559090",
+    "phoneDisplay": "(480) 455-9090",
+    "website": "https://www.qualityonsite.com/",
+    "email": "qualityonsitellc@cox.net",
+    "address": {
+      "street": "4055 W Dublin St.",
+      "city": "Chandler",
+      "state": "AZ",
+      "zip": "85226"
+    },
+    "addressNotes": "The website does not publish a list of service cities beyond its Chandler address. Call to confirm they cover your ZIP.",
+    "serviceAreas": [
+      "Chandler"
+    ],
+    "appliances": [
+      "refrigerator",
+      "dryer",
+      "microwave",
+      "oven-range"
+    ],
+    "brands": [],
+    "brandsNote": "The website does not publish a brand list.",
+    "hours": null,
+    "flags": [
+      "family-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The homepage describes Quality On-Site as a family-owned business that fixes dryers, refrigerators, microwaves, ranges, stoves, ovens, and cooktops.",
+      "The homepage says the business offers discounts to military personnel and senior citizens (accessed 2026-11-20; ask about it when you call).",
+      "The refrigerator service page says you get an estimate when the technician arrives, and that repair time depends on the issue. Washers and dishwashers are not on the published service list."
+    ],
+    "sources": [
+      {
+        "url": "https://www.qualityonsite.com/",
+        "accessed": "2026-11-20",
+        "facts": "name, family-owned, appliance types, military and senior discounts, phone, email, Chandler address"
+      },
+      {
+        "url": "https://www.qualityonsite.com/service-page/refrigerator-repair",
+        "accessed": "2026-11-20",
+        "facts": "refrigerator repair description, estimate on arrival, address and phone"
+      }
+    ]
   }
 ]

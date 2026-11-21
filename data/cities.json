@@ -41,6 +41,32 @@
           "Southeast Mesa, Gold Canyon, and Apache Junction are at the edge of some service areas. If you live out that way, ask whether there is an extra trip charge."
         ],
         "splitBased": true
+      },
+      {
+        "slug": "chandler",
+        "name": "Chandler",
+        "match": [
+          "Chandler"
+        ],
+        "blurb": "Chandler runs from older neighborhoods around downtown and west Chandler out to Ocotillo, Fulton Ranch, and the southeast near Sun Lakes and Chandler Heights. It sits between Tempe, Mesa, and Gilbert, so many East Valley shops cover it. This page lists every shop in the directory that names Chandler on a source we opened, with Chandler-based shops first. Always confirm your ZIP when you call.",
+        "tips": [
+          "Chandler's water is hard. The City of Chandler's 2025 drinking water quality report lists total hardness of 10.1 to 16.8 grains per gallon (173 to 288 mg/L). Scale is a common factor in dishwasher, ice maker, and refrigerator water-line problems, so mention it if you see white buildup or slow water flow.",
+          "Ask about the trip or diagnostic fee up front. Several shops below publish a fee policy (for example, waived if you approve the repair). We quote only what a shop published, with the date we read it.",
+          "Check the license claim. Arizona contractors are licensed by the Registrar of Contractors (ROC). If a shop publishes an ROC number, you can confirm it in the ROC's public contractor search before you book.",
+          "Sun Lakes, Chandler Heights, and the San Tan Valley edge are at the edge of some service areas. If you live out that way, ask whether there is an extra trip charge.",
+          "Under a manufacturer warranty? The brand may require its own authorized servicer. Call the manufacturer first, then use an independent shop for out-of-warranty work."
+        ],
+        "tipSources": [
+          {
+            "label": "City of Chandler 2025 Drinking Water Quality Report (PDF)",
+            "url": "https://www.chandleraz.gov/sites/default/files/departments/water/City-of-Chandler-2025-Drinking-Water-Quality-Consumer-Confidence-Report.pdf"
+          },
+          {
+            "label": "City of Chandler water quality FAQs",
+            "url": "https://www.chandleraz.gov/residents/water/water-quality/faqs"
+          }
+        ],
+        "splitBased": true
       }
     ],
     "licenseSearchUrl": "https://azroc.my.site.com/AZRoc/s/contractor-search",
