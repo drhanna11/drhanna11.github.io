@@ -463,7 +463,7 @@ def local_business_schema(listing: dict) -> dict:
         "@type": "LocalBusiness",
         "name": listing["name"],
         "telephone": f"+1{listing['phone']}",
-        "url": listing.get("website"),
+        **({"url": listing["website"]} if listing.get("website") else {}),
         "address": addr,
         "areaServed": listing.get("serviceAreas") or [CITY_BY_SLUG.get(listing.get("citySlug") or "", {}).get("metroName") or "United States"],
     }
@@ -844,7 +844,7 @@ def page_subcity(metro: dict, subcity: dict) -> None:
         listing_sections = f"""
     <section class="section">
       <h2>{len(based)} shop{"s" if len(based) != 1 else ""} based in {e(name)}</h2>
-      <p>The address on the shop's own website is in {e(name)}.</p>
+      <p>The address on the shop's own website (or the public business listing we recorded) is in {e(name)}.</p>
       <div class="grid grid-2">{"".join(listing_card(page, l) for l in based)}</div>
     </section>
     <section class="section">
@@ -891,7 +891,7 @@ def page_subcity(metro: dict, subcity: dict) -> None:
         ))
         faq_items.append((
             f"Is a shop based in {name} faster to get?",
-            "Not necessarily. Many Valley shops route technicians across several cities, and some out-of-town shops say they have techs who live near their customers. Ask about the next available window and any trip fee when you call.",
+            "Not necessarily. Many shops route technicians across several cities, and some out-of-town shops say they have techs who live near their customers. Ask about the next available window and any trip fee when you call.",
         ))
     faq_html = ""
     faq_ld = ""
@@ -1014,7 +1014,7 @@ def page_profile(listing: dict) -> None:
     apps = appliances_for(listing)
     app_links = ", ".join(
         f'<a href="{e(href(page, f"/{metro["slug"]}/{a["pathSegment"]}/"))}">{e(a["name"])}</a>' for a in apps
-    ) or "See the company website"
+    ) or ("See the company website" if listing.get("website") else "Not published on the sources we opened — confirm when you call")
     areas = ", ".join(listing.get("serviceAreas") or []) or "Confirm when you call"
     addr = address_line(listing)
     sources = "".join(
@@ -1046,9 +1046,17 @@ def page_profile(listing: dict) -> None:
     if listing.get("license"):
         rows.append(f"<div><dt>License</dt><dd>{e(listing['license'])}</dd></div>")
 
+    website_btn = (
+        f'<a class="btn btn-ghost" href="{e(listing["website"])}" rel="noopener noreferrer">Website</a>'
+        if listing.get("website") else ""
+    )
+    website_btn_hero = (
+        f'<a class="btn btn-ghost" href="{e(listing["website"])}" rel="noopener noreferrer">Visit website</a>'
+        if listing.get("website") else ""
+    )
     sticky = f"""<div class="sticky-call" role="region" aria-label="Call this shop">
       <a class="btn btn-call" href="{e(tel_href(listing['phone']))}">Call {e(listing['phoneDisplay'])}</a>
-      <a class="btn btn-ghost" href="{e(listing['website'])}" rel="noopener noreferrer">Website</a>
+      {website_btn}
     </div>"""
 
     place = metro.get("metroName") or metro_nav_label(metro)
@@ -1060,7 +1068,7 @@ def page_profile(listing: dict) -> None:
       <p class="lede">An independent or locally based appliance repair business serving the {e(place)} area. Details below were taken from the sources listed at the bottom of this page. Confirm everything when you call — websites go out of date.</p>
       <div class="hero-actions">
         <a class="btn btn-call" href="{e(tel_href(listing['phone']))}">Call {e(listing['phoneDisplay'])}</a>
-        <a class="btn btn-ghost" href="{e(listing['website'])}" rel="noopener noreferrer">Visit website</a>
+        {website_btn_hero}
       </div>
     </header>
     {registration_html(page, metro)}

@@ -160,7 +160,29 @@
         "match": [
           "Hemet"
         ],
-        "blurb": "Hemet is in the San Jacinto Valley, inland and typically hotter than the I-15 cities. A few long-standing local shops are based here, and some Temecula- or Menifee-area technicians also list Hemet. Same-day availability can be tighter than in the larger west-county cities — ask when you call."
+        "blurb": "Hemet sits in the San Jacinto Valley with Valle Vista, San Jacinto, and East Hemet, inland and typically hotter than the I-15 cities. Several long-standing shops are based right here — one parts-and-repair counter dates to 1966 and an appliance showroom with its own service department to 1984 — and some Menifee- and Temecula-area technicians also drive out. This page lists every shop in the directory that names Hemet on a source we opened, Hemet-based shops first.",
+        "splitBased": true,
+        "tips": [
+          "Ask what the service call costs for your address before you book. Some shops price by distance: Appliance Showroom on Florida Ave publishes $76 for Hemet, San Jacinto, Valle Vista, Homeland, Nuevo, and Romoland, and higher rates for Menifee, Perris, and Beaumont ($109) or Temecula, Murrieta, Anza, and Idyllwild ($129) (accessed 2026-11-21). Elsewhere in this directory, some shops say the fee is waived if you approve the repair — check each profile. We quote only what a shop published.",
+          "Check the BHGS registration. California requires appliance repair dealers to register with the Bureau of Household Goods and Services. When a Hemet shop publishes a number (B & B lists License # 41773; Izzy 5 Star shows CA Lic# 51045), look it up in the DCA License Search — a number on a website is a claim, not proof.",
+          "Have the brand, model number, approximate age, and any extended-warranty details ready. Appliance Showroom’s service page asks callers for exactly these, and the model number lets any shop check parts before the visit.",
+          "Live in a mobile or manufactured home? Say so when you call. B & B Gas & Electric lists mobile home appliance repair among its services.",
+          "Idyllwild, Anza, and Aguanga are in the highest service-call tier on Appliance Showroom’s published rate list. If you live up the hill, ask any shop about trip charges and how far out the next opening is."
+        ],
+        "tipSources": [
+          {
+            "label": "Appliance Showroom service-call rates",
+            "url": "https://www.applianceshowroom.com/copy-of-sales"
+          },
+          {
+            "label": "B & B Gas & Electric About page",
+            "url": "https://www.bandbgasappliance.com/about"
+          },
+          {
+            "label": "How to check a California BHGS registration",
+            "url": "https://indieappliancerepair.com/guides/check-california-bhgs-registration/"
+          }
+        ]
       },
       {
         "slug": "san-jacinto",
@@ -168,7 +190,7 @@
         "match": [
           "San Jacinto"
         ],
-        "blurb": "San Jacinto is Hemet's neighbor in the same valley. Fewer shops publish San Jacinto by name than list Hemet, even when they will drive both cities. If your city is missing from a nearby profile, still call and ask — and if a shop does list San Jacinto, that is the only reason it appears here."
+        "blurb": "San Jacinto is Hemet's neighbor in the same valley, with Soboba and the foothills to the east. Fewer shops publish San Jacinto by name than list Hemet, even when they will drive both cities. The shops below name San Jacinto on a source we opened — including two Hemet-based shops and a Beaumont-based technician. If a nearby Hemet profile doesn't mention San Jacinto, still call and ask."
       },
       {
         "slug": "menifee",

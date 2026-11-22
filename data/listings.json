@@ -35,7 +35,7 @@
     ],
     "brands": [],
     "brandsNote": "The company website says it works with all major brands and handles electric and gas kitchen and laundry equipment.",
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20135:00 p.m.; Saturday\u2013Sunday 9:00 a.m.\u20132:00 p.m.",
+    "hours": "Monday–Friday 8:00 a.m.–5:00 p.m.; Saturday–Sunday 9:00 a.m.–2:00 p.m.",
     "flags": [
       "owner-operated"
     ],
@@ -169,7 +169,7 @@
       "The company website says it was founded by a technician, not a franchise, and is locally owned.",
       "The Phoenix page says the company is licensed and bonded and offers a parts and labor warranty (terms not copied here; confirm when you call).",
       "The website says same-day service is offered across Phoenix when you call before 4 p.m.",
-      "The website lists a diagnostic visit of $55\u2013$125 that applies toward the repair, and typical repair ranges for refrigerators, ovens, and laundry (accessed 2026-11-18; these are the company's published ranges, not our quotes)."
+      "The website lists a diagnostic visit of $55–$125 that applies toward the repair, and typical repair ranges for refrigerators, ovens, and laundry (accessed 2026-11-18; these are the company's published ranges, not our quotes)."
     ],
     "sources": [
       {
@@ -248,7 +248,7 @@
       "Heatcraft"
     ],
     "brandsNote": "The company website says it has repaired appliances of more than 50 brands and lists the brands above, plus more.",
-    "hours": "Monday\u2013Friday 9:00 a.m.\u20135:00 p.m.; Saturday\u2013Sunday closed.",
+    "hours": "Monday–Friday 9:00 a.m.–5:00 p.m.; Saturday–Sunday closed.",
     "flags": [
       "family-owned"
     ],
@@ -298,7 +298,7 @@
     ],
     "brands": [],
     "brandsNote": null,
-    "hours": "Monday, Tuesday, Thursday, Friday 8:00 a.m.\u20135:00 p.m.; Wednesday 9:00 a.m.\u20135:00 p.m.; Saturday\u2013Sunday closed.",
+    "hours": "Monday, Tuesday, Thursday, Friday 8:00 a.m.–5:00 p.m.; Wednesday 9:00 a.m.–5:00 p.m.; Saturday–Sunday closed.",
     "flags": [],
     "license": "ROC #342422 (listed on the company website)",
     "facts": [
@@ -477,7 +477,7 @@
       "KitchenAid"
     ],
     "brandsNote": "The about page says technicians have deep expertise in Sub-Zero, Wolf, Viking, Thermador, KitchenAid, and beyond. The homepage also says 'all major brands.'",
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20136:00 p.m.; Saturday\u2013Sunday 9:00 a.m.\u20136:00 p.m.",
+    "hours": "Monday–Friday 8:00 a.m.–6:00 p.m.; Saturday–Sunday 9:00 a.m.–6:00 p.m.",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -626,7 +626,7 @@
       "Whirlpool"
     ],
     "brandsNote": "The website says technicians are familiar with most every popular brand and specifically mentions GE, Samsung, Kenmore, and Whirlpool as commonly stocked or serviced brands. It does not publish a complete brand list on the page we opened.",
-    "hours": "Monday\u2013Friday 7:00 a.m.\u20136:00 p.m.; Saturday 8:00 a.m.\u20132:00 p.m.; Sunday closed.",
+    "hours": "Monday–Friday 7:00 a.m.–6:00 p.m.; Saturday 8:00 a.m.–2:00 p.m.; Sunday closed.",
     "flags": [
       "family-owned"
     ],
@@ -816,12 +816,12 @@
     ],
     "brands": [],
     "brandsNote": null,
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20136:00 p.m. Arizona time.",
+    "hours": "Monday–Friday 8:00 a.m.–6:00 p.m. Arizona time.",
     "flags": [],
     "license": null,
     "facts": [
       "The company describes itself as a Phoenix-area company. Coverage is by an approved ZIP-code list, not only by city name; the site says to check a ZIP before scheduling.",
-      "The website says the service call fee is waived if you approve and complete a repair; if you decline, only the service call fee applies. The fee amount is given when the company confirms the visit \u2014 it is not published as a single number on the homepage we opened.",
+      "The website says the service call fee is waived if you approve and complete a repair; if you decline, only the service call fee applies. The fee amount is given when the company confirms the visit — it is not published as a single number on the homepage we opened.",
       "The site is explicit about work it does not take on: microwaves, garbage disposals, sealed-system or refrigerant work, washer transmissions or bearings, and repairs on double built-in wall ovens.",
       "The site says Carefree, Coolidge, Maricopa, Rio Verde, Wickenburg, and Wittmann are outside the current service area."
     ],
@@ -868,7 +868,7 @@
     ],
     "brands": [],
     "brandsNote": "The website says the owner can repair virtually any major appliance and does not publish a brand-by-brand list on the pages we opened.",
-    "hours": "Monday\u2013Friday 7:00 a.m.\u20136:00 p.m.; Saturday 7:00 a.m.\u201312:00 p.m. by appointment; Sunday closed.",
+    "hours": "Monday–Friday 7:00 a.m.–6:00 p.m.; Saturday 7:00 a.m.–12:00 p.m. by appointment; Sunday closed.",
     "flags": [
       "owner-operated"
     ],
@@ -971,7 +971,7 @@
       "Wolf"
     ],
     "brandsNote": "Brand list as published on the company's Mesa appliance-repair page; confirm your model when you call.",
-    "hours": "Appliance repair 7 days a week, 6:00 a.m.\u20139:00 p.m. (per the website).",
+    "hours": "Appliance repair 7 days a week, 6:00 a.m.–9:00 p.m. (per the website).",
     "flags": [
       "family-owned"
     ],
@@ -992,7 +992,7 @@
       {
         "url": "https://www.azvalleyservices.com/",
         "accessed": "2026-11-18",
-        "facts": "family owned and operated, since 1976, three regional phone lines, appliance repair 7 days 6am\u20139pm, Valley-wide service-area list"
+        "facts": "family owned and operated, since 1976, three regional phone lines, appliance repair 7 days 6am–9pm, Valley-wide service-area list"
       }
     ]
   },
@@ -1112,14 +1112,14 @@
       "Gaggenau"
     ],
     "brandsNote": "The about page says the company specializes exclusively in luxury brands such as Sub-Zero, Wolf, Thermador, Viking, Miele, Gaggenau, and other high-end brands, and that it is not affiliated with any manufacturer.",
-    "hours": "Monday\u2013Saturday 7:00 a.m.\u20138:00 p.m.; Sunday 9:00 a.m.\u20135:00 p.m.",
+    "hours": "Monday–Saturday 7:00 a.m.–8:00 p.m.; Sunday 9:00 a.m.–5:00 p.m.",
     "flags": [
       "independent-specialist"
     ],
     "license": "The about page says the company is registered with the Arizona Registrar of Contractors but does not publish the license number on that page.",
     "facts": [
       "The about page says the company has been serving the Phoenix metro area for over 15 years and specializes exclusively in premium / luxury brands.",
-      "The company states it is not affiliated with any manufacturer \u2014 it is an independent specialist.",
+      "The company states it is not affiliated with any manufacturer — it is an independent specialist.",
       "The page says the company is Arizona ROC licensed, fully insured, and EPA 608 certified, and that repairs are backed by a 90-day warranty on parts and labor (confirm current terms when you call).",
       "The page advertises same-day service throughout the Phoenix metro area."
     ],
@@ -1234,7 +1234,7 @@
     ],
     "brands": [],
     "brandsNote": "The website says technicians are experienced with most major appliance brands and that the company services all major household appliance brands.",
-    "hours": "The website says the company operates primarily Monday through Friday, 9:00 a.m.\u20134:00 p.m., by appointment.",
+    "hours": "The website says the company operates primarily Monday through Friday, 9:00 a.m.–4:00 p.m., by appointment.",
     "flags": [
       "family-owned"
     ],
@@ -1291,7 +1291,7 @@
     ],
     "brands": [],
     "brandsNote": "The site footer says 'Independent service. Brand names do not imply factory authorization.' The about page we opened does not publish a complete brand list.",
-    "hours": "Monday\u2013Saturday 8:00 a.m.\u20138:00 p.m.; Sunday: emergencies only.",
+    "hours": "Monday–Saturday 8:00 a.m.–8:00 p.m.; Sunday: emergencies only.",
     "flags": [
       "owner-operated",
       "locally-owned"
@@ -1434,7 +1434,7 @@
       "Whirlpool"
     ],
     "brandsNote": "Brand list taken from the company's appliances page.",
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20135:00 p.m.; Saturday emergency repairs only upon availability; Sunday closed.",
+    "hours": "Monday–Friday 8:00 a.m.–5:00 p.m.; Saturday emergency repairs only upon availability; Sunday closed.",
     "flags": [],
     "license": null,
     "facts": [
@@ -1491,7 +1491,7 @@
     ],
     "brands": [],
     "brandsNote": "The company website describes kitchen and laundry appliance repair and advanced diagnostics on modern smart appliances. It does not publish a brand-by-brand list on the pages we opened.",
-    "hours": "Monday\u2013Saturday 6:00 a.m.\u201310:00 p.m.; closed Sunday.",
+    "hours": "Monday–Saturday 6:00 a.m.–10:00 p.m.; closed Sunday.",
     "flags": [
       "owner-operated",
       "locally-owned"
@@ -1547,7 +1547,7 @@
       "microwave"
     ],
     "brandsNote": "The website says it provides residential appliance repair for most major brands and asks you to call if your appliance is not listed.",
-    "hours": "Monday\u2013Saturday 8:00 a.m.\u20136:00 p.m.",
+    "hours": "Monday–Saturday 8:00 a.m.–6:00 p.m.",
     "flags": [
       "owner-operated",
       "locally-owned"
@@ -1723,7 +1723,7 @@
       "microwave"
     ],
     "brandsNote": "The website says the company repairs most major brands of appliances. It does not publish a brand-by-brand list on the homepage we opened.",
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20135:00 p.m.",
+    "hours": "Monday–Friday 8:00 a.m.–5:00 p.m.",
     "flags": [
       "family-owned",
       "owner-operated",
@@ -1733,7 +1733,7 @@
     "facts": [
       "The company describes itself as a local family business. The homepage names Rob Trousas as the owner and says the business has 43+ years of experience in appliance repair.",
       "Cities named on the website are Canyon Lake, parts of Lake Elsinore, Menifee, Murrieta, Temecula, South Winchester, and Wildomar.",
-      "The website lists License #A43064. That is the shop's published number, not a confirmation from this directory \u2014 look it up on the BHGS / DCA license search to see whether it is current.",
+      "The website lists License #A43064. That is the shop's published number, not a confirmation from this directory — look it up on the BHGS / DCA license search to see whether it is current.",
       "The website says appointments include a complete written estimate that includes all parts and labor required."
     ],
     "sources": [
@@ -1766,7 +1766,7 @@
     ],
     "appliances": [],
     "brandsNote": "The website says the company services most major brands of old and new appliances and stocks parts for a variety of name-brand appliances. It does not publish a full appliance-by-appliance menu on the homepage we opened.",
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20135:00 p.m.; summer hours also list Saturday 9:00 a.m.\u20131:00 p.m.",
+    "hours": "Monday–Friday 8:00 a.m.–5:00 p.m.; summer hours also list Saturday 9:00 a.m.–1:00 p.m.",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -1774,7 +1774,7 @@
     "facts": [
       "The company describes itself as family-owned and operated since 1976, with a parts store and repair service in Corona.",
       "The website emphasizes free advice for do-it-yourself repairs and says the office will often walk callers through simple checks before booking a service call.",
-      "The homepage we opened does not list a complete menu of appliance types. Customer comments published on that page mention refrigerator, microwave, and dishwasher work \u2014 confirm what they service when you call.",
+      "The homepage we opened does not list a complete menu of appliance types. Customer comments published on that page mention refrigerator, microwave, and dishwasher work — confirm what they service when you call.",
       "The published address is 1141 Pomona Rd #F, Corona, CA 92882. The service area is described as Corona and the surrounding areas, without a city-by-city list on the homepage."
     ],
     "sources": [
@@ -1817,7 +1817,7 @@
     ],
     "appliances": [],
     "brandsNote": "The company page describes itself as offering all-brand, in-home appliance repair services. It does not publish a list of specific appliance types beyond dryer vent cleaning on the page we opened.",
-    "hours": "Monday\u2013Saturday 8:00 a.m.\u20135:00 p.m.; closed Sunday.",
+    "hours": "Monday–Saturday 8:00 a.m.–5:00 p.m.; closed Sunday.",
     "flags": [
       "locally-owned"
     ],
@@ -1825,7 +1825,7 @@
       "The Shop Corona business page labels Appliance Solutions as locally owned and independent, in Corona, California 92879.",
       "The page lists free phone estimates or a $25.00 service call waived with repair charges (accessed 2026-11-18; confirm when you call).",
       "Cities named as served include Corona, Norco, Eastvale, Mira Loma, Riverside, Lake Elsinore, Wildomar, Murrieta, Temecula, Moreno Valley, Perris, Hemet, and others in Riverside County.",
-      "The page also advertises dryer vent cleaning. It does not spell out a refrigerator, washer, or oven menu on the page we opened \u2014 ask what they service when you call.",
+      "The page also advertises dryer vent cleaning. It does not spell out a refrigerator, washer, or oven menu on the page we opened — ask what they service when you call.",
       "This is a thinner source than most listings in this directory: a local business-directory page, not a full company website (the page also mentions www.appliancesolutionsnow.com)."
     ],
     "sources": [
@@ -1864,13 +1864,13 @@
       "dryer"
     ],
     "brandsNote": "The website says the company provides repair services for all major brands and models and stocks appliance parts for various makes and models.",
-    "hours": "The website lists Monday\u2013Friday hours in the footer but does not publish opening and closing times on the homepage we opened. Confirm when you call.",
+    "hours": "The website lists Monday–Friday hours in the footer but does not publish opening and closing times on the homepage we opened. Confirm when you call.",
     "flags": [
       "family-owned",
       "locally-owned"
     ],
     "facts": [
-      "The company says it has served Hemet and San Jacinto since 1966 \u2014 over 60 years \u2014 and describes itself as family-owned.",
+      "The company says it has served Hemet and San Jacinto since 1966 — over 60 years — and describes itself as family-owned.",
       "Appliance types named on the website include refrigerators, dishwashers, washing machines, and dryers. The company also advertises HVAC repair, a parts counter with in-store pickup and delivery, and used appliance sales.",
       "The website lists a 90-day labor warranty on repairs, same-day estimates, and service within one to two days (accessed 2026-11-18; confirm current terms when you call).",
       "The website lists a 10% discount on appliance repair services for senior citizens and for active-duty and veteran military personnel in Hemet and San Jacinto (confirm when you call)."
@@ -1880,12 +1880,17 @@
         "url": "https://www.bandbgasappliance.com/",
         "accessed": "2026-11-18",
         "facts": "name, phone, Hemet and San Jacinto, family-owned, since 1966, appliances named, 90-day labor warranty, same-day estimates, senior and military discount claims, parts and used-appliance sales"
+      },
+      {
+        "url": "https://www.bandbgasappliance.com/about",
+        "accessed": "2026-11-21",
+        "facts": "License # 41773, since 1966, services list including mobile home appliance repair"
       }
     ],
     "citySlug": "riverside-county",
     "email": null,
     "brands": [],
-    "license": null
+    "license": "The company's About page lists “License # 41773.” Confirm current BHGS registration in the DCA License Search before you book."
   },
   {
     "id": "solvanta-home-services",
@@ -1954,7 +1959,7 @@
       "Sharp",
       "Roper"
     ],
-    "hours": "Monday\u2013Sunday 7:00 a.m.\u201310:00 p.m.",
+    "hours": "Monday–Sunday 7:00 a.m.–10:00 p.m.",
     "flags": [
       "family-owned"
     ],
@@ -2020,7 +2025,7 @@
       "Sub-Zero",
       "Viking"
     ],
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20136:00 p.m.; Saturday 9:00 a.m.\u20134:00 p.m.; closed Sunday.",
+    "hours": "Monday–Friday 8:00 a.m.–6:00 p.m.; Saturday 9:00 a.m.–4:00 p.m.; closed Sunday.",
     "flags": [
       "locally-owned"
     ],
@@ -2147,7 +2152,7 @@
       "Samsung",
       "Whirlpool"
     ],
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20136:00 p.m. PT; Saturday 9:00 a.m.\u20135:00 p.m.; closed Sunday.",
+    "hours": "Monday–Friday 8:00 a.m.–6:00 p.m. PT; Saturday 9:00 a.m.–5:00 p.m.; closed Sunday.",
     "facts": [
       "The company is based at 321 Tava Ln, Palm Desert, CA 92211, and advertises same-day appliance repair in Palm Desert, La Quinta, Rancho Mirage, Indian Wells, Palm Springs, Indio, and across the Coachella Valley.",
       "The website lists a service call starting at $75, or $175 including the repair and parts, and says the service call is applied toward labor if you proceed with the repair (accessed 2026-11-18; confirm current pricing when you call).",
@@ -2214,7 +2219,7 @@
       "La Cornue",
       "KitchenAid"
     ],
-    "hours": "Office hours 8:00 a.m.\u20134:00 p.m. Service hours start at 8:00 a.m. and vary with the time of year.",
+    "hours": "Office hours 8:00 a.m.–4:00 p.m. Service hours start at 8:00 a.m. and vary with the time of year.",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -2445,7 +2450,7 @@
       "Samsung",
       "Whirlpool"
     ],
-    "hours": "The contact block lists Monday\u2013Friday 7:30 a.m.\u20134:30 p.m. in one place and 8:00 a.m.\u20135:00 p.m. in another; Saturday 8:00 a.m.\u201312:00 p.m.; closed Sunday. Confirm hours when you call.",
+    "hours": "The contact block lists Monday–Friday 7:30 a.m.–4:30 p.m. in one place and 8:00 a.m.–5:00 p.m. in another; Saturday 8:00 a.m.–12:00 p.m.; closed Sunday. Confirm hours when you call.",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -2502,7 +2507,7 @@
       "microwave",
       "ice-maker"
     ],
-    "hours": "Monday\u2013Thursday 8:00 a.m.\u20136:00 p.m.; Friday 8:00 a.m.\u20135:00 p.m.; Sunday emergency only. Saturday hours are not listed on the homepage we opened.",
+    "hours": "Monday–Thursday 8:00 a.m.–6:00 p.m.; Friday 8:00 a.m.–5:00 p.m.; Sunday emergency only. Saturday hours are not listed on the homepage we opened.",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -2565,7 +2570,7 @@
     ],
     "facts": [
       "The company describes itself as 'your local appliance repairman,' lists a Temecula, CA address line, and says it proudly serves Temecula, Murrieta, Lake Elsinore, Canyon Lake, Menifee, Sun City, Winchester, French Valley, and Wildomar.",
-      "The website says the company is BEAR certified, licensed, and insured. It does not publish a registration number on the homepage we opened \u2014 confirm current BHGS registration when you call.",
+      "The website says the company is BEAR certified, licensed, and insured. It does not publish a registration number on the homepage we opened — confirm current BHGS registration when you call.",
       "Appliances named include refrigerators, washers, dryers, dishwashers, oven ranges, stoves, microwaves, trash compactors, and freezers. Dryer vent cleaning and appliance maintenance are offered on request.",
       "The website says the company is available 24 hours a day, 7 days a week, including weekends and holidays, and that same-day service is available. Confirm current availability when you call."
     ],
@@ -2625,7 +2630,7 @@
       "Bosch",
       "Maytag"
     ],
-    "hours": "Monday\u2013Saturday 9:00 a.m.\u20138:00 p.m.; closed Sunday.",
+    "hours": "Monday–Saturday 9:00 a.m.–8:00 p.m.; closed Sunday.",
     "facts": [
       "The website lists a $79 diagnostic fee waived with repair (accessed 2026-11-18; confirm when you call).",
       "Cities named as served are Temecula, Murrieta, Menifee, Perris, Corona, Wildomar, Lake Elsinore, and nearby areas. A street address is not published on the homepage we opened.",
@@ -2669,7 +2674,7 @@
       "dryer",
       "dishwasher"
     ],
-    "hours": "Monday\u2013Sunday 8:00 a.m.\u20136:00 p.m.",
+    "hours": "Monday–Sunday 8:00 a.m.–6:00 p.m.",
     "flags": [
       "family-owned"
     ],
@@ -2753,7 +2758,7 @@
     ],
     "facts": [
       "The company describes itself as a family-owned and operated business established in 1999, offering appliance, heating, cooling, and refrigeration service.",
-      "The homepage phone number is (951) 279-8314. The Corona page also lists 290 Sabina Peak Cir, Corona, CA 92881, and (951) 808-0500, and names Corona ZIP codes 92879\u201392883.",
+      "The homepage phone number is (951) 279-8314. The Corona page also lists 290 Sabina Peak Cir, Corona, CA 92881, and (951) 808-0500, and names Corona ZIP codes 92879–92883.",
       "The service-area page names these Riverside County cities, among others: Corona, Norco, Riverside, Moreno Valley, Perris, Temecula, Murrieta, Menifee, Winchester, Wildomar, Lake Elsinore, and Canyon Lake. It also lists several San Bernardino County and other cities.",
       "The about page says the call center is staffed and open seven days a week and that the company provides onsite same-day service. Confirm current availability when you call."
     ],
@@ -2814,7 +2819,7 @@
       "washer",
       "dryer"
     ],
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20137:00 p.m.; Saturday 8:00 a.m.\u20135:00 p.m.",
+    "hours": "Monday–Friday 8:00 a.m.–7:00 p.m.; Saturday 8:00 a.m.–5:00 p.m.",
     "flags": [
       "family-owned",
       "owner-operated"
@@ -2868,16 +2873,16 @@
       "dishwasher",
       "microwave"
     ],
-    "hours": "Monday\u2013Friday 8:30 a.m.\u20135:00 p.m.; Saturday 8:30 a.m.\u201312:00 p.m.; closed Sunday.",
+    "hours": "Monday–Friday 8:30 a.m.–5:00 p.m.; Saturday 8:30 a.m.–12:00 p.m.; closed Sunday.",
     "flags": [
       "family-owned"
     ],
-    "license": "The appliance-repair page lists California State contractor\u2019s license #739284 and CA BEAR (Bureau of Electronic & Appliance Repair) license #A46033. Confirm both are current in the official state lookups before you book.",
+    "license": "The appliance-repair page lists California State contractor’s license #739284 and CA BEAR (Bureau of Electronic & Appliance Repair) license #A46033. Confirm both are current in the official state lookups before you book.",
     "facts": [
       "The company describes itself as a family-owned business with 20+ years of experience. The appliance-repair page is for major appliance repair; the company also provides HVAC installation, repair, and maintenance.",
       "The Palm Desert address published on the appliance-repair page is 77-711 Flora Rd., Palm Desert, CA 92211. The phone on that page is (760) 904-4186.",
       "The contact page lists Coachella Valley numbers by city group, including (760) 469-4468 for Palm Desert / Rancho Mirage / Indian Wells and (760) 469-4097 for Palm Springs / Cathedral City / Desert Hot Springs.",
-      "The appliance-repair page says the company holds California contractor license #739284 and BHGS / BEAR license #A46033, and that it is licensed, insured, and bonded. Those are the shop's published numbers \u2014 confirm they are current in the official state searches.",
+      "The appliance-repair page says the company holds California contractor license #739284 and BHGS / BEAR license #A46033, and that it is licensed, insured, and bonded. Those are the shop's published numbers — confirm they are current in the official state searches.",
       "Appliances listed include ovens, ranges and cooktops, refrigerators, washers and dryers, ice machines and ice makers, dishwashers, microwaves, trash compactors, disposals, and wine cabinets. The page says no work is done unless you approve a written estimate."
     ],
     "sources": [
@@ -2940,7 +2945,7 @@
       "KitchenAid",
       "Bosch"
     ],
-    "hours": "Monday\u2013Friday 8:00 a.m.\u20138:00 p.m.; Saturday 9:00 a.m.\u20134:00 p.m.; closed Sunday. The site says emergency calls are accepted by phone.",
+    "hours": "Monday–Friday 8:00 a.m.–8:00 p.m.; Saturday 9:00 a.m.–4:00 p.m.; closed Sunday. The site says emergency calls are accepted by phone.",
     "flags": [
       "owner-operated",
       "locally-owned"
@@ -3005,7 +3010,7 @@
       "Kenmore"
     ],
     "brandsNote": "The homepage names these brands and adds \"and more\"; confirm your model when you call.",
-    "hours": "Monday\u2013Thursday 8:00 a.m.\u20136:00 p.m.; Friday 8:00 a.m.\u20135:00 p.m.; Saturday\u2013Sunday 10:00 a.m.\u20133:00 p.m. (per the About Us page).",
+    "hours": "Monday–Thursday 8:00 a.m.–6:00 p.m.; Friday 8:00 a.m.–5:00 p.m.; Saturday–Sunday 10:00 a.m.–3:00 p.m. (per the About Us page).",
     "flags": [
       "family-owned"
     ],
@@ -3079,7 +3084,7 @@
       "Samsung"
     ],
     "brandsNote": "Brand list as published on the About page; the FAQ says they repair numerous major residential brands and to call about your model.",
-    "hours": "Monday\u2013Thursday 7:30 a.m.\u20135:00 p.m.; Friday 7:30 a.m.\u20134:00 p.m.; Saturday\u2013Sunday closed (per the contact page).",
+    "hours": "Monday–Thursday 7:30 a.m.–5:00 p.m.; Friday 7:30 a.m.–4:00 p.m.; Saturday–Sunday closed (per the contact page).",
     "flags": [
       "family-owned",
       "locally-owned"
@@ -3158,5 +3163,191 @@
         "facts": "refrigerator repair description, estimate on arrival, address and phone"
       }
     ]
+  },
+  {
+    "id": "appliance-showroom-hemet",
+    "name": "Appliance Showroom (Larry Soares)",
+    "slug": "appliance-showroom-hemet",
+    "phone": "9519290859",
+    "phoneDisplay": "(951) 929-0859",
+    "website": "https://www.applianceshowroom.com/",
+    "email": "Support@ApplianceShowroom.com",
+    "address": {
+      "street": "429 W. Florida Ave",
+      "city": "Hemet",
+      "state": "CA",
+      "zip": "92543"
+    },
+    "serviceAreas": [
+      "Hemet",
+      "San Jacinto",
+      "Valle Vista",
+      "Homeland",
+      "Nuevo",
+      "Romoland",
+      "Sun City",
+      "Menifee",
+      "Perris",
+      "Winchester",
+      "Moreno Valley",
+      "Canyon Lake",
+      "Banning",
+      "Beaumont",
+      "Temecula",
+      "Murrieta",
+      "Wildomar",
+      "Lake Elsinore",
+      "Sage",
+      "Anza",
+      "Aguanga",
+      "Idyllwild"
+    ],
+    "appliances": [
+      "washer",
+      "dryer",
+      "refrigerator",
+      "freezer",
+      "oven-range",
+      "dishwasher",
+      "microwave"
+    ],
+    "brands": [],
+    "brandsNote": "The service page says its technicians service most major appliance brands and handle both in-warranty and out-of-warranty repairs. Ask whether your brand is covered when you call.",
+    "hours": "Store hours on the website: Monday–Friday 9am–5pm, Saturday 9am–3pm, Sunday closed (accessed 2026-11-21). Service-call scheduling may differ; confirm when you call.",
+    "flags": [
+      "locally-owned"
+    ],
+    "facts": [
+      "Appliance Showroom is an appliance store with its own in-house service department at 429 W. Florida Ave in Hemet. The website says the business has served the area since 1984, when owner Larry Soares bought Skellenger’s of Hemet, and that Hemet is now its one showroom.",
+      "The service page says its factory-trained technicians repair washers, dryers, refrigerators, freezers, ovens, ranges, dishwashers, and microwaves, and that many on the team have worked with Larry for more than 18 years.",
+      "Published service-call rates (accessed 2026-11-21): $76 for Hemet, San Jacinto, Valle Vista, Homeland, Nuevo, and Romoland; $109 for Sun City, Menifee, Perris, Winchester, Moreno Valley, Canyon Lake, Banning, and Beaumont; $129 for Temecula, Murrieta, Wildomar, Lake Elsinore, Sage, Anza, Aguanga, and Idyllwild. The page lists a basic labor charge of the initial visit plus $99 and says labor varies by job. Confirm current rates when you call.",
+      "The parts department stocks common parts and can usually order others within a few days for store pickup. The service page asks callers to have the brand, model number, approximate age, and any extended-warranty details ready.",
+      "The About page says Larry Soares served in the U.S. Army from 1963 to 1966 and has sold and serviced appliances in Southern California for over 40 years."
+    ],
+    "sources": [
+      {
+        "url": "https://www.applianceshowroom.com/",
+        "accessed": "2026-11-21",
+        "facts": "name, phone, address, email, store hours, in-house authorized service department, parts in stock, more than 45 years in the industry"
+      },
+      {
+        "url": "https://www.applianceshowroom.com/copy-of-sales",
+        "accessed": "2026-11-21",
+        "facts": "service department, appliance types, in- and out-of-warranty repairs, service-call rates by city, basic labor charge, parts department, what to have ready when you call"
+      },
+      {
+        "url": "https://www.applianceshowroom.com/about-us",
+        "accessed": "2026-11-21",
+        "facts": "Larry Soares history, Skellenger’s of Hemet purchase in 1984, one showroom in Hemet, U.S. Army service 1963–1966"
+      }
+    ],
+    "citySlug": "riverside-county",
+    "license": null
+  },
+  {
+    "id": "izzy-5-star",
+    "name": "Izzy 5 Star LLC",
+    "slug": "izzy-5-star",
+    "phone": "9517612398",
+    "phoneDisplay": "(951) 761-2398",
+    "website": "https://www.izzy5star.com/",
+    "email": "info@izzy5star.com",
+    "address": {
+      "street": null,
+      "city": "Beaumont",
+      "state": "CA",
+      "zip": "92223"
+    },
+    "addressNotes": "The website publishes (951) 761-2398 as a call or text line for scheduling. The BBB profile lists (909) 550-8346.",
+    "serviceAreas": [
+      "Beaumont",
+      "Banning",
+      "Calimesa",
+      "Hemet",
+      "San Jacinto",
+      "Redlands",
+      "Yucaipa"
+    ],
+    "appliances": [
+      "refrigerator",
+      "freezer",
+      "washer",
+      "dryer",
+      "oven-range",
+      "dishwasher",
+      "microwave"
+    ],
+    "brands": [],
+    "brandsNote": "The pages we opened do not list specific brands.",
+    "hours": null,
+    "flags": [],
+    "facts": [
+      "Izzy 5 Star, LLC says it provides appliance diagnostics, repairs, and installation for homeowners across Riverside, San Bernardino, and Los Angeles counties. Its BBB profile lists a Beaumont, CA 92223 address and names Banning, Beaumont, Calimesa, Hemet, Redlands, San Jacinto, and Yucaipa as service areas.",
+      "Services named on the website: refrigerator and freezer repair, washer and dryer repair, oven, stove, and cooktop repair, dishwasher repair, and microwave repair and installation. It also lists water heater, heating and cooling, and fixture work.",
+      "The website describes its approach as diagnose, explain the findings and the work needed, then test the appliance after the repair. Service can be booked online or by text.",
+      "Per its BBB profile (accessed 2026-11-21), the business started in December 2023, has been BBB accredited since August 11, 2025, and lists Israel Omotade as president. BBB showed no complaints in the last three years."
+    ],
+    "license": "The website title shows “CA Lic# 51045.” We did not confirm it in the state search. Look it up in the DCA License Search before you book.",
+    "sources": [
+      {
+        "url": "https://www.izzy5star.com/",
+        "accessed": "2026-11-21",
+        "facts": "name, text/call phone, email, counties served, appliance services, CA Lic# 51045 in page title"
+      },
+      {
+        "url": "https://www.izzy5star.com/services",
+        "accessed": "2026-11-21",
+        "facts": "appliance types repaired, microwave installation, water heater / HVAC / fixture services"
+      },
+      {
+        "url": "https://www.izzy5star.com/about",
+        "accessed": "2026-11-21",
+        "facts": "diagnose, explain, and test approach"
+      },
+      {
+        "url": "https://www.bbb.org/us/ca/beaumont/profile/appliance-repair/izzy-5-star-llc-1126-1000147942",
+        "accessed": "2026-11-21",
+        "facts": "Beaumont 92223 location, service-area cities, business start date, accreditation date, president, alternate phone, no complaints in last 3 years"
+      }
+    ],
+    "citySlug": "riverside-county"
+  },
+  {
+    "id": "marcos-appliance-service",
+    "name": "Marco's Appliance Service",
+    "slug": "marcos-appliance-service",
+    "phone": "9519256577",
+    "phoneDisplay": "(951) 925-6577",
+    "website": null,
+    "email": null,
+    "address": {
+      "street": "1772 Cajon St",
+      "city": "Hemet",
+      "state": "CA",
+      "zip": "92544"
+    },
+    "addressNotes": "We did not find a business website. Some map listings show a different number, (951) 463-5179, under the name “Marco’s Appliance Services”; we use the number on the BBB profile.",
+    "serviceAreas": [
+      "Hemet"
+    ],
+    "appliances": [],
+    "brands": [],
+    "hours": null,
+    "flags": [],
+    "facts": [
+      "The BBB profile lists Marco's Appliance Service at 1772 Cajon St, Hemet, CA 92544, under Major Appliance Services, with a business start date of January 1, 1984.",
+      "BBB shows the business as not accredited and not rated (BBB says it has insufficient information), with no complaints filed in the last three years (accessed 2026-11-21).",
+      "We did not find a business website, so this profile does not list appliance types, brands, hours, or a service-area list. Call to confirm what they repair and whether they come to your address.",
+      "This is a thinner listing than most in this directory because it rests on a BBB profile rather than the shop's own website."
+    ],
+    "sources": [
+      {
+        "url": "https://www.bbb.org/us/ca/hemet/profile/major-appliance-services/marcos-appliance-service-1126-1000137163",
+        "accessed": "2026-11-21",
+        "facts": "name, address, phone, category, business start date 1984, not accredited, not rated, no complaints in last 3 years"
+      }
+    ],
+    "citySlug": "riverside-county",
+    "license": null
   }
 ]
