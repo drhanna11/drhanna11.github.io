@@ -67,6 +67,34 @@
           }
         ],
         "splitBased": true
+      },
+      {
+        "slug": "scottsdale",
+        "name": "Scottsdale",
+        "match": [
+          "Scottsdale",
+          "South Scottsdale"
+        ],
+        "blurb": "Scottsdale runs a long way north to south, from older ranch homes in south Scottsdale near Old Town out to McCormick Ranch, Gainey Ranch, Grayhawk, DC Ranch, and the desert foothills near Pinnacle Peak and the Carefree line. Kitchens in the newer north-side homes often have built-in refrigeration and pro-style ranges, so brand experience matters more than usual. This page lists every shop in the directory that names Scottsdale on a source we opened, with Scottsdale-based shops first. Always confirm your ZIP when you call.",
+        "tips": [
+          "Scottsdale's water is hard. Scottsdale Water's 2025 Water Quality Report lists approximate hardness of 13 to 15 grains per gallon south of Indian School Road and 13 to 17 grains per gallon from Indian School Road north (about 215 to 290 mg/L). Scale is a common factor in dishwasher, ice maker, and refrigerator water-line problems, so mention white buildup or slow water flow when you call.",
+          "Built-in or luxury brand? Ask before you book whether the shop works on your exact model. Several shops below name Sub-Zero, Wolf, Thermador, or Viking on their own sites, and one says it is a Viking Platinum Preferred service company. See our Sub-Zero page for shops whose sites mention that brand.",
+          "Ask about the diagnosis or trip fee up front. At least one Scottsdale-based shop publishes its fee (with a waiver if you approve the repair). We quote only what a shop published, with the date we read it.",
+          "Check the license claim. Arizona contractors are licensed by the Registrar of Contractors (ROC). If a shop publishes an ROC number, you can confirm it in the ROC's public contractor search before you book.",
+          "North Scottsdale, Rio Verde, and the Carefree and Cave Creek edge are at the far end of some service areas. If you live out that way, ask whether there is an extra trip charge.",
+          "Under a manufacturer warranty? The brand may require its own authorized servicer. Call the manufacturer first, then use an independent shop for out-of-warranty work."
+        ],
+        "tipSources": [
+          {
+            "label": "Scottsdale Water 2025 Water Quality Report (PDF)",
+            "url": "https://www.scottsdaleaz.gov/docs/default-source/scottsdaleaz/water/water-quality/annual-reports/2025-water-quality-report.pdf"
+          },
+          {
+            "label": "Scottsdale Water quality reports",
+            "url": "https://www.scottsdaleaz.gov/water/water-quality/water-quality-reports"
+          }
+        ],
+        "splitBased": true
       }
     ],
     "licenseSearchUrl": "https://azroc.my.site.com/AZRoc/s/contractor-search",

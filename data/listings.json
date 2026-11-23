@@ -3349,5 +3349,192 @@
     ],
     "citySlug": "riverside-county",
     "license": null
+  },
+  {
+    "id": "hillside-appliance-services",
+    "name": "Hillside Appliance Services",
+    "slug": "hillside-appliance-services",
+    "citySlug": "phoenix",
+    "phone": "4806998499",
+    "phoneDisplay": "(480) 699-8499",
+    "website": "https://hillsideappliancerepair.com/",
+    "email": "service@hillsideappliancerepair.com",
+    "address": {
+      "street": "10975 E Mary Katherine Dr",
+      "city": "Scottsdale",
+      "state": "AZ",
+      "zip": "85259"
+    },
+    "addressNotes": "Address as published in the footer of the shop's own website (Hillside Appliance Service LLC).",
+    "serviceAreas": [
+      "Scottsdale",
+      "Tempe",
+      "Glendale",
+      "Chandler",
+      "Mesa",
+      "Gilbert",
+      "Peoria",
+      "Avondale",
+      "San Tan Valley",
+      "Goodyear",
+      "Paradise Valley",
+      "Surprise",
+      "Tolleson",
+      "El Mirage",
+      "Laveen",
+      "Fountain Hills",
+      "Sun City",
+      "Cave Creek",
+      "Litchfield Park",
+      "Ahwatukee",
+      "Phoenix"
+    ],
+    "appliances": [
+      "refrigerator",
+      "freezer",
+      "ice-maker",
+      "oven-range",
+      "microwave",
+      "dishwasher",
+      "washer",
+      "dryer"
+    ],
+    "brands": [
+      "Sub-Zero",
+      "Wolf",
+      "Thermador",
+      "Viking",
+      "Miele",
+      "Monogram",
+      "Liebherr",
+      "Bosch",
+      "Dacor",
+      "Gaggenau",
+      "JennAir",
+      "KitchenAid",
+      "LG",
+      "Samsung",
+      "GE",
+      "Whirlpool",
+      "Maytag",
+      "Frigidaire"
+    ],
+    "brandsNote": "The site's Brands menu lists these and more (including Amana, Asko, Avanti, Beko, Electrolux, Hotpoint, Kenmore, Thor, True, and Vinotemp); confirm your model when you call.",
+    "hours": "Office/dispatch: Monday–Friday 8 a.m.–6 p.m.; Saturday 9 a.m.–2 p.m.; Sunday closed (per the homepage).",
+    "flags": [
+      "family-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The homepage describes Hillside Appliance Services as a family-owned business that has served the Valley for over 20 years, specializing in home refrigeration, kitchen, and laundry appliances.",
+      "A blog post on the site (April 7, 2025) says its technicians are factory-trained and certified by Sub-Zero for Pro 48, Integrated, and Classic models, and calls the company Scottsdale-based. That is the shop's claim; we have not confirmed it with Sub-Zero, so ask Sub-Zero for its authorized servicer list if that matters for your repair.",
+      "Appliances named on the site include refrigerators, freezers, ice makers, wine coolers, ovens, stoves, ranges, cooktops, microwaves, dishwashers, washers, dryers, and garbage disposals. The site also lists commercial and property-management service.",
+      "The site says it offers same-day service whenever possible and serves Phoenix-area cities within a 30-mile radius.",
+      "Published warranty: a 90-day limited labor warranty for workmanship defects; parts carry the manufacturer's warranty, typically 1 year (accessed 2026-11-22; confirm when you call).",
+      "The About page says the company is licensed and insured; it does not publish a license number on the pages we opened."
+    ],
+    "sources": [
+      {
+        "url": "https://hillsideappliancerepair.com/",
+        "accessed": "2026-11-22",
+        "facts": "family-owned, 20+ years, phone, email, Scottsdale address, office hours, service-area list, appliance types, same-day claim, 30-mile radius, warranty terms, brand menu"
+      },
+      {
+        "url": "https://hillsideappliancerepair.com/about-our-professional-team",
+        "accessed": "2026-11-22",
+        "facts": "licensed and insured claim, appliance list (including beverage coolers and kegerators), company name Hillside Appliance Service LLC"
+      },
+      {
+        "url": "https://hillsideappliancerepair.com/expert-sub-zero-appliance-repair-in-scottsdale-az/",
+        "accessed": "2026-11-22",
+        "facts": "Sub-Zero factory-trained / certified claim, Scottsdale-based and family-owned claim"
+      }
+    ]
+  },
+  {
+    "id": "high-desert-appliance-repair",
+    "name": "High Desert Appliance Repair",
+    "slug": "high-desert-appliance-repair",
+    "citySlug": "phoenix",
+    "phone": "4804798606",
+    "phoneDisplay": "(480) 479-8606",
+    "website": "https://highdesertappliancerepair.com/",
+    "email": null,
+    "address": {
+      "street": "16427 N Scottsdale Rd",
+      "city": "Scottsdale",
+      "state": "AZ",
+      "zip": "85254"
+    },
+    "addressNotes": "Address as published in the footer of the shop's own website.",
+    "serviceAreas": [
+      "Scottsdale",
+      "North Phoenix",
+      "Phoenix",
+      "Cave Creek",
+      "Paradise Valley",
+      "Carefree",
+      "Fountain Hills"
+    ],
+    "appliances": [
+      "refrigerator",
+      "oven-range",
+      "microwave",
+      "washer",
+      "dryer"
+    ],
+    "brands": [
+      "Sub-Zero",
+      "Wolf",
+      "Thermador",
+      "Viking",
+      "GE Monogram",
+      "U-Line",
+      "Speed Queen",
+      "Bosch",
+      "Samsung",
+      "GE",
+      "Whirlpool",
+      "Maytag",
+      "KitchenAid",
+      "Frigidaire",
+      "Electrolux",
+      "Kenmore"
+    ],
+    "brandsNote": "The Appliances/Brands page lists about 30 brands, including older names such as Caloric, Gibson, Roper, and Tappan; confirm your model when you call.",
+    "hours": "Office hours: Monday–Friday 8:00 a.m.–6:00 p.m.; Saturday 8:00 a.m.–2:00 p.m.; Sunday closed (per the homepage).",
+    "flags": [
+      "locally-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The About Us page describes High Desert Appliance Repair as a locally owned and operated company serving Scottsdale, North Phoenix, Cave Creek, Paradise Valley, Carefree, Fountain Hills, and surrounding areas.",
+      "Published pricing: an $89.00 diagnosis fee, waived when you choose to repair with them (accessed 2026-11-22; confirm when you call).",
+      "The site lists military, first responder, educator, senior citizen, and repeat-customer discounts, which must be mentioned before payment is processed.",
+      "The site says all employees must pass background checks and drug screenings before joining the team.",
+      "Appliances named: refrigerators, ovens, cooktops, stoves, ranges, built-in microwaves, disposals, washers, and dryers."
+    ],
+    "sources": [
+      {
+        "url": "https://highdesertappliancerepair.com/",
+        "accessed": "2026-11-22",
+        "facts": "phone, office hours, Scottsdale address, $89 diagnosis fee waived with repair, appliance types"
+      },
+      {
+        "url": "https://highdesertappliancerepair.com/about-us/",
+        "accessed": "2026-11-22",
+        "facts": "locally owned and operated, service areas, discounts, background checks and drug screenings"
+      },
+      {
+        "url": "https://highdesertappliancerepair.com/appliance-we-service/",
+        "accessed": "2026-11-22",
+        "facts": "appliance types and brand list"
+      },
+      {
+        "url": "https://highdesertappliancerepair.com/pricing-discounts/",
+        "accessed": "2026-11-22",
+        "facts": "$89.00 diagnosis fee, waiver, discount categories, payment methods"
+      }
+    ]
   }
 ]
