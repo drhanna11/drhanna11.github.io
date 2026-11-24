@@ -162,8 +162,8 @@ def ld_json(obj: dict) -> str:
 
 
 def logo_html(page_file: str) -> str:
-    src = href(page_file, "/img/logo.png")
-    return f'<img class="logo-img" src="{e(src)}" alt="" width="32" height="32">'
+    src = href(page_file, "/assets/brand/logo-header-light.png")
+    return f'<img class="logo-img" src="{e(src)}" alt="Indie Appliance Repair" width="714" height="180" decoding="async">'
 
 
 def nav_html(page_file: str, current: str) -> str:
@@ -355,16 +355,20 @@ def layout(
         path = "/404.html"
     canonical = f'<link rel="canonical" href="{e(origin + path)}">' if origin else ""
     favicon = href(page_file, "/favicon.ico")
-    favicon_32 = href(page_file, "/img/favicon-32.png")
-    favicon_16 = href(page_file, "/img/favicon-16.png")
-    apple_icon = href(page_file, "/img/apple-touch-icon.png")
-    logo_abs = f"{origin}/img/logo.png" if origin else ""
+    favicon_32 = href(page_file, "/assets/brand/favicon-32.png")
+    favicon_16 = href(page_file, "/assets/brand/favicon-16.png")
+    apple_icon = href(page_file, "/assets/brand/apple-touch-icon.png")
+    manifest = href(page_file, "/site.webmanifest")
+    og_abs = f"{origin}/assets/brand/og-default.png" if origin else ""
     og_image = (
-        f'<meta property="og:image" content="{e(logo_abs)}">\n'
+        f'<meta property="og:image" content="{e(og_abs)}">\n'
         f'  <meta property="og:image:type" content="image/png">\n'
-        f'  <meta property="og:image:width" content="512">\n'
-        f'  <meta property="og:image:height" content="512">'
-        if logo_abs else ""
+        f'  <meta property="og:image:width" content="1200">\n'
+        f'  <meta property="og:image:height" content="630">\n'
+        f'  <meta property="og:image:alt" content="Indie Appliance Repair logo">\n'
+        f'  <meta name="twitter:card" content="summary_large_image">\n'
+        f'  <meta name="twitter:image" content="{e(og_abs)}">'
+        if og_abs and "og:image" not in extra_head else ""
     )
     return f"""<!DOCTYPE html>
 <html lang="en-US">
@@ -378,7 +382,9 @@ def layout(
   <link rel="icon" href="{e(favicon)}" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="{e(favicon_32)}">
   <link rel="icon" type="image/png" sizes="16x16" href="{e(favicon_16)}">
-  <link rel="apple-touch-icon" href="{e(apple_icon)}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{e(apple_icon)}">
+  <link rel="manifest" href="{e(manifest)}">
+  <meta name="theme-color" content="#1C4536">
   {og_image}
   <link rel="stylesheet" href="{e(css)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -391,7 +397,7 @@ def layout(
   <header class="site-header">
     <div class="wrap">
       <div class="header-inner">
-        <a class="logo" href="{e(home)}">{logo_html(page_file)}<span class="logo-text"><strong>Indie Appliance Repair</strong><span>Independent techs, not a lead mill</span></span></a>
+        <a class="logo" href="{e(home)}">{logo_html(page_file)}</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">{nav_html(page_file, current)}</nav>
@@ -647,6 +653,17 @@ def page_home() -> None:
         "description": site["description"],
         "about": "Independent appliance repair technician directory",
         "url": (site.get("canonicalOrigin") or "").rstrip("/") or None,
+        "publisher": {
+            "@type": "Organization",
+            "name": site["name"],
+            "url": (site.get("canonicalOrigin") or "").rstrip("/") + "/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": (site.get("canonicalOrigin") or "").rstrip("/") + "/assets/brand/icon-512.png",
+                "width": 512,
+                "height": 512,
+            },
+        },
     })
     item_elements = []
     pos = 1

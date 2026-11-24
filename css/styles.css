@@ -65,13 +65,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;
 }
 .logo:hover { color: #fff; }
+.logo { padding: 0.15rem 0; }
 .logo-img {
-  width: 32px; height: 32px; flex: none; display: block;
-  border-radius: 50%;
+  height: 48px; width: auto; max-width: 100%; flex: none; display: block;
 }
-.logo-text { display: flex; flex-direction: column; }
-.logo-text strong { font-size: 1.05rem; }
-.logo-text span { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: #d7c7a4; }
+@media (min-width: 860px) { .logo-img { height: 64px; } }
 
 .nav-toggle {
   display: inline-flex; align-items: center; justify-content: center;
