@@ -150,7 +150,8 @@ def registration_html(page_file: str, metro: dict) -> str:
         f'<p class="note"><strong>California registration.</strong> {e(note)} '
         f'<a href="{e(search)}" rel="noopener noreferrer">Search BHGS registrations</a>. '
         f'<a href="{e(guide)}" rel="noopener noreferrer">BHGS consumer guide</a>. '
-        f'<a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">How to check a registration, step by step</a>.</p>'
+        f'<a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">How to check a registration, step by step</a>. '
+        f'<a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Service-call fees local shops publish</a>.</p>'
     )
 
 
@@ -233,6 +234,7 @@ def footer_html(page_file: str) -> str:
         {metro_links}
         <li><a href="{e(href(page_file, "/guides/repair-vs-replace/"))}">Repair vs. replace</a></li>
         <li><a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">Check a CA BHGS registration</a></li>
+        <li><a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Riverside County service-call fees</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
         <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
       </ul>
@@ -381,7 +383,7 @@ def layout(
   <link rel="stylesheet" href="{e(css)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;550;650;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Source+Sans+3:wght@400;550;650;700&amp;display=swap" rel="stylesheet">
   {extra_head}
 </head>
 <body>
@@ -605,6 +607,10 @@ def page_home() -> None:
         <a class="card cat-card" href="{e(href(page, "/guides/check-california-bhgs-registration/"))}">
           <h3>Check a California BHGS registration</h3>
           <p>Step-by-step lookup of an appliance repair dealer in the state license search, what the results mean, and how to file a complaint.</p>
+        </a>
+        <a class="card cat-card" href="{e(href(page, "/riverside-county/service-call-fees/"))}">
+          <h3>Riverside County service-call fees</h3>
+          <p>What local shops publish for a service call or diagnostic visit, what “waived with repair” means, and California’s rules on trip charges.</p>
         </a>
         <a class="card cat-card" href="{e(href(page, "/compare/independent-vs-chains/"))}">
           <h3>Independent vs. chains</h3>
@@ -1294,6 +1300,163 @@ def page_bhgs_guide() -> None:
     write_page(page, layout(page, "How to check a California appliance repair shop’s BHGS registration — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=faq))
 
 
+FEES_PATH = "/riverside-county/service-call-fees/"
+
+
+def page_rc_fees() -> None:
+    """Riverside County: sourced table of shop-published service-call / diagnostic fees."""
+    page = "riverside-county/service-call-fees/index.html"
+    by_slug = {l["slug"]: l for l in LISTINGS}
+    # (slug, fee shown in table, fee number for sorting, what the shop says, source url, accessed)
+    rows = [
+        ("appliance-solutions-corona", "$25", 25,
+         "Service call waived with repair charges; the listing page also offers free phone estimates. The page did not load when we re-checked on 2026-11-23, so treat this figure as older.",
+         "http://www.shopcorona.com/appliancesolutionsnow", "2026-11-18"),
+        ("techpulse-services", "$60", 60,
+         "Service call applied to the repair if you go ahead.",
+         "https://techpulseapplianceservice.com/", "2026-11-23"),
+        ("av-appliance-repair", "$65 or $85", 65,
+         "$65 for refrigerator, washer, dryer, dishwasher, gas range/cooktop, disposal, and wine cooler visits; $85 for built-in refrigerator, electric range/oven, microwave, and A/C visits. Waived when a repair is done with your consent.",
+         "https://avappliancerepair.com/appliance-service-call-pricing/", "2026-11-23"),
+        ("quick-n-easy-appliance", "From $75", 75,
+         "Service call starts at $75; labor starts at $175, which includes the service call fee. The fee is applied toward labor if you proceed; the site says same-day emergency calls carry a higher fee.",
+         "https://www.quickneasy.net/", "2026-11-23"),
+        ("appliance-showroom-hemet", "$76, $109, or $129", 76,
+         "Priced by city: $76 for Hemet, San Jacinto, Valle Vista, Homeland, Nuevo, Romoland; $109 for Sun City, Menifee, Perris, Winchester, Moreno Valley, Canyon Lake, Banning, Beaumont; $129 for Temecula, Murrieta, Wildomar, Lake Elsinore, Sage, Anza, Aguanga, Idyllwild. Basic labor is listed as the initial visit plus $99.",
+         "https://www.applianceshowroom.com/copy-of-sales", "2026-11-23"),
+        ("nash-appliance-group", "$79", 79,
+         "Diagnostic fee waived with repair.",
+         "https://nashappliance.com/", "2026-11-23"),
+        ("tims-fridge-repair", "$80 or $120", 80,
+         "$80 residential refrigerator or freezer diagnostic, applied to the final balance if you move forward; $120 diagnostic for business refrigerators. Mileage of $0.55 per mile may apply when travel is over one hour.",
+         "https://chillynow.com/", "2026-11-23"),
+    ]
+    rows = [r for r in rows if r[0] in by_slug]
+    no_number = [
+        ("mmo-appliance-repair", "Service-call fee waived with a completed repair; call or text your ZIP code to confirm the rate for your address.", "https://mmoappliancerepair.com/"),
+        ("mg-service", "Service call waived with a repair (the diagnostic fee is waived when you book the repair).", "https://mgserviceappliance.com/"),
+        ("solvanta-home-services", "“$0 service call with completed repair” — the service-call fee is waived when you proceed.", "https://www.solvanta-appliancerepair.com/"),
+        ("action-appliance-temecula", "Staff tell you the cost of the initial visit and diagnosis when they call to confirm the appointment.", "https://www.actionmaytag.com/service-request"),
+    ]
+    no_number = [r for r in no_number if r[0] in by_slug]
+    lo = min(r[2] for r in rows)
+    hi_vals = [129 if r[0] == "appliance-showroom-hemet" else (120 if r[0] == "tims-fridge-repair" else (85 if r[0] == "av-appliance-repair" else r[2])) for r in rows]
+    hi = max(hi_vals)
+    bhgs = "https://www.bhgs.dca.ca.gov/consumers/ear.html"
+    law = "https://www.bhgs.dca.ca.gov/laws/ear_law_book-effective_1-1-24_with_links.pdf"
+
+    def base(l: dict) -> str:
+        city = (l.get("address") or {}).get("city")
+        return city or "Riverside County"
+
+    trs = []
+    for slug, fee, _n, note, url, acc in rows:
+        l = by_slug[slug]
+        trs.append(
+            f'<tr><th scope="row"><a href="{e(href(page, listing_url(l)))}">{e(l["name"])}</a>'
+            f'<br><span class="meta">{e(base(l))}</span></th>'
+            f'<td><strong>{e(fee)}</strong></td><td>{e(note)}</td>'
+            f'<td><a href="{e(url)}" rel="noopener noreferrer">Shop website</a><br><span class="meta">accessed {e(acc)}</span></td></tr>'
+        )
+    lis = []
+    for slug, note, url in no_number:
+        l = by_slug[slug]
+        lis.append(
+            f'<li><a href="{e(href(page, listing_url(l)))}">{e(l["name"])}</a> ({e(base(l))}): {e(note)} '
+            f'<a href="{e(url)}" rel="noopener noreferrer">Source</a> (accessed 2026-11-23).</li>'
+        )
+    riverside = href(page, "/riverside-county/")
+    guide = href(page, BHGS_GUIDE_PATH)
+    city_links = ", ".join(
+        f'<a href="{e(href(page, "/riverside-county/" + c["slug"] + "/"))}">{e(c["name"])}</a>'
+        for m in cities if m.get("slug") == "riverside-county" for c in m.get("cities", [])
+    )
+    body = f"""
+    <article class="prose hero">
+      <p class="kicker">Guide · Riverside County, California</p>
+      <h1>Appliance repair service-call fees in Riverside County: what local shops publish</h1>
+      <p class="lede">Before an appliance tech drives to your house, most will charge a service-call or diagnostic fee. Here are the fees that independent shops in our Riverside County directory publish on their own websites — {len(rows)} shops with a dollar figure, from ${lo} to ${hi} — plus what “waived with repair” means and what California requires a shop to tell you first.</p>
+      <p class="note">These are each shop’s own published numbers, copied with the date we read them. They are not our prices, not quotes, and not an average of the market. Fees change; confirm the amount for your address when you call. Last checked: November 23, 2026.</p>
+
+      <h2>Published service-call and diagnostic fees</h2>
+      <p>Sorted from the lowest starting fee. Each shop name links to its profile in our directory; the source link goes to the page where the shop states the fee.</p>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th scope="col">Shop (base)</th><th scope="col">Published fee</th><th scope="col">What the shop says</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+          {"".join(trs)}
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Shops that waive the fee but do not publish a number</h3>
+      <ul>
+        {"".join(lis)}
+      </ul>
+
+      <h2>What “waived with repair” usually means</h2>
+      <p>Most of the shops above use some version of the same policy: you pay the service-call or diagnostic fee only if you decide <em>not</em> to go ahead with the repair. If you approve the repair, the fee is either dropped or credited toward the bill. The wording matters, so read it closely:</p>
+      <ul>
+        <li><strong>“Waived”</strong> (AV Appliance Repair, NaSh, MMO, MG Service, Solvanta): the fee goes away when the repair is done.</li>
+        <li><strong>“Applied to the repair” or “applied toward labor”</strong> (TechPulse, Tim’s Fridge Repair, Quick N’ Easy): the fee counts toward the final bill. Quick N’ Easy, for example, says labor starts at $175 and that figure already includes the service call.</li>
+        <li><strong>Priced by distance</strong> (Appliance Showroom in Hemet): the same visit costs $76, $109, or $129 depending on which city you live in. Tim’s Fridge Repair says mileage may be added when travel is over an hour. If you live at the edge of a shop’s area, ask.</li>
+      </ul>
+
+      <h2>What California requires (BHGS)</h2>
+      <p>Appliance repair dealers in California are regulated by the Bureau of Household Goods and Services (BHGS). Its consumer guide answers the fee question directly:</p>
+      <ul>
+        <li><strong>Trip charges must be quoted first.</strong> BHGS says a service dealer must quote a trip charge, if any, for each service call before it happens.</li>
+        <li><strong>A reasonable diagnostic fee is allowed.</strong> The dealer can charge a reasonable fee to find the problem, and charges for the actual repair work only if you agree to the repairs.</li>
+        <li><strong>Written estimate before repairs.</strong> Service dealers must give you a written estimate of the cost, including the total price, before repairs.</li>
+      </ul>
+      <p><a href="{e(bhgs)}" rel="noopener noreferrer">Source: BHGS, A Consumer Guide to Electronic and Appliance Repair</a>. <a href="{e(law)}" rel="noopener noreferrer">Law: Business and Professions Code section 9844 (PDF)</a>. To confirm a shop is registered, follow our <a href="{e(guide)}">step-by-step BHGS lookup guide</a>.</p>
+
+      <h2>Questions to ask when you book</h2>
+      <ol>
+        <li>What is the service-call or diagnostic fee to my address (give your ZIP code)?</li>
+        <li>Is it waived, or credited toward the repair, if I go ahead? Is there a minimum labor charge?</li>
+        <li>Is the fee different for built-in refrigerators, gas appliances, or a second appliance on the same visit?</li>
+        <li>Will I get a written estimate before any repair starts?</li>
+        <li>What warranty comes with the repair, and does it cover parts, labor, or both?</li>
+        <li>What is your BHGS registration number? (Then look it up yourself.)</li>
+      </ol>
+      <p>Have the brand, model number, and a short description of the problem ready; several shops ask for it, and it helps them bring the right part.</p>
+
+      <h2>Find a tech</h2>
+      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> or go straight to a city: {city_links}. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a> and <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>.</p>
+
+      <p class="note">Run a shop on this list and your fee changed? Or publish a fee we missed? Use the <a href="{e(href(page, "/get-listed/"))}">get listed / corrections page</a> and include the URL where the fee is posted.</p>
+
+      <section class="sources" aria-label="Sources">
+        <h2>Sources</h2>
+        <ul>
+          {"".join(f'<li><a href="{e(url)}" rel="noopener noreferrer">{e(by_slug[slug]["name"])} — fee page</a> (accessed {e(acc)})</li>' for slug, _f, _n, _x, url, acc in rows)}
+          {"".join(f'<li><a href="{e(url)}" rel="noopener noreferrer">{e(by_slug[slug]["name"])} — fee policy</a> (accessed 2026-11-23)</li>' for slug, _x, url in no_number)}
+          <li><a href="{e(bhgs)}" rel="noopener noreferrer">BHGS — A Consumer Guide to Electronic and Appliance Repair (FAQ on trip charges, diagnostic fees, written estimates)</a> (accessed 2026-11-23)</li>
+        </ul>
+      </section>
+    </article>
+    """
+    desc = (
+        f"Service-call and diagnostic fees published by {len(rows)} independent Riverside County appliance repair shops "
+        f"(${lo}–${hi}), what ‘waived with repair’ means, and California’s BHGS rules. Sourced, dated."
+    )
+    faq = ld_json({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "How much is an appliance repair service call in Riverside County?",
+             "acceptedAnswer": {"@type": "Answer", "text": f"Among {len(rows)} independent Riverside County shops in our directory that publish a dollar figure, the published service-call or diagnostic fees ran from ${lo} to ${hi} when we checked in November 2026. Several shops price by distance or appliance type. Confirm the fee for your address when you call."}},
+            {"@type": "Question", "name": "What does 'service call waived with repair' mean?",
+             "acceptedAnswer": {"@type": "Answer", "text": "You pay the service-call or diagnostic fee only if you decline the repair. If you approve it, the shop either drops the fee or credits it toward the final bill. Ask which one applies and whether there is a minimum labor charge."}},
+            {"@type": "Question", "name": "Can a California appliance repair shop charge a trip fee and a diagnostic fee?",
+             "acceptedAnswer": {"@type": "Answer", "text": "BHGS says a service dealer must quote any trip charge before the service call, may charge a reasonable diagnostic fee to find the problem, and may charge for the actual repair only if you agree. Dealers must give a written estimate with the total price before repairs."}},
+        ],
+    })
+    crumbs = [("/", "Home"), ("/riverside-county/", "Riverside County"), (FEES_PATH, "Service-call fees")]
+    write_page(page, layout(page, "Appliance repair service-call fees in Riverside County (published by local shops) — Indie Appliance Repair", desc, body, "riverside-county", crumbs, extra_head=faq))
+
+
 def page_compare() -> None:
     page = "compare/independent-vs-chains/index.html"
     body = f"""
@@ -1567,6 +1730,7 @@ def main() -> None:
             remember(f"{metro['slug']}/techs/{listing['slug']}/index.html")
     page_guide(); remember("guides/repair-vs-replace/index.html")
     page_bhgs_guide(); remember("guides/check-california-bhgs-registration/index.html")
+    page_rc_fees(); remember("riverside-county/service-call-fees/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")
     page_get_listed(); remember("get-listed/index.html")

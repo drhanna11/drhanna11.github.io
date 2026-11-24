@@ -3536,5 +3536,160 @@
         "facts": "$89.00 diagnosis fee, waiver, discount categories, payment methods"
       }
     ]
+  },
+  {
+    "id": "av-appliance-repair",
+    "name": "AV Appliance Repair",
+    "slug": "av-appliance-repair",
+    "citySlug": "riverside-county",
+    "phone": "9515318500",
+    "phoneDisplay": "(951) 531-8500",
+    "website": "https://avappliancerepair.com/",
+    "email": "vaplservices@gmail.com",
+    "address": {
+      "street": null,
+      "city": "Corona",
+      "state": "CA",
+      "zip": null
+    },
+    "addressNotes": "The website says the company is based out of Corona; it does not publish a street address.",
+    "serviceAreas": [
+      "Corona",
+      "Norco",
+      "Eastvale",
+      "Jurupa Valley",
+      "Mira Loma",
+      "Riverside",
+      "Arlington",
+      "La Sierra",
+      "Home Gardens",
+      "El Cerrito",
+      "Temescal Valley",
+      "Anaheim Hills",
+      "Yorba Linda",
+      "Chino",
+      "Chino Hills",
+      "Ontario",
+      "Rancho Cucamonga"
+    ],
+    "appliances": [
+      "refrigerator",
+      "washer",
+      "dryer",
+      "oven-range",
+      "dishwasher",
+      "microwave"
+    ],
+    "brands": [
+      "Sub-Zero",
+      "Viking",
+      "Thermador",
+      "GE Monogram",
+      "LG",
+      "Whirlpool",
+      "KitchenAid",
+      "Maytag",
+      "JennAir"
+    ],
+    "brandsNote": "The About page says it services Sub-Zero, Viking, Thermador, LG, Whirlpool, KitchenAid, and most other American and European brands; the built-in refrigerator section names Sub-Zero, Viking, Thermador, KitchenAid, and JennAir.",
+    "hours": "Monday–Friday 9:00 a.m.–5:00 p.m.; weekends closed (per the About page). The site says warranty work is honored during business hours only.",
+    "flags": [
+      "locally-owned"
+    ],
+    "license": "The website lists “Lic. #A45173.” We did not confirm it in the state search. Look it up in the DCA License Search before you book.",
+    "facts": [
+      "The About page says AV Appliance Repair is based out of Corona, has 18+ years of experience, and is licensed, insured, and bonded, with parts and labor backed by a warranty. The homepage says its technicians have served Corona and nearby cities since 2008.",
+      "Published service-call prices (accessed 2026-11-23): $65 for refrigerator, washer, dryer, dishwasher, gas range/stove/cooktop, garbage disposal, and wine cooler visits; $85 for built-in refrigerator, electric range/oven, microwave, and air-conditioner visits. The pricing page says the service fee is waived when a repair is done with your consent. Confirm when you call.",
+      "The specials page lists a 20% senior citizen discount and a 20% military personnel discount.",
+      "Appliances named include refrigerators (including built-in and panel-ready models), washers, dryers, ovens and ranges, cooktops, microwaves, dishwashers, garbage disposals, trash compactors, wine coolers, and air conditioners."
+    ],
+    "sources": [
+      {
+        "url": "https://avappliancerepair.com/",
+        "accessed": "2026-11-23",
+        "facts": "name, phone, email, license number shown, since 2008, $65 service call waived with repair, appliance types, service-area list"
+      },
+      {
+        "url": "https://avappliancerepair.com/about-us/",
+        "accessed": "2026-11-23",
+        "facts": "based out of Corona, 18+ years, licensed/insured/bonded, warranty, brands, service cities, business hours"
+      },
+      {
+        "url": "https://avappliancerepair.com/appliance-service-call-pricing/",
+        "accessed": "2026-11-23",
+        "facts": "service-call price table by appliance ($65 / $85), waiver policy, built-in refrigerator brands"
+      },
+      {
+        "url": "https://avappliancerepair.com/appliance-repair-specials/",
+        "accessed": "2026-11-23",
+        "facts": "20% senior and 20% military discounts"
+      }
+    ]
+  },
+  {
+    "id": "action-appliance-temecula",
+    "name": "Action Appliance",
+    "slug": "action-appliance-temecula",
+    "citySlug": "riverside-county",
+    "phone": "9516946595",
+    "phoneDisplay": "(951) 694-6595",
+    "website": "https://www.actionmaytag.com/",
+    "email": "info@actionmaytag.com",
+    "address": {
+      "street": "26810 Ynez Court",
+      "city": "Temecula",
+      "state": "CA",
+      "zip": "92591"
+    },
+    "addressNotes": "Store address as published on the shop's own website.",
+    "serviceAreas": [
+      "Temecula"
+    ],
+    "appliances": [
+      "refrigerator",
+      "washer",
+      "dryer"
+    ],
+    "brands": [],
+    "brandsNote": "The website does not publish a list of brands it services. It is also an appliance store; ask whether your brand and model are covered when you call.",
+    "hours": "Monday–Friday 8:00 a.m.–6:00 p.m.; Saturday 9:00 a.m.–5:00 p.m.; Sunday closed, no service (per the service-request page).",
+    "flags": [
+      "family-owned",
+      "locally-owned"
+    ],
+    "license": null,
+    "facts": [
+      "Action Appliance is a family-owned, locally owned appliance store at 26810 Ynez Court in Temecula with its own service and parts department. Its BBB profile lists a 1987 start date and the alternate name Action Maytag Home Appliance Center.",
+      "The repair page says its technicians handle refrigerator, washing machine, and dryer repair and can supply hard-to-find replacement parts; the services page says the team can help identify the correct part for your appliance.",
+      "The service-request page says a staff member will tell you the costs of the initial service visit and diagnosis when they call to confirm the appointment. It does not publish a fee amount.",
+      "The service-request page says service is generally during business hours and that there is no service on Sunday."
+    ],
+    "sources": [
+      {
+        "url": "https://www.actionmaytag.com/refrigerator-repair-temecula-ca",
+        "accessed": "2026-11-23",
+        "facts": "locally owned and operated, refrigerator/washer/dryer repair, hard-to-find parts, phone, address, email"
+      },
+      {
+        "url": "https://www.actionmaytag.com/about-us",
+        "accessed": "2026-11-23",
+        "facts": "family-owned, locally owned"
+      },
+      {
+        "url": "https://www.actionmaytag.com/service-request",
+        "accessed": "2026-11-23",
+        "facts": "service hours, no Sunday service, initial visit and diagnosis costs quoted by staff when confirming"
+      },
+      {
+        "url": "https://www.actionmaytag.com/services",
+        "accessed": "2026-11-23",
+        "facts": "service and parts department, parts identification"
+      },
+      {
+        "url": "https://www.bbb.org/us/ca/temecula/profile/major-appliance-dealers/action-appliance-1126-93000774",
+        "accessed": "2026-11-23",
+        "facts": "business started 1987, alternate names"
+      }
+    ]
   }
 ]
