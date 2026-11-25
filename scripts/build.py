@@ -143,6 +143,12 @@ def metro_nav_label(metro: dict) -> str:
 def registration_html(page_file: str, metro: dict) -> str:
     note = metro.get("registrationNote")
     if not note:
+        if metro.get("slug") == "phoenix":
+            return (
+                f'<p class="note"><strong>Before you book:</strong> see the '
+                f'<a href="{e(href(page_file, "/phoenix/service-call-fees/"))}">service-call fees Phoenix-area shops publish</a> '
+                f'and what “waived with repair” means.</p>'
+            )
         return ""
     search = metro.get("registrationSearchUrl") or "https://search.dca.ca.gov/"
     guide = metro.get("registrationGuideUrl") or "https://www.bhgs.dca.ca.gov/consumers/ear.html"
@@ -234,6 +240,7 @@ def footer_html(page_file: str) -> str:
         {metro_links}
         <li><a href="{e(href(page_file, "/guides/repair-vs-replace/"))}">Repair vs. replace</a></li>
         <li><a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">Check a CA BHGS registration</a></li>
+        <li><a href="{e(href(page_file, "/phoenix/service-call-fees/"))}">Phoenix service-call fees</a></li>
         <li><a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Riverside County service-call fees</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
         <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
@@ -617,6 +624,10 @@ def page_home() -> None:
         <a class="card cat-card" href="{e(href(page, "/riverside-county/service-call-fees/"))}">
           <h3>Riverside County service-call fees</h3>
           <p>What local shops publish for a service call or diagnostic visit, what “waived with repair” means, and California’s rules on trip charges.</p>
+        </a>
+        <a class="card cat-card" href="{e(href(page, "/phoenix/service-call-fees/"))}">
+          <h3>Phoenix service-call fees</h3>
+          <p>What Valley shops publish for a service call or diagnostic visit, “waived” vs. “applied toward the repair,” and what to ask before you book.</p>
         </a>
         <a class="card cat-card" href="{e(href(page, "/compare/independent-vs-chains/"))}">
           <h3>Independent vs. chains</h3>
@@ -1440,7 +1451,7 @@ def page_rc_fees() -> None:
       <p>Have the brand, model number, and a short description of the problem ready; several shops ask for it, and it helps them bring the right part.</p>
 
       <h2>Find a tech</h2>
-      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> or go straight to a city: {city_links}. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a> and <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>.</p>
+      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> or go straight to a city: {city_links}. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a>, <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>, and <a href="{e(href(page, PHX_FEES_PATH))}">Phoenix-area service-call fees</a>.</p>
 
       <p class="note">Run a shop on this list and your fee changed? Or publish a fee we missed? Use the <a href="{e(href(page, "/get-listed/"))}">get listed / corrections page</a> and include the URL where the fee is posted.</p>
 
@@ -1472,6 +1483,167 @@ def page_rc_fees() -> None:
     })
     crumbs = [("/", "Home"), ("/riverside-county/", "Riverside County"), (FEES_PATH, "Service-call fees")]
     write_page(page, layout(page, "Appliance repair service-call fees in Riverside County (published by local shops) — Indie Appliance Repair", desc, body, "riverside-county", crumbs, extra_head=faq))
+
+
+PHX_FEES_PATH = "/phoenix/service-call-fees/"
+
+
+def page_phx_fees() -> None:
+    """Phoenix metro: sourced table of shop-published service-call / diagnostic fees."""
+    page = "phoenix/service-call-fees/index.html"
+    by_slug = {l["slug"]: l for l in LISTINGS}
+    acc = "2026-11-24"
+    # (slug, fee shown, low number, high number, what the shop says, source url)
+    rows = [
+        ("promaster-az", "$55–$125", 55, 125,
+         "“Diagnostic visit — applies toward your repair.” The same page publishes typical repair ranges: refrigerator $150–$1,100, oven/stovetop $125–$600, washer/dryer $125–$300, and a free second opinion by phone if another company already quoted you. Exact price is quoted on site before work starts.",
+         "https://promasteraz.com/phoenix-appliance-repair/"),
+        ("robbys-appliance-repair", "$75", 75, 75,
+         "“The service fee is $75, and waived if you get repairs done.” Every visit includes a diagnosis and repair options.",
+         "https://www.robbysappliancerepair.com/"),
+        ("high-desert-appliance-repair", "$89", 89, 89,
+         "“$89.00 Diagnosis Fee,” waived when you choose to repair with them. Military, first responder, educator, senior, and repeat-customer discounts must be mentioned before payment is processed.",
+         "https://highdesertappliancerepair.com/pricing-discounts/"),
+        ("arizona-freeze", "$100", 100, 100,
+         "“Service call is $100, which is waived if you proceed with repairs.” You talk directly to the technician who does the repair.",
+         "https://azfreeze.com/"),
+        ("az-major-appliance", "$100", 100, 100,
+         "“We charge a $100 service call, which applies toward the cost of necessary repairs and parts.”",
+         "https://azmajor.com/"),
+    ]
+    rows = [r for r in rows if r[0] in by_slug]
+    no_number = [
+        ("all-city-appliance-repair", "“Our service call is always free with the repair.”", "https://www.allcityappliancerepairservice.com/"),
+        ("valley-services", "Diagnostic fee waived if you go ahead with the repair. The Mesa page says a typical repair is about $250, quoted after the diagnostic (your price may be higher or lower), and offers $25 off when you book online.", "https://www.azvalleyservices.com/appliance-repair-mesa-az/"),
+        ("kaelric-appliance-solutions", "Service-call fee waived if you approve the repair; if you decline, you pay only the service-call fee. The site says you will know the fee before the appointment is confirmed.", "https://www.kappliancesolutions.com/"),
+        ("jazz-appliance-repair", "A service charge applies for travel and diagnosis, and is waived if you go ahead with the complete repair (parts and labor). Free advice by phone first.", "https://jazzappliancerepair.com/home-appliance-repair/about-us/"),
+        ("lux-appliance-care", "Charges a service-call fee, applied to the repair cost if you proceed.", "https://luxappliancecare.com/"),
+        ("elite-sub-zero-appliance-repair", "The service call includes diagnosis, and you get a complete quote before any repair work begins.", "https://www.subzerorepairtempe.com/"),
+        ("hometech-appliance-repair", "Asks you to discuss the diagnosis charge, proposed repair, and warranty with the owner (Joe) before arranging service.", "https://hometechappliancerepair.com/"),
+    ]
+    no_number = [r for r in no_number if r[0] in by_slug]
+    lo = min(r[2] for r in rows)
+    hi = max(r[3] for r in rows)
+    roc_guide = "https://roc.az.gov/before-hire"
+    roc_search = next((m.get("licenseSearchUrl") for m in cities if m.get("slug") == "phoenix"), None) or "https://azroc.my.site.com/AZRoc/s/contractor-search"
+
+    def base(l: dict) -> str:
+        city = (l.get("address") or {}).get("city")
+        return city or "Phoenix metro"
+
+    trs = []
+    for slug, fee, _lo, _hi, note, url in rows:
+        l = by_slug[slug]
+        trs.append(
+            f'<tr><th scope="row"><a href="{e(href(page, listing_url(l)))}">{e(l["name"])}</a>'
+            f'<br><span class="meta">{e(base(l))}</span></th>'
+            f'<td><strong>{e(fee)}</strong></td><td>{e(note)}</td>'
+            f'<td><a href="{e(url)}" rel="noopener noreferrer">Shop website</a><br><span class="meta">accessed {acc}</span></td></tr>'
+        )
+    lis = []
+    for slug, note, url in no_number:
+        l = by_slug[slug]
+        lis.append(
+            f'<li><a href="{e(href(page, listing_url(l)))}">{e(l["name"])}</a> ({e(base(l))}): {e(note)} '
+            f'<a href="{e(url)}" rel="noopener noreferrer">Source</a> (accessed {acc}).</li>'
+        )
+    phx = href(page, "/phoenix/")
+    city_links = ", ".join(
+        f'<a href="{e(href(page, "/phoenix/" + c["slug"] + "/"))}">{e(c["name"])}</a>'
+        for m in cities if m.get("slug") == "phoenix" for c in m.get("cities", [])
+    )
+    body = f"""
+    <article class="prose hero">
+      <p class="kicker">Guide · Phoenix metro, Arizona</p>
+      <h1>Appliance repair service-call fees in the Phoenix area: what local shops publish</h1>
+      <p class="lede">Most Valley appliance techs charge a service-call or diagnostic fee to come out and find the problem. Here are the fees that independent shops in our Phoenix directory publish on their own websites — {len(rows)} shops with a dollar figure, from ${lo} to ${hi} — plus {len(no_number)} more that explain their fee policy without a number, and what to ask before you book.</p>
+      <p class="note">These are each shop’s own published numbers, copied with the date we read them. They are not our prices, not quotes, and not a market average. Fees change; confirm the amount for your address when you call. Last checked: November 24, 2026.</p>
+
+      <h2>Published service-call and diagnostic fees</h2>
+      <p>Sorted from the lowest starting fee. Each shop name links to its profile in our directory; the source link goes to the page where the shop states the fee.</p>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th scope="col">Shop (base)</th><th scope="col">Published fee</th><th scope="col">What the shop says</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+          {"".join(trs)}
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Shops that explain the fee but do not publish a number</h3>
+      <ul>
+        {"".join(lis)}
+      </ul>
+
+      <h2>“Waived” vs. “applied toward the repair”</h2>
+      <p>Almost every shop above uses one of two policies. They sound alike but can produce different bills, so ask which one you are getting:</p>
+      <ul>
+        <li><strong>Waived with repair</strong> (Robby’s, High Desert, Arizona Freeze, All City, Valley Services, Kaelric, Jazz): if you approve the repair, the visit fee disappears. If you decline, you pay only the fee.</li>
+        <li><strong>Applied toward the repair</strong> (ProMaster AZ, AZ Major, Lux): the fee is credited to the final bill. The total can be the same as “waived” — or not, if the shop also has a minimum labor charge. Ask.</li>
+        <li><strong>A range instead of one number</strong> (ProMaster AZ, $55–$125): the visit fee depends on the job. Ask for the figure for your appliance and ZIP code before the tech is dispatched.</li>
+        <li><strong>Discounts have conditions</strong>: High Desert says discounts must be mentioned before payment is processed; Valley Services’ $25 off applies to online booking. Mention them up front.</li>
+      </ul>
+
+      <h2>What the published repair figures look like</h2>
+      <p>Only two shops in our Phoenix directory publish repair-cost figures beyond the visit fee, and both are clearly labeled as typical, not quotes:</p>
+      <ul>
+        <li><strong>ProMaster AZ</strong> lists typical ranges of $150–$1,100 for refrigerator repair, $125–$600 for oven or stovetop repair, and $125–$300 for washer or dryer repair.</li>
+        <li><strong>Valley Services</strong> says a typical repair is about $250, quoted after the diagnostic.</li>
+      </ul>
+      <p>That is a small sample. Use it to sanity-check a quote, not as a price list — and if a repair quote is a large share of the cost of a new machine, read <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a> first.</p>
+
+      <h2>Arizona: who to check, and the out-of-state phone number problem</h2>
+      <p>Arizona does not have an appliance-repair registration like California’s BHGS that we could find. Some Valley shops also do HVAC or other contracting work and hold a license from the Arizona Registrar of Contractors (ROC), which you can look up in the <a href="{e(roc_search)}" rel="noopener noreferrer">ROC contractor search</a>. The ROC’s “Before You Hire a Contractor” page has two warnings that apply to booking any home repair:</p>
+      <ul>
+        <li><strong>The local number may not be local.</strong> The ROC warns that the local phone number you think you are calling may be answered by a telemarketer in another state. Every shop on this page publishes its own number on its own website, and click-to-call on our profiles goes to that number.</li>
+        <li><strong>Get the price in writing and do not pay in cash.</strong> The ROC advises written estimates, checks or payments made to the company named on the paperwork, and never letting payments get ahead of the work.</li>
+      </ul>
+      <p><a href="{e(roc_guide)}" rel="noopener noreferrer">Source: Arizona Registrar of Contractors, Before You Hire a Contractor</a>.</p>
+
+      <h2>Questions to ask when you book</h2>
+      <ol>
+        <li>What is the service-call or diagnostic fee to my address (give your ZIP code)?</li>
+        <li>Is it waived, or credited toward the repair, if I go ahead? Is there a minimum labor charge?</li>
+        <li>Is the fee different for built-in refrigerators, gas appliances, or a second appliance on the same visit?</li>
+        <li>Will I get the repair price before any work starts?</li>
+        <li>What warranty comes with the repair — parts, labor, or both, and for how long?</li>
+        <li>Is the appliance still under the manufacturer’s warranty? If so, call the manufacturer first; an independent shop’s visit fee is usually not covered.</li>
+      </ol>
+      <p>Have the brand, model number, and a short description of the problem ready; it helps the shop quote accurately and bring the right part.</p>
+
+      <h2>Find a tech</h2>
+      <p>Browse the <a href="{e(phx)}">Phoenix-metro directory</a> or go straight to a city: {city_links}. Riverside County, California readers: see <a href="{e(href(page, FEES_PATH))}">Riverside County service-call fees</a>, which also covers California’s BHGS rules on trip charges. Related: <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>.</p>
+
+      <p class="note">Run a shop on this list and your fee changed? Or publish a fee we missed? Use the <a href="{e(href(page, "/get-listed/"))}">get listed / corrections page</a> and include the URL where the fee is posted.</p>
+
+      <section class="sources" aria-label="Sources">
+        <h2>Sources</h2>
+        <ul>
+          {"".join(f'<li><a href="{e(url)}" rel="noopener noreferrer">{e(by_slug[slug]["name"])} — fee page</a> (accessed {acc})</li>' for slug, _f, _a, _b, _x, url in rows)}
+          {"".join(f'<li><a href="{e(url)}" rel="noopener noreferrer">{e(by_slug[slug]["name"])} — fee policy</a> (accessed {acc})</li>' for slug, _x, url in no_number)}
+          <li><a href="{e(roc_guide)}" rel="noopener noreferrer">Arizona Registrar of Contractors — Before You Hire a Contractor</a> (accessed {acc})</li>
+        </ul>
+      </section>
+    </article>
+    """
+    desc = (
+        f"Service-call and diagnostic fees published by {len(rows)} independent Phoenix-area appliance repair shops "
+        f"(${lo}–${hi}), plus {len(no_number)} fee policies, ‘waived’ vs. ‘applied’, and what to ask. Sourced, dated."
+    )
+    faq = ld_json({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "How much is an appliance repair service call in Phoenix?",
+             "acceptedAnswer": {"@type": "Answer", "text": f"Among {len(rows)} independent Phoenix-area shops in our directory that publish a dollar figure, the published service-call or diagnostic fees ran from ${lo} to ${hi} when we checked on November 24, 2026. Confirm the fee for your address when you call."}},
+            {"@type": "Question", "name": "Is the service-call fee waived if I get the repair?",
+             "acceptedAnswer": {"@type": "Answer", "text": "At most shops we list, yes: the fee is either waived or credited toward the repair if you go ahead. Ask which one applies and whether there is a minimum labor charge."}},
+            {"@type": "Question", "name": "What does a typical appliance repair cost in Phoenix?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Few shops publish this. ProMaster AZ lists typical ranges of $150–$1,100 for refrigerators, $125–$600 for ovens or stovetops, and $125–$300 for washers or dryers; Valley Services says a typical repair is about $250. These are the shops' own figures, not quotes."}},
+        ],
+    })
+    crumbs = [("/", "Home"), ("/phoenix/", "Phoenix"), (PHX_FEES_PATH, "Service-call fees")]
+    write_page(page, layout(page, "Appliance repair service-call fees in Phoenix (published by local shops) — Indie Appliance Repair", desc, body, "phoenix", crumbs, extra_head=faq))
 
 
 def page_compare() -> None:
@@ -1748,6 +1920,7 @@ def main() -> None:
     page_guide(); remember("guides/repair-vs-replace/index.html")
     page_bhgs_guide(); remember("guides/check-california-bhgs-registration/index.html")
     page_rc_fees(); remember("riverside-county/service-call-fees/index.html")
+    page_phx_fees(); remember("phoenix/service-call-fees/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")
     page_get_listed(); remember("get-listed/index.html")
