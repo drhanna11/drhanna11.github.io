@@ -85,6 +85,29 @@ def e(text) -> str:
     return escape("" if text is None else str(text), quote=True)
 
 
+def social_description(text: str, limit: int = 200) -> str:
+    """Trim a meta description to a social-card length without breaking a word."""
+    text = " ".join((text or "").split())
+    if len(text) <= limit:
+        return text
+    cut = text[: limit - 1].rstrip()
+    if " " in cut:
+        cut = cut.rsplit(" ", 1)[0]
+    return cut.rstrip(" ,.;:/-") + "…"
+
+
+def og_type_for(page_file: str) -> str:
+    path = str(page_file).replace("\\", "/")
+    if (
+        path.startswith("guides/")
+        or path.startswith("compare/")
+        or path.startswith("best/")
+        or path.endswith("service-call-fees/index.html")
+    ):
+        return "article"
+    return "website"
+
+
 def flag_label(flag: str) -> str:
     return {
         "owner-operated": "Owner-operated",
@@ -367,15 +390,26 @@ def layout(
     apple_icon = href(page_file, "/assets/brand/apple-touch-icon.png")
     manifest = href(page_file, "/site.webmanifest")
     og_abs = f"{origin}/assets/brand/og-default.png" if origin else ""
-    og_image = (
-        f'<meta property="og:image" content="{e(og_abs)}">\n'
+    og_alt = "Indie Appliance Repair logo"
+    card_desc = social_description(description, 200)
+    social = (
+        f'<meta property="og:type" content="{e(og_type_for(page_file))}">\n'
+        f'  <meta property="og:title" content="{e(title)}">\n'
+        f'  <meta property="og:description" content="{e(card_desc)}">\n'
+        f'  <meta property="og:url" content="{e(origin + path)}">\n'
+        f'  <meta property="og:site_name" content="Indie Appliance Repair">\n'
+        f'  <meta property="og:image" content="{e(og_abs)}">\n'
         f'  <meta property="og:image:type" content="image/png">\n'
         f'  <meta property="og:image:width" content="1200">\n'
         f'  <meta property="og:image:height" content="630">\n'
-        f'  <meta property="og:image:alt" content="Indie Appliance Repair logo">\n'
+        f'  <meta property="og:image:alt" content="{e(og_alt)}">\n'
         f'  <meta name="twitter:card" content="summary_large_image">\n'
-        f'  <meta name="twitter:image" content="{e(og_abs)}">'
-        if og_abs and "og:image" not in extra_head else ""
+        f'  <meta name="twitter:site" content="@indieapprep">\n'
+        f'  <meta name="twitter:title" content="{e(title)}">\n'
+        f'  <meta name="twitter:description" content="{e(card_desc)}">\n'
+        f'  <meta name="twitter:image" content="{e(og_abs)}">\n'
+        f'  <meta name="twitter:image:alt" content="{e(og_alt)}">'
+        if origin and og_abs and "og:image" not in extra_head else ""
     )
     return f"""<!DOCTYPE html>
 <html lang="en-US">
@@ -392,7 +426,7 @@ def layout(
   <link rel="apple-touch-icon" sizes="180x180" href="{e(apple_icon)}">
   <link rel="manifest" href="{e(manifest)}">
   <meta name="theme-color" content="#1C4536">
-  {og_image}
+  {social}
   <link rel="stylesheet" href="{e(css)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
