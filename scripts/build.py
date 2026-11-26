@@ -265,6 +265,7 @@ def footer_html(page_file: str) -> str:
         <li><a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">Check a CA BHGS registration</a></li>
         <li><a href="{e(href(page_file, "/phoenix/service-call-fees/"))}">Phoenix service-call fees</a></li>
         <li><a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Riverside County service-call fees</a></li>
+        <li><a href="{e(href(page_file, "/guides/spot-a-lead-mill-repair-site/"))}">Spot a lead-generation site</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
         <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
       </ul>
@@ -662,6 +663,10 @@ def page_home() -> None:
         <a class="card cat-card" href="{e(href(page, "/phoenix/service-call-fees/"))}">
           <h3>Phoenix service-call fees</h3>
           <p>What Valley shops publish for a service call or diagnostic visit, “waived” vs. “applied toward the repair,” and what to ask before you book.</p>
+        </a>
+        <a class="card cat-card" href="{e(href(page, "/guides/spot-a-lead-mill-repair-site/"))}">
+          <h3>Spot a lead-generation repair site</h3>
+          <p>A Riverside County checklist: business name and address, BHGS registration, “24/7” and “factory authorized” claims, fees, and reviews.</p>
         </a>
         <a class="card cat-card" href="{e(href(page, "/compare/independent-vs-chains/"))}">
           <h3>Independent vs. chains</h3>
@@ -1339,7 +1344,7 @@ def page_bhgs_guide() -> None:
       </section>
 
       <h2>Find a local tech</h2>
-      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> — Riverside, Moreno Valley, Corona, Temecula, Murrieta, Hemet, San Jacinto, Menifee, Perris, Lake Elsinore, and the Coachella Valley. Before you book, look up the shop’s registration with the steps above. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a> and <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>.</p>
+      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> — Riverside, Moreno Valley, Corona, Temecula, Murrieta, Hemet, San Jacinto, Menifee, Perris, Lake Elsinore, and the Coachella Valley. Before you book, look up the shop’s registration with the steps above. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a>, <a href="{e(href(page, "/compare/independent-vs-chains/"))}">independent shops vs. chains</a>, and <a href="{e(href(page, "/guides/spot-a-lead-mill-repair-site/"))}">how to spot a lead-generation repair site</a>.</p>
     </article>
     """
     desc = (
@@ -1680,6 +1685,135 @@ def page_phx_fees() -> None:
     write_page(page, layout(page, "Appliance repair service-call fees in Phoenix (published by local shops) — Indie Appliance Repair", desc, body, "phoenix", crumbs, extra_head=faq))
 
 
+LEADMILL_PATH = "/guides/spot-a-lead-mill-repair-site/"
+
+
+def page_leadmill_guide() -> None:
+    """Riverside County first: checklist for telling a local shop from a lead-generation site."""
+    page = "guides/spot-a-lead-mill-repair-site/index.html"
+    src = {
+        "law": "https://www.bhgs.dca.ca.gov/laws/ear_law_book-effective_1-1-24_with_links.pdf",
+        "search": "https://search.dca.ca.gov/",
+        "complaint": "https://www.bhgs.dca.ca.gov/consumers/complaint.html",
+        "ecfr": "https://www.ecfr.gov/current/title-16/chapter-I/subchapter-D/part-465",
+        "fr": "https://www.federalregister.gov/documents/2024/08/22/2024-18519/trade-regulation-rule-on-the-use-of-consumer-reviews-and-testimonials",
+        "bbb": "https://www.bbb.org/article/news-releases/20282-scam-alert-fridge-broken-be-careful-when-calling-for-repairs",
+        "nanpa": "https://www.nanpa.com/sites/default/files/planning_letters/PL-381.pdf",
+        "cpuc": "https://docs.cpuc.ca.gov/PUBLISHED/NEWS_RELEASE/108284.htm",
+        "wiki951": "https://en.wikipedia.org/wiki/Area_code_951",
+    }
+
+    def a(key: str, label: str) -> str:
+        return f'<a href="{e(src[key])}" rel="noopener noreferrer">{label}</a>'
+
+    rc = [l for l in listings_for_metro("riverside-county")]
+    rc_total = len(rc)
+    build_date = f"{date.today():%B} {date.today().day}, {date.today().year}"
+    rc_with_number = sum(1 for l in rc if l.get("license"))
+    rc_with_street = sum(1 for l in rc if (l.get("address") or {}).get("street"))
+    riverside = href(page, "/riverside-county/")
+    bhgs = href(page, BHGS_GUIDE_PATH)
+    fees = href(page, FEES_PATH)
+    compare = href(page, "/compare/independent-vs-chains/")
+    about = href(page, "/about/")
+    metro = next((m for m in live_metros() if m["slug"] == "riverside-county"), None)
+    city_links = ""
+    if metro:
+        city_links = ", ".join(
+            f'<a href="{e(href(page, "/riverside-county/" + c["slug"] + "/"))}">{e(c["name"])}</a>'
+            for c in metro.get("cities", [])
+        )
+    body = f"""
+    <article class="prose hero">
+      <p class="kicker">Guide · California · Riverside County</p>
+      <h1>How to tell a real local appliance repair shop from a lead-generation site</h1>
+      <p class="lede">Search “appliance repair Temecula” or “fridge repair Hemet” and many results are not repair shops at all. They are websites built to look local that pass your call or form to whoever is paying for leads. This checklist shows what to look for before you book, using California’s own rules for appliance repair advertising. Every rule links to the official source.</p>
+      <p class="note">This is a plain-language summary, not legal advice, and it does not name any business. A site that fails one check is not automatically a scam, and a site that passes every check can still do poor work. Use the checks to decide what to ask. Last checked: November 25, 2026.</p>
+
+      <h2>What a “lead mill” is</h2>
+      <p>We use “lead mill” for a website or phone line that presents itself as a local repair shop but mainly collects requests and sends them on to other companies. You often cannot tell who will show up, what they charge, or who stands behind the repair until a stranger is at your door.</p>
+      <p>California treats that middle step as part of the repair business. Under the BHGS regulations, a person who “accepts requests for repair” and “transmits such requests for repair” to another service dealer is deemed a service dealer (California Code of Regulations, title 16, section 2711(d)). So is anyone who advertises appliance repair by any method that leads you to believe they do the repair (section 2711(a)). Service dealers must hold a current BHGS registration (Business and Professions Code section 9840). {a("law", "Source: BHGS law book, 2024 edition (PDF)")}.</p>
+
+      <h2>Patterns we ran into while building this directory</h2>
+      <p>Between November 18 and November 25, 2026, we checked dozens of Riverside County repair websites before choosing which to list. These are patterns we saw on sites we left out. We describe the pattern, not the businesses:</p>
+      <ul>
+        <li><strong>One template, many towns.</strong> Several sites with different city names in the domain (Hemet, San Jacinto, Perris) used the same layout and the same “family-owned, founded over a decade ago” story, with phone numbers that differed only in the last digits.</li>
+        <li><strong>A “local branch” with an out-of-area number.</strong> A page headed with a Riverside County city, but a contact page that switched to a San Diego County area code and no street address.</li>
+        <li><strong>A city name as the business name.</strong> “{{City}} Appliance Repair Techs”-style sites repeated across many towns, with county-wide city lists and no named owner.</li>
+        <li><strong>Map listings that say “Open 24 hours”</strong> and link to a website named after the city rather than the business.</li>
+      </ul>
+      <p>None of these is proof on its own. Real shops use templates, cell phones travel with their owners, and some small shops have no website at all. But when several show up together, slow down and ask the questions below.</p>
+
+      <h2>The checklist</h2>
+      <ol>
+        <li><strong>Is there a real business name and address?</strong> California says appliance repair advertising is untrue or misleading if it fails to include the firm name and address of the business as shown on its BHGS registration certificate, and its business telephone number (16 CCR section 2751(a)). If a site shows only a city name and a phone number, ask for the business’s legal name and address, then look it up.</li>
+        <li><strong>Does the name match a current BHGS registration?</strong> Search the {a("search", "DCA License Search")} by business name, owner name, or number. Our <a href="{e(bhgs)}">step-by-step BHGS lookup guide</a> shows how. The registration number must appear on your invoice and on any claim receipt if the shop takes your appliance away (16 CCR sections 2721 and 2725). Many real shops do not print it on their websites: as of {build_date}, {rc_with_number} of the {rc_total} Riverside County shops in our directory publish a registration or license number on their own site, and {rc_with_street} publish a street address. A missing number on a website is a reason to ask, not a verdict.</li>
+        <li><strong>Does the phone number fit the area?</strong> Western Riverside County — Riverside, Corona, Moreno Valley, Perris, Menifee, Hemet, San Jacinto, Lake Elsinore, Murrieta, Temecula — is area code 951 ({a("wiki951", "area code 951")}). The Coachella Valley is in the 760 area, with 442 as an overlay for the same region ({a("nanpa", "NANPA planning letter PL-381")}; {a("cpuc", "CPUC")}). A different area code is common for cell phones, so do not rule a shop out for it. Do ask, “Where is your shop based, and who will come to my house?”</li>
+        <li><strong>Is “24/7” real?</strong> Under 16 CCR section 2751(f), terms like “24 hour” or “Day and Night” may be used only if service is actually available at any hour. An answering service that takes messages to schedule a visit later does not count. If a site says 24/7, ask when a technician could actually be at your house.</li>
+        <li><strong>Is “factory authorized” or “certified” backed up?</strong> Section 2751(g) bars implying a tech is “Factory Trained,” “Factory Authorized,” “Licensed,” “Certified,” or similar unless it is true and not misleading. Ask which manufacturer authorized them. If your appliance is still under the maker’s warranty, call the number in your owner’s manual or on the maker’s own website instead of a search ad.</li>
+        <li><strong>Are “free” and “guaranteed” spelled out?</strong> “Free” is not allowed unless the service is actually free or the conditions are clearly stated (section 2751(e)). A “guarantee” must state its time, parts, and labor terms and who the guarantor is (section 2751(b)).</li>
+        <li><strong>Will they quote the visit before they come?</strong> The service dealer must quote the service-call charge, and the diagnostic fee if there is one, before the service call (16 CCR section 2752), and give you a written estimate before doing the repair (Business and Professions Code section 9844). See what <a href="{e(fees)}">Riverside County shops publish for service calls</a>.</li>
+        <li><strong>Can you trust the reviews?</strong> Since October 21, 2024, a federal rule bars businesses from writing or buying fake reviews and from claiming that a review website they control gives independent opinions (16 CFR sections 465.2 and 465.6). Reviews still are not proof. Look for detail about a specific repair, compare more than one site, and remember that a page of perfect quotes on the company’s own website is marketing. {a("ecfr", "Source: 16 CFR Part 465")}; {a("fr", "Federal Register, Aug. 22, 2024")}.</li>
+      </ol>
+
+      <h2>A related trap: fake “customer service” numbers</h2>
+      <p>The Better Business Bureau has warned about a scam where people search for a manufacturer’s or warranty company’s phone number, call a top search result, and pay a fee up front for “next-day service” — then no one shows up, and the number later claims to have no record. Its advice: get the number from the manufacturer’s official website or your warranty paperwork, learn how your warranty handles repairs when you buy, and pay by credit card, which you can dispute, rather than wire transfer or prepaid debit card. {a("bbb", "Source: BBB Scam Alert, July 12, 2019")}.</p>
+
+      <h2>Questions to ask on the first call</h2>
+      <ul>
+        <li>What is the name of your business, and where are you based?</li>
+        <li>Will someone from your company come out, or do you send the job to another company?</li>
+        <li>What is your BHGS registration number? (Then look it up.)</li>
+        <li>What is the service-call or diagnostic fee, and is it waived or applied if I approve the repair?</li>
+        <li>Will I get a written estimate before you start, and what warranty comes with the repair?</li>
+      </ul>
+      <p>A real local shop can usually answer all five in a minute. If the person on the phone cannot tell you who will come, that tells you something too.</p>
+
+      <h2>If something already went wrong</h2>
+      <p>BHGS takes complaints about appliance repair and installation. Write to the business first, keep your estimates and invoices, and then file with BHGS online or by mail. BHGS says it cannot guarantee a refund or force a settlement. {a("complaint", "Source: BHGS File a Complaint")}. Our <a href="{e(bhgs)}">BHGS guide</a> covers the steps.</p>
+
+      <h2>How we screen this directory</h2>
+      <p>We do not list national franchises or lead-generation sites. Every shop on our <a href="{e(riverside)}">Riverside County pages</a> is sourced from its own website or another public record, with the source link and the date we checked it on its profile. When a shop publishes a registration number, we show it as the shop’s claim and link to the state search. We do not invent ratings, reviews, or prices. More on <a href="{e(about)}">how we work</a>, and how calling a shop differs from a <a href="{e(compare)}">lead marketplace or chain</a>.</p>
+
+      <section class="sources" aria-label="Sources">
+        <h2>Sources</h2>
+        <ul>
+          <li>{a("law", "BHGS — Electronic and Appliance Repair Dealer Registration Law and Regulations, 2024 edition (PDF)")}: B&amp;P Code §§ 9840, 9844; 16 CCR §§ 2711, 2721, 2725, 2751, 2752 (accessed 2026-11-25)</li>
+          <li>{a("search", "DCA License Search")} (accessed 2026-11-25)</li>
+          <li>{a("complaint", "BHGS — File a Complaint")} (accessed 2026-11-19)</li>
+          <li>{a("ecfr", "eCFR — 16 CFR Part 465, Rule on the Use of Consumer Reviews and Testimonials")} (§§ 465.2, 465.6) and the {a("fr", "Federal Register final rule, effective October 21, 2024")} (accessed 2026-11-25)</li>
+          <li>{a("bbb", "BBB Scam Alert: Fridge broken? Be careful when calling for repairs (July 12, 2019)")} (accessed 2026-11-25)</li>
+          <li>{a("nanpa", "NANPA Planning Letter PL-381: NPA 442 to overlay NPA 760")}, {a("cpuc", "CPUC news release on the 760/442 overlay (Oct. 13, 2009)")}, and {a("wiki951", "Wikipedia: Area code 951")} (accessed 2026-11-25)</li>
+          <li>Directory counts: our own Riverside County listings data, as built on the date shown in the page footer.</li>
+        </ul>
+      </section>
+
+      <h2>Find a local tech</h2>
+      <p>Browse the <a href="{e(riverside)}">Riverside County directory</a> or go straight to a city: {city_links}. Phoenix readers: the same questions apply; see <a href="{e(href(page, PHX_FEES_PATH))}">Phoenix-area service-call fees</a>.</p>
+    </article>
+    """
+    desc = (
+        "A Riverside County checklist for telling a real local appliance repair shop from a lead-generation "
+        "site: business name and address, BHGS registration, 24/7 and “factory authorized” claims, fees, and reviews."
+    )
+    faq = ld_json({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "What is an appliance repair lead-generation site?",
+             "acceptedAnswer": {"@type": "Answer", "text": "A website or phone line that looks like a local repair shop but mainly collects repair requests and passes them to other companies. Under California's BHGS regulations (16 CCR section 2711(d)), a business that accepts repair requests and transmits them to another service dealer is itself treated as a service dealer and must be registered."}},
+            {"@type": "Question", "name": "What must a California appliance repair ad include?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Under 16 CCR section 2751(a), appliance repair advertising must include the firm name and address as shown on the business's BHGS registration certificate and its business telephone number. Claims such as 24 hour, factory authorized, free, or guaranteed are restricted unless they are true and their terms are stated."}},
+            {"@type": "Question", "name": "Does a missing registration number on a website mean a shop is not legitimate?",
+             "acceptedAnswer": {"@type": "Answer", "text": "No. Many real shops do not print their BHGS number on their websites. The number must appear on invoices and claim receipts. Ask the shop for it and look it up in the DCA License Search before you book."}},
+            {"@type": "Question", "name": "Can a 24/7 appliance repair company use an answering service?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Under 16 CCR section 2751(f), terms like 24 hour may be used only if service is actually available at any time of day or night. An answering service that relays messages to schedule a later visit is not enough."}},
+        ],
+    })
+    crumbs = [("/", "Home"), ("/riverside-county/", "Riverside County"), (LEADMILL_PATH, "Spot a lead-generation site")]
+    write_page(page, layout(page, "How to tell a real local appliance repair shop from a lead-generation site (Riverside County) — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=faq))
+
+
 def page_compare() -> None:
     page = "compare/independent-vs-chains/index.html"
     body = f"""
@@ -1698,7 +1832,7 @@ def page_compare() -> None:
         </tbody>
       </table>
       <h2>About Angi, Thumbtack, and similar platforms</h2>
-      <p>These can be a way to find names, but they are usually paid lead or advertising products. The technician may have paid to be introduced to you. That does not make them unqualified; it does mean you should still interview the shop as if you had found them yourself — ask who is coming, what the visit costs, and how warranty work is handled.</p>
+      <p>These can be a way to find names, but they are usually paid lead or advertising products. The technician may have paid to be introduced to you. That does not make them unqualified; it does mean you should still interview the shop as if you had found them yourself — ask who is coming, what the visit costs, and how warranty work is handled. In California, see our <a href="{e(href(page, "/guides/spot-a-lead-mill-repair-site/"))}">checklist for spotting a lead-generation repair site</a>.</p>
       <h2>Factory service and luxury brands</h2>
       <p>Some independents in our Phoenix list say they are factory-authorized or preferred providers for brands such as Viking, Sub-Zero, or U-Line. That is the shop's claim, sourced from its website. Manufacturer factory service is a different path and can be the right one if the appliance is in warranty. We are not a manufacturer directory.</p>
       <h2>Find a Phoenix independent</h2>
@@ -1955,6 +2089,7 @@ def main() -> None:
     page_bhgs_guide(); remember("guides/check-california-bhgs-registration/index.html")
     page_rc_fees(); remember("riverside-county/service-call-fees/index.html")
     page_phx_fees(); remember("phoenix/service-call-fees/index.html")
+    page_leadmill_guide(); remember("guides/spot-a-lead-mill-repair-site/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")
     page_get_listed(); remember("get-listed/index.html")
