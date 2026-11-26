@@ -68,13 +68,23 @@ LISTINGS = sorted(listings, key=lambda l: l["name"].lower())
 
 
 def href(page_file: str, target: str) -> str:
-    """Relative URL from a generated file (e.g. phoenix/index.html) to a site path."""
+    """Relative URL from a generated file (e.g. phoenix/index.html) to a site path.
+
+    Home links use the directory form (./ or ../), not index.html. GitHub Pages
+    serves /index.html as a 200 with a canonical of /, which Search Console
+    reports as an alternate page if anything links to the file URL.
+    404.html is served for any missing path, so its links are root-relative.
+    """
+    raw = (target or "/").strip() or "/"
+    if not raw.startswith("/"):
+        raw = "/" + raw
+    if Path(page_file).name == "404.html":
+        return raw
     depth = Path(page_file).as_posix().count("/")
     prefix = "../" * depth
-    target = target.lstrip("/")
-    if not target or target == "/":
-        return prefix + "index.html" if prefix else "index.html"
-    return prefix + target
+    if raw == "/":
+        return prefix if prefix else "./"
+    return prefix + raw.lstrip("/")
 
 
 def tel_href(phone: str) -> str:
@@ -702,7 +712,7 @@ def page_home() -> None:
         "name": site["name"],
         "description": site["description"],
         "about": "Independent appliance repair technician directory",
-        "url": (site.get("canonicalOrigin") or "").rstrip("/") or None,
+        "url": ((site.get("canonicalOrigin") or "").rstrip("/") + "/") or None,
         "publisher": {
             "@type": "Organization",
             "name": site["name"],
