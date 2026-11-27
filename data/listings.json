@@ -3691,5 +3691,125 @@
         "facts": "business started 1987, alternate names"
       }
     ]
+  },
+  {
+    "id": "rhino-appliance-repair",
+    "name": "Rhino Appliance Repair",
+    "slug": "rhino-appliance-repair",
+    "citySlug": "phoenix",
+    "phone": "4804428313",
+    "phoneDisplay": "(480) 442-8313",
+    "website": "https://rhinoappliancerepair.com/",
+    "email": null,
+    "address": {
+      "street": null,
+      "city": "Gilbert",
+      "state": "AZ",
+      "zip": null
+    },
+    "addressNotes": "The homepage describes the shop as appliance repair in Gilbert, Arizona, but the pages we opened did not publish a street address.",
+    "serviceAreas": [
+      "Gilbert",
+      "Chandler",
+      "Queen Creek",
+      "Tempe",
+      "Mesa",
+      "Ahwatukee",
+      "Sun Lakes",
+      "San Tan Valley"
+    ],
+    "appliances": [
+      "refrigerator",
+      "freezer",
+      "ice-maker",
+      "washer",
+      "dryer",
+      "dishwasher",
+      "oven-range",
+      "microwave"
+    ],
+    "brands": [],
+    "brandsNote": "The site has a Brands menu item, but we did not find a brand list on the pages we opened; confirm your brand and model when you call.",
+    "hours": "Monday–Friday 7:00 a.m.–7:00 p.m.; Saturday 8:00 a.m.–1:00 p.m.; Sunday closed (per the site header).",
+    "flags": [],
+    "license": null,
+    "facts": [
+      "The homepage headline reads “Your Trusted Expert Appliance Repair Everyday In Gilbert Arizona” and lists Gilbert, Chandler, Queen Creek, Tempe, Mesa, Ahwatukee, Sun Lakes, San Tan Valley, and the surrounding East Valley.",
+      "The homepage says “Usually same day service” and offers a diagnosis and parts estimate (accessed 2026-11-26; this is the shop's claim, not a promise from us).",
+      "Warranty wording differs between pages: the homepage says 90 days labor and 1 year parts, while the About Us page says 90 days on parts and one year on labor. Ask which applies before you book.",
+      "Appliances named: refrigerators, freezers, ice makers, washers, dryers, dishwashers, ranges, ovens, cooktops, stoves, and microwaves."
+    ],
+    "sources": [
+      {
+        "url": "https://rhinoappliancerepair.com/",
+        "accessed": "2026-11-26",
+        "facts": "name, phone, hours, Gilbert headline, service areas, appliances, same-day claim, homepage warranty wording"
+      },
+      {
+        "url": "https://rhinoappliancerepair.com/about-us/",
+        "accessed": "2026-11-26",
+        "facts": "about text, appliances, About-page warranty wording, hours"
+      }
+    ]
+  },
+  {
+    "id": "jims-place-specialty-appliances",
+    "name": "Jim's Place Specialty Appliances",
+    "slug": "jims-place-specialty-appliances",
+    "citySlug": "phoenix",
+    "phone": "4809126830",
+    "phoneDisplay": "(480) 912-6830",
+    "website": "https://jimsplaceappliance.com/",
+    "email": "info@jimsplaceappliance.com",
+    "address": {
+      "street": "2376 E Willis Rd",
+      "city": "Gilbert",
+      "state": "AZ",
+      "zip": "85297"
+    },
+    "addressNotes": "Address as published in the header of the shop's own website.",
+    "serviceAreas": [
+      "Gilbert",
+      "East Valley"
+    ],
+    "appliances": [
+      "refrigerator",
+      "freezer",
+      "oven-range",
+      "dishwasher",
+      "washer",
+      "dryer"
+    ],
+    "brands": [],
+    "brandsNote": "The site says it works on most major brands and models, including high-end appliances; confirm your model when you call.",
+    "hours": "The site footer lists 9:00 a.m.–5:00 p.m., Monday–Friday; the Appliance Repair page lists 8:00 a.m.–5:00 p.m. Call to confirm.",
+    "flags": [
+      "locally-owned"
+    ],
+    "license": null,
+    "facts": [
+      "The homepage calls the business “Local Owned” and names Kyle Collier as founder and owner. It says it serves Gilbert “and now the entire East Valley.”",
+      "The site says repairs and installations are backed by a 90-day parts and labor warranty.",
+      "Services named on the site: appliance repair, appliance installation, dryer vent cleaning, and new appliance sales.",
+      "The Appliance Repair page says you get a price before any work begins, and names refrigerators, freezers, ovens, stoves, cooktops, dishwashers, washing machines, and dryers.",
+      "The Appliance Repair page also lists a second phone number, (480) 685-6309."
+    ],
+    "sources": [
+      {
+        "url": "https://jimsplaceappliance.com/",
+        "accessed": "2026-11-26",
+        "facts": "name, address, email, main phone, locally owned, owner name, East Valley coverage, 90-day warranty, services, footer hours"
+      },
+      {
+        "url": "https://jimsplaceappliance.com/about-us/",
+        "accessed": "2026-11-26",
+        "facts": "Gilbert community, appliance sales and installation, 90-day parts and labor warranty"
+      },
+      {
+        "url": "https://jimsplaceappliance.com/appliance-repair/",
+        "accessed": "2026-11-26",
+        "facts": "appliance types, estimate before work, second phone, 8-5 hours"
+      }
+    ]
   }
 ]

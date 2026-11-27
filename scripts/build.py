@@ -793,7 +793,7 @@ def page_metro(metro: dict) -> None:
         why = (
             "Phoenix is our first metro because it is a large, year-round repair market — desert heat puts extra load on refrigerators, "
             "ice makers, and laundry equipment — and because we could document a deep bench of owner-operated and locally owned shops. "
-            "City pages are rolling out one at a time: Mesa and Chandler are live; Scottsdale, Gilbert, and others are next. Riverside County, California, is live as a second market."
+            "City pages are rolling out one at a time: Mesa, Chandler, Scottsdale, and Gilbert are live; Tempe, Glendale, and others are next. Riverside County, California, is live as a second market."
         )
         faq_coverage = "Many Valley shops cover several cities. Each profile lists only the service areas named on a source we opened. If your city is not listed, still call — coverage can be broader than the website copy, or it may have changed."
         faq_only = "No. This is a researched starting set, not a complete census. If you run or know an independent shop that should be here, use the Get listed page."

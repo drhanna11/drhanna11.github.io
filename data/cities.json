@@ -95,6 +95,33 @@
           }
         ],
         "splitBased": true
+      },
+      {
+        "slug": "gilbert",
+        "name": "Gilbert",
+        "match": [
+          "Gilbert"
+        ],
+        "blurb": "Gilbert is one of the East Valley's biggest towns, running from older neighborhoods near the Heritage District and Val Vista Lakes south through Power Ranch, Seville, and the newer subdivisions near the San Tan Mountains and the Queen Creek line. Much of the housing is newer, so many repair calls involve recent-model refrigerators, front-load washers, and dishwashers. This page lists every shop in the directory that names Gilbert on a source we opened, with Gilbert-based shops first. Always confirm your ZIP when you call.",
+        "tips": [
+          "Gilbert's water is hard. The Town of Gilbert's 2025 Annual Drinking Water Quality Report lists total hardness averaging about 10.8 grains per gallon (184 mg/L), with a range of about 6.6 to 17.5 grains per gallon, because the supply blends two treatment plants and town wells. Scale is a common factor in dishwasher, ice maker, and refrigerator water-line problems, so mention white buildup or slow water flow when you call. If you get water from a different provider, check its own report.",
+          "Ask about the service-call or diagnosis fee up front. One Gilbert-based shop below publishes a $100 service call that it applies toward the repair. Our Phoenix service-call fees page lists every fee a Valley shop has published, with the date we read it.",
+          "Ask about the warranty on parts and labor, and get it in writing. Shops below publish different terms, and at least one shop's own pages word it two different ways.",
+          "Check the license claim. Arizona contractors are licensed by the Registrar of Contractors (ROC). If a shop publishes an ROC number, you can confirm it in the ROC's public contractor search before you book.",
+          "South Gilbert near Queen Creek and San Tan Valley sits at the edge of some service areas. If you live out that way, ask whether there is an extra trip charge.",
+          "Under a manufacturer warranty? The brand may require its own authorized servicer. Call the manufacturer first, then use an independent shop for out-of-warranty work."
+        ],
+        "tipSources": [
+          {
+            "label": "Town of Gilbert water quality reports (2025 report)",
+            "url": "https://www.gilbertaz.gov/departments/public-works/water/reports"
+          },
+          {
+            "label": "Phoenix service-call fees (this site)",
+            "url": "https://indieappliancerepair.com/phoenix/service-call-fees/"
+          }
+        ],
+        "splitBased": true
       }
     ],
     "licenseSearchUrl": "https://azroc.my.site.com/AZRoc/s/contractor-search",
