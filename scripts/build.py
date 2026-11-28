@@ -190,7 +190,8 @@ def registration_html(page_file: str, metro: dict) -> str:
         f'<a href="{e(search)}" rel="noopener noreferrer">Search BHGS registrations</a>. '
         f'<a href="{e(guide)}" rel="noopener noreferrer">BHGS consumer guide</a>. '
         f'<a href="{e(href(page_file, "/guides/check-california-bhgs-registration/"))}">How to check a registration, step by step</a>. '
-        f'<a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Service-call fees local shops publish</a>.</p>'
+        f'<a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Service-call fees local shops publish</a>. '
+        f'<a href="{e(href(page_file, "/best/sub-zero/riverside-county/"))}">Shops that list Sub-Zero and Wolf</a>.</p>'
     )
 
 
@@ -277,7 +278,8 @@ def footer_html(page_file: str) -> str:
         <li><a href="{e(href(page_file, "/riverside-county/service-call-fees/"))}">Riverside County service-call fees</a></li>
         <li><a href="{e(href(page_file, "/guides/spot-a-lead-mill-repair-site/"))}">Spot a lead-generation site</a></li>
         <li><a href="{e(href(page_file, "/compare/independent-vs-chains/"))}">Independent vs. chains</a></li>
-        <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero</a></li>
+        <li><a href="{e(href(page_file, "/best/sub-zero/"))}">Techs who list Sub-Zero (Phoenix)</a></li>
+        <li><a href="{e(href(page_file, "/best/sub-zero/riverside-county/"))}">Sub-Zero &amp; Wolf (Riverside County)</a></li>
       </ul>
     </div>
     <div>
@@ -685,6 +687,10 @@ def page_home() -> None:
         <a class="card cat-card" href="{e(href(page, "/best/sub-zero/"))}">
           <h3>Shops that list Sub-Zero</h3>
           <p>Phoenix-metro listings whose own sites mention Sub-Zero service — not a ranked “best of.”</p>
+        </a>
+        <a class="card cat-card" href="{e(href(page, "/best/sub-zero/riverside-county/"))}">
+          <h3>Sub-Zero &amp; Wolf in Riverside County</h3>
+          <p>Coachella Valley and west-county shops whose own sites name Sub-Zero, plus what the factory warranty requires.</p>
         </a>
       </div>
     </section>
@@ -1872,6 +1878,7 @@ def page_subzero() -> None:
       <h1>Phoenix shops that list Sub-Zero service</h1>
       <p class="lede">These {len(mentioned)} listings mentioned Sub-Zero on a website we opened. That is not a ranking, an endorsement, or proof of factory authorization. Some shops specialize in luxury brands; others list Sub-Zero among many major brands. Confirm authorization and parts access when you call.</p>
     </header>
+    <p class="note">In California? See <a href="{e(href(page, "/best/sub-zero/riverside-county/"))}">Riverside County shops that list Sub-Zero and Wolf</a>.</p>
     <p class="note">We titled this section carefully on purpose. “Best for Sub-Zero” searchers often want a specialist, but we will not invent a winner. If a shop claims factory authorization or exclusive specialty, that claim is quoted on its profile and sourced.</p>
     <section class="section">
       <h2>Listings that mention Sub-Zero</h2>
@@ -1899,6 +1906,177 @@ def page_subzero() -> None:
     })
     crumbs = [("/", "Home"), ("/best/sub-zero/", "Shops that list Sub-Zero")]
     write_page(page, layout(page, "Phoenix shops that list Sub-Zero service — Indie Appliance Repair", desc, body, "guides", crumbs, extra_head=schema))
+
+
+RC_SUBZERO_PATH = "/best/sub-zero/riverside-county/"
+COACHELLA_AREAS = {"Palm Springs", "Palm Desert", "Cathedral City", "Rancho Mirage", "Indian Wells",
+                   "La Quinta", "Indio", "Coachella", "Bermuda Dunes", "Thousand Palms", "Desert Hot Springs", "Thermal"}
+LUXURY_BRANDS = ["Viking", "Thermador", "Miele", "Dacor", "GE Monogram", "Gaggenau", "Cove", "Fisher & Paykel",
+                 "U-Line", "Scotsman", "Perlick", "Marvel", "Liebherr", "BlueStar", "Lacanche", "La Cornue", "Bertazzoni", "Asko"]
+
+
+def _brand_has(listing: dict, name: str) -> bool:
+    return any(name.lower() == (b or "").lower() for b in (listing.get("brands") or []))
+
+
+def page_rc_subzero() -> None:
+    """Riverside County: listings whose own sites name Sub-Zero (and Wolf), split Coachella Valley vs. west county."""
+    page = "best/sub-zero/riverside-county/index.html"
+    accessed = "2026-11-27"
+    mentioned = [l for l in listings_for_metro("riverside-county") if _brand_has(l, "Sub-Zero")]
+    def is_desert(l: dict) -> bool:
+        base = (l.get("address") or {}).get("city") or ""
+        return base in COACHELLA_AREAS
+    desert = [l for l in mentioned if is_desert(l)]
+    west = [l for l in mentioned if not is_desert(l)]
+    wolf = [l for l in mentioned if _brand_has(l, "Wolf")]
+    # Shops whose site shows a Wolf logo in a brand strip but does not name Wolf in text (checked 2026-11-27).
+    wolf_logo_only = {"quick-n-easy-appliance"}
+    if not mentioned:
+        return
+
+    # Shop-specific notes copied from each shop's own site (re-checked on the access date above).
+    notes = {
+        "desertech-appliance-service": ("Says it is not warranty-authorized for Sub-Zero or Wolf and provides out-of-warranty service on all Sub-Zero and Wolf products; says it was factory trained from 1989 to 2008 on Sub-Zero 300, 500, 600, and 700 series, and backs repairs with a one-year parts and labor warranty.", "https://desertech.net/"),
+        "solvanta-home-services": ("Family-owned Palm Springs company; its brand list is one of the longest we have seen (Sub-Zero, Wolf, Cove, Viking, Thermador, Miele, Gaggenau, and more). Service-call fee waived when you proceed.", "https://www.solvanta-appliancerepair.com/"),
+        "quick-n-easy-appliance": ("Names Sub-Zero, Viking, Miele, and Bosch in its text, and its homepage brand strip includes a Wolf logo; publishes a service call starting at $75, applied toward labor if you proceed, and a 90-day parts and labor warranty.", "https://www.quickneasy.net/"),
+        "synergy-appliance-repair": ("Locally owned, Palm Desert based; names Sub-Zero and Viking among its brands. No Wolf mention on the page we opened.", "https://synergyservice.co/about"),
+        "av-appliance-repair": ("Names Sub-Zero, Viking, and Thermador built-in refrigerators; publishes a higher service-call price for built-in refrigerators ($85) than for standard refrigerators ($65), waived with a repair.", "https://avappliancerepair.com/appliance-service-call-pricing/"),
+        "tims-fridge-repair": ("Refrigerator and freezer specialist; Sub-Zero, Thermador, Viking, Wolf, and Dacor appear in its brand list. Publishes an $80 residential diagnostic applied to the repair.", "https://chillynow.com/"),
+        "jim-appliance-repair": ("Sub Zero and Wolf appear in a long brand list on its appliance-repair page; family-owned since 1999.", "https://jimappliances.com/services/appliance-repair/"),
+        "mg-service": ("Owner-operated; Sub-Zero and Wolf are named on its homepage. Based in Anaheim Hills (Orange County) and lists west Riverside County cities.", "https://mgserviceappliance.com/"),
+        "nash-appliance-group": ("Names Sub-Zero, Wolf, and Viking; publishes a $79 diagnostic waived with repair. No street address on the homepage we opened.", "https://nashappliance.com/"),
+        "finch-appliance-repair": ("Family-owned; Sub-Zero and Wolf are in the homepage brand list alongside mainstream brands. Location listed as Hemet.", "https://www.finchappliance.com/"),
+    }
+
+    def base(l: dict) -> str:
+        return (l.get("address") or {}).get("city") or "Riverside County"
+
+    def rows_for(group: list[dict]) -> str:
+        out = []
+        for l in group:
+            other = [b for b in LUXURY_BRANDS if _brand_has(l, b)]
+            note, url = notes.get(l["slug"], ("Sub-Zero appears in the brand list on the shop’s website.", l.get("website") or ""))
+            src = f'<a href="{e(url)}" rel="noopener noreferrer">Shop website</a><br><span class="meta">accessed {e(accessed)}</span>' if url else ""
+            out.append(
+                f'<tr><th scope="row"><a href="{e(href(page, listing_url(l)))}">{e(l["name"])}</a>'
+                f'<br><span class="meta">{e(base(l))}</span></th>'
+                f'<td>{"Yes" if _brand_has(l, "Wolf") else ("Wolf logo on homepage" if l["slug"] in wolf_logo_only else "Not named")}</td>'
+                f'<td>{e(", ".join(other) or "—")}</td>'
+                f'<td>{e(note)}</td><td>{src}</td></tr>'
+            )
+        return "".join(out)
+
+    thead = ('<thead><tr><th scope="col">Shop (base)</th><th scope="col">Wolf named?</th>'
+             '<th scope="col">Other high-end brands named</th><th scope="col">What the shop says</th><th scope="col">Source</th></tr></thead>')
+    desert_cards = "".join(listing_card(page, l) for l in desert)
+    west_cards = "".join(listing_card(page, l) for l in west)
+    warranty_sz = "https://www.subzero-wolf.com/-/media/files/united-states/product-downloads/sub-zero-wolf/misc/sub-zerowarranty.pdf"
+    warranty_wolf = "https://www.subzero-wolf.com/-/media/files/united-states/product-downloads/sub-zero-wolf/misc/wf_fci_warranty_res_0918.pdf"
+    locator = "https://www.subzero-wolf.com/owners/service-locator"
+    certified = "https://www.subzero-wolf.com/owners/factory-certified"
+    bhgs = "https://www.bhgs.dca.ca.gov/consumers/ear.html"
+    rc = href(page, "/riverside-county/")
+    cv = href(page, "/riverside-county/coachella-valley/")
+    fridge = href(page, "/riverside-county/refrigerator-repair/")
+    body = f"""
+    <article class="prose hero">
+      <p class="kicker">Brand page · Riverside County, California · not a ranked “best of”</p>
+      <h1>Sub-Zero and Wolf repair in Riverside County: independent shops that list them</h1>
+      <p class="lede">{len(mentioned)} shops in our Riverside County directory name Sub-Zero on their own websites — {len(desert)} based in the Coachella Valley and {len(west)} serving Riverside, Corona, and the southwest county. {len(wolf)} of them also name Wolf (one more shows a Wolf logo). Before you call any of them, check one thing: if your Sub-Zero or Wolf is still under the factory warranty, the warranty work has to go through factory certified service.</p>
+      <p class="note">A brand name on a website is a claim, not proof of factory training or authorization. We list what each shop published, with the date we read it, and we do not rank them. Last checked: November 27, 2026.</p>
+
+      <h2>Still under warranty? Start with Sub-Zero, not a repair shop</h2>
+      <p>The Sub-Zero Residential Limited Warranty posted on the Sub-Zero, Wolf, and Cove website says:</p>
+      <ul>
+        <li><strong>Two years, parts and labor</strong> from the date of original installation, and <strong>five years, parts and labor, on the sealed system</strong> (compressor, condenser, evaporator, drier, and connecting tubing). Service under those warranties “must be performed by Sub-Zero factory certified service.”</li>
+        <li><strong>Twelve years, sealed-system parts only.</strong> If you use non-certified service in that period, you have to contact Sub-Zero to get the repaired or replacement parts, and Sub-Zero says it will not reimburse parts bought from non-certified service or other sources.</li>
+        <li>To find certified service, the warranty points owners to Sub-Zero customer service (800-222-7820) or the company’s <a href="{e(locator)}" rel="noopener noreferrer">Certified Service Locator</a>.</li>
+      </ul>
+      <p>Wolf publishes its own warranty. The version for products with factory certified installation covers parts and labor for three years and certain parts (gas burners, heating elements, control boards, and others) for five years, again through Wolf factory certified service. Your coverage depends on your model, install date, and installer, so read the warranty card that came with your appliance.</p>
+      <p>Once the warranty is over, you can use any qualified shop. That is where the independents below come in. One of them, DeserTech in the Coachella Valley, says plainly on its homepage that it is not warranty-authorized for Sub-Zero or Wolf and works on them out of warranty — the kind of clear statement worth looking for.</p>
+
+      <h2>Coachella Valley ({len(desert)} shops)</h2>
+      <p>Palm Springs, Cathedral City, Rancho Mirage, Palm Desert, Indian Wells, La Quinta, and Indio. Built-in refrigerators here run through long, very hot summers, and DeserTech’s site says it coordinates with property managers and country-club security for owners who are away for the season. See also the <a href="{e(cv)}">Coachella Valley directory page</a>.</p>
+      <div class="table-scroll">
+      <table>
+        {thead}
+        <tbody>{rows_for(desert)}</tbody>
+      </table>
+      </div>
+      <div class="grid grid-2">{desert_cards}</div>
+
+      <h2>Riverside, Corona, and southwest Riverside County ({len(west)} shops)</h2>
+      <p>Shops based in or serving Corona, Riverside, Temecula, Murrieta, Menifee, and Hemet. Several list Sub-Zero among a long set of mainstream brands rather than as a specialty, so ask about experience with your exact model.</p>
+      <div class="table-scroll">
+      <table>
+        {thead}
+        <tbody>{rows_for(west)}</tbody>
+      </table>
+      </div>
+      <div class="grid grid-2">{west_cards}</div>
+
+      <h2>Questions to ask before a tech opens a built-in</h2>
+      <ol>
+        <li><strong>Is my unit still under warranty?</strong> Find the install date. If it is within the Sub-Zero or Wolf coverage period, call the manufacturer or use the certified locator first.</li>
+        <li><strong>Are you factory certified, or independent?</strong> Either can be fine out of warranty — but if a shop says “factory certified” or “authorized,” check its name in the <a href="{e(locator)}" rel="noopener noreferrer">Certified Service Locator</a> yourself.</li>
+        <li><strong>Have you worked on my series and model?</strong> Give the model and serial number from the tag. Older built-ins and newer ones use different parts.</li>
+        <li><strong>Where do the parts come from?</strong> Sub-Zero says its Factory Certified parts are genuine parts with a one-year replacement warranty (<a href="{e(certified)}" rel="noopener noreferrer">Sub-Zero, Wolf, and Cove factory certified programs</a>). Ask whether a shop uses genuine parts and what warranty it gives on parts and labor.</li>
+        <li><strong>Is the service call different for a built-in?</strong> AV Appliance Repair, for example, publishes $85 for a built-in refrigerator visit versus $65 for a standard one. Compare published fees on our <a href="{e(href(page, FEES_PATH))}">Riverside County service-call fees</a> page.</li>
+        <li><strong>Will I get a written estimate first?</strong> California’s BHGS says service dealers must give you a written estimate, including the total price, before repairs (<a href="{e(bhgs)}" rel="noopener noreferrer">BHGS consumer guide</a>). Ask for the shop’s BHGS registration and <a href="{e(href(page, BHGS_GUIDE_PATH))}">look it up</a>.</li>
+      </ol>
+
+      <h2>Watch for brand-named websites</h2>
+      <p>Search “Sub-Zero repair Palm Springs” and you will find sites with the brand name in the web address, a phone number, no street address, and a line in small print saying they are not affiliated with Sub-Zero. That pattern does not prove a site is bad, but it is not a factory service center either. Our checklist for <a href="{e(href(page, LEADMILL_PATH))}">spotting a lead-generation repair site</a> covers what to look for. We have not listed sites like that here.</p>
+
+      <h2>More ways to find a tech</h2>
+      <p>Browse the full <a href="{e(rc)}">Riverside County directory</a> or the <a href="{e(fridge)}">Riverside County refrigerator repair</a> page. In Arizona, see <a href="{e(href(page, "/best/sub-zero/"))}">Phoenix-area shops that list Sub-Zero</a>. Related: <a href="{e(href(page, "/guides/repair-vs-replace/"))}">repair or replace?</a></p>
+      <p class="note">Run a shop that services Sub-Zero or Wolf in Riverside County and is not here? Use the <a href="{e(href(page, "/get-listed/"))}">get listed / corrections page</a> and include the page on your own site that names the brands.</p>
+    </article>
+    {sponsorship_box(page, "Sub-Zero / Wolf")}
+    <article class="prose">
+      <section class="sources" aria-label="Sources">
+        <h2>Sources</h2>
+        <ul>
+          <li><a href="{e(warranty_sz)}" rel="noopener noreferrer">Sub-Zero Residential Limited Warranty (PDF, subzero-wolf.com)</a> (accessed {accessed})</li>
+          <li><a href="{e(warranty_wolf)}" rel="noopener noreferrer">Wolf Appliance Residential Limited Warranty — With Factory Certified Installation (PDF, subzero-wolf.com)</a> (accessed {accessed})</li>
+          <li><a href="{e(locator)}" rel="noopener noreferrer">Sub-Zero, Wolf, and Cove — Certified Service Locator</a> (accessed {accessed})</li>
+          <li><a href="{e(certified)}" rel="noopener noreferrer">Sub-Zero, Wolf, and Cove — Factory Certified Programs</a> (accessed {accessed})</li>
+          <li><a href="{e(bhgs)}" rel="noopener noreferrer">BHGS — A Consumer Guide to Electronic and Appliance Repair</a> (accessed 2026-11-23)</li>
+          {"".join(f'<li><a href="{e(notes[l["slug"]][1])}" rel="noopener noreferrer">{e(l["name"])} — brand list</a> (accessed {accessed})</li>' for l in mentioned if l["slug"] in notes)}
+        </ul>
+      </section>
+    </article>
+    """
+    desc = (
+        f"{len(mentioned)} independent Riverside County appliance shops whose own sites name Sub-Zero ({len(wolf)} also name Wolf), "
+        f"Coachella Valley and west county, plus what Sub-Zero’s warranty says about certified service. Not ranked."
+    )
+    schema = ld_json({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Riverside County appliance shops that list Sub-Zero service",
+        "numberOfItems": len(mentioned),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": l["name"], "url": absolute_url(listing_url(l))}
+            for i, l in enumerate(desert + west)
+        ],
+    })
+    faq = ld_json({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Can an independent shop repair my Sub-Zero while it is under warranty?",
+             "acceptedAnswer": {"@type": "Answer", "text": "Sub-Zero’s residential limited warranty says service under its two-year full warranty and five-year sealed-system warranty must be performed by Sub-Zero factory certified service. Call Sub-Zero (800-222-7820) or use its Certified Service Locator first. After the warranty ends, you can use any qualified shop."}},
+            {"@type": "Question", "name": "Which Riverside County shops list Sub-Zero repair?",
+             "acceptedAnswer": {"@type": "Answer", "text": f"{len(mentioned)} shops in our Riverside County directory name Sub-Zero on their own websites as of November 2026: {len(desert)} in the Coachella Valley and {len(west)} serving Riverside, Corona, and southwest Riverside County. A brand name on a website is a claim, not proof of factory authorization."}},
+            {"@type": "Question", "name": "Do I need a written estimate for a Sub-Zero repair in California?",
+             "acceptedAnswer": {"@type": "Answer", "text": "California’s Bureau of Household Goods and Services says service dealers must give a written estimate, including the total price, before repairs, and must quote any trip charge before the service call."}},
+        ],
+    })
+    crumbs = [("/", "Home"), ("/best/sub-zero/", "Shops that list Sub-Zero"), (RC_SUBZERO_PATH, "Riverside County")]
+    write_page(page, layout(page, "Sub-Zero and Wolf repair in Riverside County, CA: independent shops that list them — Indie Appliance Repair",
+                            desc, body, "riverside-county", crumbs, extra_head=schema + faq))
 
 
 def listing_request_mailto(email: str) -> str:
@@ -2102,6 +2280,7 @@ def main() -> None:
     page_leadmill_guide(); remember("guides/spot-a-lead-mill-repair-site/index.html")
     page_compare(); remember("compare/independent-vs-chains/index.html")
     page_subzero(); remember("best/sub-zero/index.html")
+    page_rc_subzero(); remember("best/sub-zero/riverside-county/index.html")
     page_get_listed(); remember("get-listed/index.html")
     page_disclosure(); remember("disclosure/index.html")
     page_about(); remember("about/index.html")
